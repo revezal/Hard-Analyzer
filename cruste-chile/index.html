@@ -1,180 +1,197 @@
 <title>Crusté Chile</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Righteous&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:wdth,wght@62..125,400..700&display=swap">
 <style>
-  /* Un solo look deliberado: rojo pomodoro + crema, como la carta de referencia */
+  /* Paleta de Marcelo: tomate, oliva, crema, blanco. Un solo look deliberado. */
   :root {
     color-scheme: light;
-    --rojo: #B3222D;
-    --rojo-hondo: #8E1A23;
-    --crema: #F7F0E6;
-    --crema-2: #EFE4D4;
-    --tinta: #2A1A17;
-    --tinta-suave: #6B4F48;
-    --display: "Righteous", "Arial Rounded MT Bold", "Trebuchet MS", sans-serif;
-    --serif: "Libre Caslon Text", "Times New Roman", Georgia, serif;
-    --italic: "Instrument Serif", "Times New Roman", Georgia, serif;
+    --tomate: #E8462A;
+    --tomate-hondo: #C73A21;
+    --oliva: #827123;
+    --crema: #FFF9B4;
+    --blanco: #FAFFFA;
+    --tinta: #2B2610;
+    --tinta-suave: #5E5530;
+    --serif: "Instrument Serif", "Times New Roman", Georgia, serif;
+    --sans: "Archivo", "Helvetica Neue", Arial, sans-serif;
   }
   * { box-sizing: border-box; }
-  body {
-    background: var(--crema);
-    color: var(--tinta);
-    font-family: var(--serif);
-    font-size: 16px;
-    line-height: 1.6;
-  }
+  body { background: var(--blanco); color: var(--tinta); font-family: var(--sans); font-size: 16px; line-height: 1.6; }
   .wrap { max-width: 1080px; margin: 0 auto; padding-inline: 20px; }
-  h1, h2, h3 { font-family: var(--display); font-weight: 400; margin: 0; text-wrap: balance; letter-spacing: .01em; }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 400; margin: 0; text-wrap: balance; line-height: 1.02; }
   p { margin: 0; }
-  .eyebrow { font-family: var(--display); font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--rojo); }
-  img { display: block; max-width: 100%; }
+  img, video { display: block; max-width: 100%; }
+  .eyebrow { font-family: var(--sans); font-stretch: 75%; font-weight: 600; font-size: 13px; letter-spacing: .16em; text-transform: uppercase; }
+  section { padding-block: 72px; }
 
   /* ---------- HERO ---------- */
-  .hero { background: var(--rojo); color: var(--crema); padding-block: 56px 64px; overflow: hidden; }
+  .hero { background: var(--tomate); color: var(--blanco); padding-block: 56px 72px; overflow: hidden; }
   .hero .wrap { display: grid; grid-template-columns: 1.2fr .8fr; gap: 48px; align-items: center; }
-  .hero .eyebrow { color: var(--crema-2); opacity: .85; }
-  .wordmark { font-size: clamp(64px, 13vw, 150px); line-height: .9; margin-block: 14px 18px; }
-  .wordmark sup { font-size: .28em; vertical-align: top; position: relative; top: .35em; margin-left: .05em; }
-  .hero .lead { font-size: 19px; max-width: 30ch; }
-  .hero .lead em { font-family: var(--italic); font-size: 1.25em; }
-  /* Foto tipo Instax mini: marco blanco, borde inferior ancho */
-  .hero-photo { position: relative; justify-self: center; width: min(320px, 100%); }
-  .instax {
-    background: #FCFBF8; padding: 14px 14px 58px; border-radius: 4px; transform: rotate(3deg);
-    box-shadow: 0 1px 0 rgba(0,0,0,.08), 0 22px 40px -18px rgba(30,5,5,.65);
-  }
-  .instax img { width: 100%; aspect-ratio: 46/62; object-fit: cover; object-position: 45% center; border-radius: 1px; filter: sepia(.18) saturate(.92) contrast(1.06) brightness(1.02); }
-  .instax figcaption { position: absolute; left: 0; right: 0; bottom: 14px; text-align: center; font-family: var(--italic); font-style: italic; font-size: 22px; color: #3A2A26; }
-  .tape { position: absolute; top: -12px; left: 50%; width: 96px; height: 26px; transform: translateX(-50%) rotate(-4deg); background: rgba(239,228,212,.82); box-shadow: 0 1px 2px rgba(0,0,0,.12); }
-  .stamp {
-    position: absolute; left: -34px; bottom: 36px; transform: rotate(-12deg);
-    border: 2px solid var(--crema); border-radius: 50%; padding: 12px 20px; background: var(--rojo);
-    font-family: var(--italic); font-size: 22px; line-height: 1.05; text-align: center;
-  }
+  .hero .eyebrow { color: var(--crema); }
+  .wordmark { font-size: clamp(84px, 15vw, 176px); line-height: .85; margin-block: 12px 20px; letter-spacing: -.01em; }
+  .wordmark em { font-style: italic; }
+  .wordmark sup { font-family: var(--sans); font-stretch: 75%; font-weight: 600; font-size: 16px; letter-spacing: .12em; vertical-align: top; position: relative; top: 1.4em; margin-left: .3em; }
+  .hero .lead { font-size: 19px; max-width: 32ch; }
+  .hero .lead em { font-family: var(--serif); font-size: 1.3em; }
   .hero-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
-  .hero-tags span { border: 1.5px solid var(--crema); border-radius: 99px; padding: 4px 14px; font-size: 14px; }
-
-  section { padding-block: 72px; }
-  .section-head { display: grid; gap: 10px; margin-bottom: 36px; max-width: 640px; }
-  .section-head h2 { font-size: clamp(32px, 5vw, 46px); color: var(--rojo); line-height: 1.05; }
+  .hero-tags span { border: 1.5px solid var(--blanco); border-radius: 99px; padding: 4px 14px; font-size: 14px; }
+  .hero-photo { position: relative; justify-self: center; width: min(320px, 100%); }
+  .instax { margin: 0; background: #FDFDFB; padding: 14px 14px 58px; border-radius: 4px; transform: rotate(3deg); box-shadow: 0 22px 40px -18px rgba(60,15,5,.7); position: relative; }
+  .instax img { width: 100%; aspect-ratio: 46/62; object-fit: cover; object-position: 45% center; filter: sepia(.16) saturate(.95) contrast(1.05); }
+  .instax figcaption { position: absolute; left: 0; right: 0; bottom: 12px; text-align: center; font-family: var(--serif); font-style: italic; font-size: 23px; color: var(--tinta); }
+  .tape { position: absolute; top: -12px; left: 50%; width: 96px; height: 26px; transform: translateX(-50%) rotate(-4deg); background: rgba(255,249,180,.85); box-shadow: 0 1px 2px rgba(0,0,0,.12); }
+  .stamp { position: absolute; left: -30px; bottom: 84px; transform: rotate(-12deg); border: 2px solid var(--blanco); border-radius: 50%; padding: 10px 20px; background: var(--oliva); font-family: var(--serif); font-style: italic; font-size: 22px; line-height: 1.05; text-align: center; }
 
   /* ---------- MARCELO ---------- */
-  .about { display: grid; grid-template-columns: 300px 1fr; gap: 48px; align-items: start; }
-  .portrait { position: relative; }
-  .portrait img { border-radius: 50%; border: 3px solid var(--rojo); aspect-ratio: 1; object-fit: cover; width: 100%; }
-  .portrait figcaption { font-family: var(--italic); font-size: 20px; text-align: center; margin-top: 12px; color: var(--tinta-suave); }
-  .about-text { display: grid; gap: 18px; max-width: 62ch; font-size: 17px; }
-  .about-text .big { font-family: var(--italic); font-size: clamp(28px, 4vw, 38px); line-height: 1.15; color: var(--rojo); }
+  .about { display: grid; grid-template-columns: 320px 1fr; gap: 56px; align-items: center; }
+  .portrait { margin: 0; position: relative; justify-self: center; width: min(300px, 80vw); }
+  .portrait::before { /* toque de puntos grafito detrás de la foto */
+    content: ""; position: absolute; top: 0; left: 0; width: 100%; aspect-ratio: 1; transform: translate(-18px, 20px); border-radius: 50%;
+    background-image: radial-gradient(circle, var(--tinta) 1.3px, transparent 1.6px); background-size: 7px 7px;
+    -webkit-mask-image: linear-gradient(225deg, transparent 35%, #000 80%); mask-image: linear-gradient(225deg, transparent 35%, #000 80%);
+    opacity: .75;
+  }
+  .portrait .ph { position: relative; border-radius: 50%; overflow: hidden; aspect-ratio: 1; box-shadow: 0 0 0 3px var(--tomate); }
+  .portrait img { width: 100%; height: 100%; object-fit: cover; }
+  .portrait .ph::after { /* grano fino sobre la foto */
+    content: ""; position: absolute; inset: 0; mix-blend-mode: multiply; opacity: .28;
+    background-image: radial-gradient(circle, #1a1a1a .8px, transparent 1.1px); background-size: 4px 4px;
+    -webkit-mask-image: linear-gradient(20deg, #000 10%, transparent 45%); mask-image: linear-gradient(20deg, #000 10%, transparent 45%);
+  }
+  .portrait figcaption { font-family: var(--serif); font-style: italic; font-size: 22px; text-align: center; margin-top: 34px; color: var(--tinta-suave); }
+  .about-text { display: grid; gap: 16px; max-width: 58ch; font-size: 17px; }
+  .about-text .eyebrow { color: var(--tomate); }
+  .about-text h2 { font-size: clamp(36px, 5vw, 54px); color: var(--tomate); }
   .roles { display: flex; flex-wrap: wrap; gap: 8px; }
-  .roles span { background: var(--crema-2); border-radius: 6px; padding: 3px 10px; font-size: 14px; }
+  .roles span { background: var(--crema); border-radius: 99px; padding: 4px 14px; font-size: 14px; font-weight: 500; }
 
-  /* ---------- EQUIPO ---------- */
-  .gear { background: var(--tinta); color: var(--crema); }
-  .gear .section-head h2 { color: var(--crema); }
-  .gear .eyebrow { color: #E9A9A0; }
-  .gear-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; }
-  .gear-photo img { border-radius: 14px; width: 100%; }
-  .gear-photo figcaption { font-size: 13px; opacity: .7; margin-top: 8px; }
-  .gear-list { display: grid; gap: 0; list-style: none; margin: 0; padding: 0; }
-  .gear-list li { display: grid; gap: 4px; padding-block: 16px; border-top: 1px dashed rgba(247,240,230,.3); }
-   .gear-list li:last-child { border-bottom: 1px dashed rgba(247,240,230,.3); }
-  .gear-list h3 { font-size: 20px; }
-  .gear-list p { font-size: 15px; opacity: .85; }
-  .gear-list .spec { font-family: var(--display); font-size: 12px; letter-spacing: .1em; color: #E9A9A0; }
-  .demo { display: grid; grid-template-columns: 280px 1fr; gap: 28px; align-items: center; margin-top: 48px; }
-  .demo img { border-radius: 2px; aspect-ratio: 4/5; object-fit: cover; width: 100%; box-shadow: 0 18px 36px -20px rgba(0,0,0,.8); }
-  .demo p { font-size: 17px; max-width: 52ch; }
+  /* ---------- BANNER HORNO ---------- */
+  .banner { position: relative; padding: 0; color: var(--blanco); overflow: hidden; }
+  .banner img { width: 100%; height: clamp(420px, 56vw, 600px); object-fit: cover; object-position: center 60%; }
+  .banner .overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(30,24,6,.88) 0%, rgba(30,24,6,.55) 45%, rgba(30,24,6,0) 75%); display: flex; align-items: center; }
+  .banner .wrap { width: 100%; }
+  .banner-text { display: grid; gap: 14px; max-width: 440px; }
+  .banner .eyebrow { color: var(--crema); }
+  .banner h2 { font-size: clamp(38px, 5.5vw, 62px); }
+  .banner .koda { border-top: 1px solid rgba(250,255,250,.4); padding-top: 14px; display: grid; gap: 4px; }
+  .banner .koda b { font-family: var(--serif); font-weight: 400; font-size: 26px; }
+  .banner .koda span { font-size: 15px; opacity: .92; }
 
-  /* ---------- MARGHERITA / QUESOS ---------- */
-  .anatomy-wrap { display: grid; grid-template-columns: 240px 1fr; gap: 36px; align-items: center; margin-bottom: 44px; }
-  .anatomy { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 18px; }
-  .loop { margin: 0; background: #FCFBF8; padding: 10px 10px 40px; transform: rotate(-2deg); box-shadow: 0 18px 34px -18px rgba(30,5,5,.5); }
-  .loop video { display: block; width: 100%; aspect-ratio: 46/62; object-fit: cover; filter: sepia(.12) contrast(1.05); }
-  .ing { border-top: 2px solid var(--rojo); padding-top: 12px; display: grid; gap: 4px; }
-  .ing h3 { font-size: 17px; color: var(--rojo); }
+  /* ---------- DEMO (efecto rasgado) ---------- */
+  .demo-section { background: var(--oliva); color: var(--blanco); }
+  .demo { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 48px; align-items: center; }
+  .torn { position: relative; aspect-ratio: 4/5; box-shadow: 0 22px 40px -20px rgba(0,0,0,.7); }
+  .torn img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .torn .layer { position: absolute; inset: 0; filter: drop-shadow(0 5px 5px rgba(0,0,0,.4)); }
+  .torn .paper { position: absolute; inset: 0; background: #F6F3E8; clip-path: polygon(0 0, 100% 0, 100.0% 45.1%, 98.6% 45.1%, 97.1% 45.6%, 95.7% 45.0%, 94.3% 44.5%, 92.9% 44.5%, 91.4% 44.7%, 90.0% 44.7%, 88.6% 44.5%, 87.1% 42.4%, 85.7% 43.7%, 84.3% 43.8%, 82.9% 44.1%, 81.4% 44.6%, 80.0% 42.9%, 78.6% 42.2%, 77.1% 42.3%, 75.7% 43.6%, 74.3% 43.9%, 72.9% 43.3%, 71.4% 43.4%, 70.0% 41.6%, 68.6% 43.2%, 67.1% 41.8%, 65.7% 42.1%, 64.3% 41.2%, 62.9% 42.6%, 61.4% 42.7%, 60.0% 41.7%, 58.6% 42.3%, 57.1% 43.7%, 55.7% 42.8%, 54.3% 42.4%, 52.9% 42.4%, 51.4% 43.2%, 50.0% 42.8%, 48.6% 43.5%, 47.1% 42.7%, 45.7% 44.3%, 44.3% 44.6%, 42.9% 44.7%, 41.4% 44.1%, 40.0% 43.0%, 38.6% 42.8%, 37.1% 42.6%, 35.7% 42.5%, 34.3% 42.8%, 32.9% 43.8%, 31.4% 43.0%, 30.0% 44.0%, 28.6% 43.6%, 27.1% 44.0%, 25.7% 42.6%, 24.3% 43.7%, 22.9% 44.0%, 21.4% 44.7%, 20.0% 42.0%, 18.6% 43.7%, 17.1% 43.9%, 15.7% 43.2%, 14.3% 42.3%, 12.9% 43.1%, 11.4% 42.2%, 10.0% 44.0%, 8.6% 43.3%, 7.1% 43.2%, 5.7% 43.1%, 4.3% 42.0%, 2.9% 42.6%, 1.4% 42.9%, 0.0% 41.9%); }
+  .torn .bw { filter: grayscale(1) contrast(1.2) brightness(1.02); clip-path: polygon(0 0, 100% 0, 100.0% 42.2%, 98.6% 42.9%, 97.1% 43.1%, 95.7% 42.5%, 94.3% 41.8%, 92.9% 42.1%, 91.4% 42.4%, 90.0% 42.1%, 88.6% 41.6%, 87.1% 40.2%, 85.7% 40.5%, 84.3% 40.5%, 82.9% 41.5%, 81.4% 41.4%, 80.0% 40.0%, 78.6% 39.7%, 77.1% 40.0%, 75.7% 40.3%, 74.3% 40.7%, 72.9% 39.8%, 71.4% 40.2%, 70.0% 38.7%, 68.6% 40.0%, 67.1% 38.7%, 65.7% 38.6%, 64.3% 38.8%, 62.9% 39.2%, 61.4% 39.3%, 60.0% 38.4%, 58.6% 39.4%, 57.1% 40.0%, 55.7% 39.3%, 54.3% 39.9%, 52.9% 39.4%, 51.4% 40.2%, 50.0% 39.1%, 48.6% 39.8%, 47.1% 39.4%, 45.7% 40.7%, 44.3% 41.1%, 42.9% 41.9%, 41.4% 40.5%, 40.0% 39.6%, 38.6% 39.6%, 37.1% 39.8%, 35.7% 39.0%, 34.3% 39.6%, 32.9% 40.3%, 31.4% 40.1%, 30.0% 40.7%, 28.6% 41.0%, 27.1% 40.9%, 25.7% 40.4%, 24.3% 40.6%, 22.9% 40.7%, 21.4% 40.9%, 20.0% 39.3%, 18.6% 40.4%, 17.1% 40.5%, 15.7% 40.2%, 14.3% 39.6%, 12.9% 39.8%, 11.4% 39.4%, 10.0% 40.6%, 8.6% 40.1%, 7.1% 39.9%, 5.7% 39.6%, 4.3% 38.6%, 2.9% 39.8%, 1.4% 39.3%, 0.0% 38.5%); }
+  .demo-text { display: grid; gap: 14px; }
+  .demo-text .eyebrow { color: var(--crema); }
+  .demo-text h3 { font-size: clamp(28px, 4vw, 42px); }
+  .demo-text p { font-size: 17px; max-width: 46ch; }
+
+  /* ---------- MARGHERITA ---------- */
+  .marg { background: var(--crema); }
+  .section-head { display: grid; gap: 10px; margin-bottom: 36px; max-width: 640px; }
+  .section-head .eyebrow { color: var(--tomate-hondo); }
+  .section-head h2 { font-size: clamp(38px, 5.5vw, 58px); color: var(--tomate); }
+  .anatomy-wrap { display: grid; grid-template-columns: 260px 1fr; gap: 48px; align-items: center; margin-bottom: 48px; }
+  .loop { margin: 0; background: #FDFDFB; padding: 10px 10px 42px; transform: rotate(-2deg); box-shadow: 0 18px 34px -18px rgba(60,40,5,.55); justify-self: center; width: 100%; max-width: 260px; }
+  .loop video { width: 100%; aspect-ratio: 46/62; object-fit: cover; }
+  .anatomy { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 22px 20px; }
+  .ing { border-top: 2px solid var(--tomate); padding-top: 12px; display: grid; gap: 4px; align-content: start; }
+  .ing h3 { font-size: 26px; color: var(--tomate-hondo); }
   .ing p { font-size: 14.5px; color: var(--tinta-suave); line-height: 1.5; }
-  .cheese { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 2px solid var(--rojo); border-radius: 18px; overflow: hidden; }
-  .cheese > div { padding: 26px 28px; display: grid; gap: 10px; align-content: start; }
-  .cheese > div + div { border-left: 2px solid var(--rojo); background: var(--rojo); color: var(--crema); }
-  .cheese h3 { font-size: 24px; }
-  .cheese .tag { font-family: var(--italic); font-size: 20px; }
+  .cheese { display: grid; grid-template-columns: 1fr 1fr; border-radius: 18px; overflow: hidden; }
+  .cheese > div { padding: 28px; display: grid; gap: 10px; align-content: start; background: var(--blanco); }
+  .cheese > div + div { background: var(--tomate); color: var(--blanco); }
+  .cheese h3 { font-size: 34px; }
+  .cheese .tag { font-stretch: 75%; font-weight: 600; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; }
   .cheese dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; margin: 6px 0 0; font-size: 14.5px; }
-  .cheese dt { font-family: var(--display); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; padding-top: 3px; }
+  .cheese dt { font-stretch: 75%; font-weight: 600; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; padding-top: 3px; }
   .cheese dd { margin: 0; }
 
   /* ---------- CARTA ---------- */
-  .menu-section { background: var(--crema-2); }
   .menus { display: grid; grid-template-columns: repeat(2, minmax(0, 440px)); gap: 32px; justify-content: center; }
-  .menu {
-    --bg: var(--rojo); --fg: var(--crema); --band-bg: var(--crema); --band-fg: var(--rojo);
-    background: var(--bg); color: var(--fg); border-radius: 4px; overflow: hidden;
-    box-shadow: 0 18px 40px -22px rgba(60, 10, 10, .55);
-    display: flex; flex-direction: column;
-  }
-  .menu.cream { --bg: #FBF7F1; --fg: var(--rojo); --band-bg: var(--rojo); --band-fg: var(--crema); }
-  .menu-body { padding: 26px 28px 22px; display: grid; gap: 14px; }
-  .menu-title { font-size: 92px; line-height: .85; text-align: center; letter-spacing: .04em; }
-  .menu-art { display: flex; justify-content: space-between; align-items: center; margin-top: -2px; }
-  .menu-art svg { width: 150px; height: auto; }
-  .menu-art .oval { border: 1.5px solid currentColor; border-radius: 50%; padding: 6px 16px; transform: rotate(14deg); font-family: var(--italic); font-size: 19px; line-height: 1.05; text-align: center; }
+  .menu { --bg: var(--tomate); --fg: var(--blanco); --band-bg: var(--crema); --band-fg: var(--tomate-hondo);
+    background: var(--bg); color: var(--fg); border-radius: 4px; overflow: hidden; box-shadow: 0 18px 40px -22px rgba(60,20,5,.55); display: flex; flex-direction: column; }
+  .menu.cream { --bg: var(--crema); --fg: var(--tomate-hondo); --band-bg: var(--tomate); --band-fg: var(--blanco); }
+  .menu-body { padding: 28px 28px 22px; display: grid; gap: 16px; }
+  .menu-title { font-size: 108px; line-height: .8; text-align: center; letter-spacing: .02em; }
+  .menu-sub { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .menu-sub p { font-family: var(--serif); font-style: italic; font-size: 20px; line-height: 1.1; }
+  .badge { width: 92px; height: 92px; flex: none; }
   .items { display: grid; gap: 13px; }
   .item { display: grid; gap: 2px; position: relative; }
   .item-line { display: flex; align-items: baseline; gap: 6px; }
-  .item-name { font-family: var(--display); font-size: 17px; text-transform: uppercase; letter-spacing: .02em; white-space: nowrap; }
-  .dots { flex: 1; border-bottom: 2.5px dotted currentColor; transform: translateY(-4px); min-width: 20px; }
-  .price { font-family: var(--serif); font-size: 15px; font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .item-desc { font-family: var(--serif); font-size: 11.5px; line-height: 1.4; opacity: .92; }
+  .item-name { font-stretch: 80%; font-weight: 700; font-size: 16px; text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; }
+  .dots { flex: 1; border-bottom: 2px dotted currentColor; transform: translateY(-4px); min-width: 16px; }
+  .price { font-family: var(--serif); font-size: 21px; font-variant-numeric: tabular-nums; white-space: nowrap; line-height: 1; }
+  .item-desc { font-size: 12.5px; line-height: 1.4; }
   .item-desc b { font-weight: 700; }
-  .item.star { padding-top: 10px; }
-  .nuestra { position: absolute; left: -22px; top: -2px; transform: rotate(-10deg); background: var(--fg); color: var(--bg); font-family: var(--italic); font-size: 12px; padding: 0 7px; border-radius: 3px; }
+  .item.star { padding-top: 12px; }
+  .nuestra { position: absolute; left: -20px; top: -2px; transform: rotate(-8deg); background: var(--fg); color: var(--bg); font-family: var(--serif); font-style: italic; font-size: 14px; padding: 0 8px; border-radius: 3px; }
   .boxes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
-  .box { border: 1.5px solid currentColor; border-radius: 12px; padding: 9px 11px 10px; display: grid; gap: 3px; align-content: start; }
-  .box h4 { font-family: var(--display); font-weight: 400; font-size: 15px; margin: 0 0 3px; text-transform: uppercase; }
-  .box h4 small { display: block; font-family: var(--italic); text-transform: none; font-size: 12px; opacity: .85; }
-  .row { display: flex; align-items: baseline; gap: 4px; font-size: 10.5px; font-variant-numeric: tabular-nums; }
-  .row .dots { border-bottom-width: 1px; border-bottom-style: solid; transform: translateY(-3px); opacity: .6; min-width: 8px; }
+  .box { border: 1.5px solid currentColor; border-radius: 12px; padding: 10px 12px 11px; display: grid; gap: 3px; align-content: start; }
+  .box h4 { font-family: var(--serif); font-weight: 400; font-size: 22px; margin: 0 0 2px; line-height: 1; }
+  .box h4 small { display: block; font-family: var(--sans); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; margin-top: 3px; opacity: .85; }
+  .row { display: flex; align-items: baseline; gap: 4px; font-size: 12px; font-variant-numeric: tabular-nums; }
+  .row .dots { border-bottom: 1px solid currentColor; transform: translateY(-3px); opacity: .5; min-width: 8px; }
   .band { background: var(--band-bg); color: var(--band-fg); text-align: center; padding: 12px 10px 14px; margin-top: auto; }
-  .band .small { font-family: var(--italic); font-size: 13px; }
-  .band .logo { font-family: var(--display); font-size: 28px; letter-spacing: .06em; line-height: 1.05; }
+  .band .small { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
+  .band .logo { font-family: var(--serif); font-style: italic; font-size: 36px; line-height: 1.05; }
   .menu-caption { text-align: center; font-size: 14px; color: var(--tinta-suave); margin-top: 12px; }
 
-  /* ---------- CIERRE ---------- */
-  .closing { position: relative; color: var(--crema); padding-block: 0; }
-  .closing img { width: 100%; height: clamp(320px, 50vw, 520px); object-fit: cover; }
-  .closing .overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(40,10,10,.82) 10%, rgba(40,10,10,.1) 65%); display: flex; align-items: flex-end; }
+  /* ---------- CIERRE + CONTACTO ---------- */
+  .closing { position: relative; padding: 0; color: var(--blanco); }
+  .closing img { width: 100%; height: clamp(320px, 46vw, 500px); object-fit: cover; }
+  .closing .overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(30,24,6,.85) 10%, rgba(30,24,6,.05) 70%); display: flex; align-items: flex-end; }
   .closing .overlay .wrap { width: 100%; padding-block: 40px; display: grid; gap: 10px; }
-  .closing h2 { font-size: clamp(30px, 5vw, 52px); }
-  .closing p { font-size: 18px; max-width: 46ch; }
-  footer { background: var(--rojo); color: var(--crema); text-align: center; padding-block: 18px; font-size: 14px; }
+  .closing .eyebrow { color: var(--crema); }
+  .closing h2 { font-size: clamp(36px, 6vw, 64px); }
+  .contact { background: var(--tomate); color: var(--blanco); padding-block: 48px; }
+  .contact .wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  .card { background: var(--blanco); color: var(--tinta); border-radius: 14px; padding: 18px 20px; display: grid; gap: 6px; }
+  .card .eyebrow { color: var(--tomate-hondo); }
+  .card .value { font-family: var(--serif); font-size: 30px; line-height: 1.1; word-break: break-word; user-select: all; }
+  .card .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+  .btn { font: 600 14px var(--sans); border: 1.5px solid var(--tomate); color: var(--tomate-hondo); background: transparent; border-radius: 99px; padding: 6px 14px; cursor: pointer; text-decoration: none; }
+  .btn.solid { background: var(--tomate); color: var(--blanco); }
+  .btn:focus-visible { outline: 3px solid var(--oliva); outline-offset: 2px; }
+  footer { background: var(--tinta); color: var(--crema); text-align: center; padding-block: 18px; font-size: 14px; }
 
   @media (max-width: 860px) {
-    .hero .wrap, .gear-grid, .about { grid-template-columns: 1fr; }
-    .about .portrait { max-width: 240px; }
+    .hero .wrap, .about { grid-template-columns: 1fr; }
+    .about { gap: 40px; }
     .menus { grid-template-columns: minmax(0, 440px); }
-    .cheese { grid-template-columns: 1fr; }
-    .anatomy-wrap { grid-template-columns: 1fr; }
-    .loop { max-width: 220px; }
-    .cheese > div + div { border-left: 0; border-top: 2px solid var(--rojo); }
+    .anatomy-wrap { grid-template-columns: 1fr; gap: 36px; }
+    .loop { max-width: 240px; }
     .stamp { left: -8px; }
+    .banner .overlay { background: linear-gradient(0deg, rgba(30,24,6,.9) 15%, rgba(30,24,6,.35) 70%, rgba(30,24,6,.1) 100%); align-items: flex-end; }
+    .banner .wrap { padding-block: 32px; }
   }
-  @media (max-width: 520px) {
-    .demo { grid-template-columns: 1fr; }
-    .demo img { max-width: 280px; }
-    .menu-body { padding: 22px 18px 18px; }
-    .menu-title { font-size: 72px; }
-    .menu-art svg { width: 120px; }
-    .item-name { font-size: 14.5px; white-space: normal; }
+  @media (max-width: 620px) {
+    .demo { grid-template-columns: 44% 1fr; gap: 18px; }
+    .demo-text h3 { font-size: 24px; }
+    .demo-text p { font-size: 14px; line-height: 1.5; }
+    .cheese { grid-template-columns: 1fr; }
+    .anatomy { grid-template-columns: 1fr 1fr; }
+    .menu-body { padding: 24px 18px 18px; }
+    .menu-title { font-size: 84px; }
+    .item-name { font-size: 14px; white-space: normal; }
     .boxes { grid-template-columns: 1fr; }
-    .nuestra { left: -10px; }
+    .nuestra { left: -8px; }
+    .card .value { font-size: 26px; }
   }
+  @media (prefers-reduced-motion: reduce) { .loop video { display: none; } .loop { background: #FDFDFB url(img/armando-poster.jpg) center/cover; aspect-ratio: 46/62; } }
 </style>
 
 <header class="hero">
   <div class="wrap">
     <div>
       <p class="eyebrow">Pizza napolitana a domicilio · Santiago de Chile</p>
-      <h1 class="wordmark">Crusté<sup>CL</sup></h1>
+      <h1 class="wordmark"><em>Crusté</em><sup>CL</sup></h1>
       <p class="lead">Llevo el horno, la masa y el fuego a tu casa. Pizzas horneadas frente a ti en <em>60 a 90 segundos</em>.</p>
       <div class="hero-tags">
         <span>Harina Caputo Pizzeria</span>
@@ -183,7 +200,7 @@
       </div>
     </div>
     <div class="hero-photo">
-      <figure class="instax" style="margin:0">
+      <figure class="instax">
         <span class="tape" aria-hidden="true"></span>
         <img src="img/hero.jpg" alt="Pizza con rúcula recibiendo un hilo de reducción de balsámico sobre una pala perforada Ooni">
         <figcaption>recién salida del horno</figcaption>
@@ -196,13 +213,13 @@
 <main>
   <section>
     <div class="wrap about">
-      <figure class="portrait" style="margin:0">
-        <img src="img/marcelo-bn.jpg" alt="Retrato en blanco y negro con trama de puntos de Marcelo Rojas, fundador de Crusté Chile">
+      <figure class="portrait">
+        <div class="ph"><img src="img/marcelo-bn.jpg" alt="Retrato en blanco y negro de Marcelo Rojas, fundador de Crusté Chile"></div>
         <figcaption>Marcelo Rojas</figcaption>
       </figure>
       <div class="about-text">
         <p class="eyebrow">Quién está detrás del horno</p>
-        <p class="big">Soy Marcelo, pizzaiolo por amor y manager de oficio.</p>
+        <h2>Soy Marcelo, pizzaiolo por amor y manager de oficio.</h2>
         <p>De lunes a viernes soy manager en <b>Kigos Chile</b>, distribuidor oficial de <b>Ooni Pizza Ovens</b>.</p>
         <p>Rodeado de hornos Ooni y harina italiana, terminé amasando y horneando para la gente que quiero. Así nace Crusté: pizza napolitana bien hecha, en tu mesa y con tu gente.</p>
         <div class="roles">
@@ -213,49 +230,53 @@
     </div>
   </section>
 
-  <section class="gear">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">Mi equipo de trabajo</p>
-        <h2>Los mismos hornos que vendemos, en tu evento</h2>
-      </div>
-      <div class="gear-grid">
-        <figure class="gear-photo" style="margin:0">
-          <img src="img/ooni-koda.jpg" alt="Pizza bianca con romero saliendo de un horno Ooni Koda">
-          <figcaption>Pizza bianca con romero y aceite de oliva saliendo del Ooni Koda.</figcaption>
-        </figure>
-        <ul class="gear-list">
-          <li>
-            <span class="spec">Horno principal · a gas</span>
-            <h3>Ooni Koda 16</h3>
-            <p>Piedra de 16" y llama en L. Llega a 500 °C en unos 20 minutos y hornea una napolitana en 60 a 90 segundos.</p>
-          </li>
-        </ul>
-      </div>
-      <div class="demo">
-        <img src="img/marcelo-demo.jpg" alt="Marcelo poniendo salsa de tomate a una pizza en una demostración en la tienda Kigos">
-        <p>En Kigos hago demostraciones en vivo con estaciones de trabajo profesionales. En Crusté llevo el mismo estándar: estación de preparación, ingredientes en porciones y el horno caliente antes de que llegue el primer invitado.</p>
+  <section class="banner">
+    <img src="img/ooni-koda.jpg" alt="Pizza bianca con romero saliendo de un horno Ooni Koda">
+    <div class="overlay">
+      <div class="wrap">
+        <div class="banner-text">
+          <p class="eyebrow">Mi equipo de trabajo</p>
+          <h2>Los mismos hornos que vendemos, en tu evento</h2>
+          <p class="koda"><b>Ooni Koda 16</b><span>Horno a gas con piedra de 16". Llega a 500 °C y hornea una napolitana en 60 a 90 segundos.</span></p>
+        </div>
       </div>
     </div>
   </section>
 
-  <section>
+  <section class="demo-section">
+    <div class="wrap demo">
+      <div class="torn">
+        <img src="img/marcelo-demo.jpg" alt="Marcelo poniendo salsa de tomate a una pizza en una demostración en la tienda Kigos">
+        <div class="layer" aria-hidden="true">
+          <div class="paper"></div>
+          <img class="bw" src="img/marcelo-demo.jpg" alt="">
+        </div>
+      </div>
+      <div class="demo-text">
+        <p class="eyebrow">En vivo</p>
+        <h3>Del mesón de Kigos a tu casa</h3>
+        <p>En Kigos hago demostraciones en vivo con estaciones profesionales. En Crusté llevo el mismo estándar: ingredientes en porciones y el horno caliente antes de que llegue el primer invitado.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="marg">
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">Lo que lleva una margherita</p>
         <h2>Cinco ingredientes, cero atajos</h2>
       </div>
       <div class="anatomy-wrap">
-      <figure class="loop">
-        <video src="img/armando.mp4" poster="img/armando-poster.jpg" autoplay muted loop playsinline aria-label="Manos poniendo fior di latte y albahaca sobre una pizza"></video>
-      </figure>
-      <div class="anatomy">
-        <div class="ing"><h3>Masa</h3><p>Harina Caputo Pizzeria tipo 00, agua, sal y levadura. Fermentación lenta para una masa liviana y fácil de digerir.</p></div>
-        <div class="ing"><h3>Tomate</h3><p>Tomate pelado italiano, aplastado a mano con una pizca de sal. Sin cocinar: se cocina en el horno.</p></div>
-        <div class="ing"><h3>Queso</h3><p>Mozzarella o fior di latte. De eso depende si es Margherita o Verace.</p></div>
-        <div class="ing"><h3>Albahaca</h3><p>Hojas frescas, siempre enteras. Se ponen antes de hornear para que perfumen.</p></div>
-        <div class="ing"><h3>Aceite de oliva</h3><p>Extra virgen, un hilo al salir del horno.</p></div>
-      </div>
+        <figure class="loop">
+          <video src="img/armando.mp4" poster="img/armando-poster.jpg" autoplay muted loop playsinline aria-label="Manos poniendo fior di latte y albahaca sobre una pizza"></video>
+        </figure>
+        <div class="anatomy">
+          <div class="ing"><h3>Masa</h3><p>Harina Caputo Pizzeria tipo 00, agua, sal y levadura. Liviana y fácil de digerir.</p></div>
+          <div class="ing"><h3>Tomate</h3><p>Tomate pelado italiano, aplastado a mano con una pizca de sal. Se cocina en el horno.</p></div>
+          <div class="ing"><h3>Queso</h3><p>Mozzarella o fior di latte. De eso depende si es Margherita o Verace.</p></div>
+          <div class="ing"><h3>Albahaca</h3><p>Hojas frescas y enteras, puestas antes de hornear para que perfumen.</p></div>
+          <div class="ing"><h3>Aceite de oliva</h3><p>Extra virgen, un hilo al salir del horno.</p></div>
+        </div>
       </div>
 
       <div class="cheese">
@@ -276,14 +297,14 @@
           <dl>
             <dt>Textura</dt><dd>Suave, cremosa</dd>
             <dt>Sabor</dt><dd>Láctea, fresca</dd>
-            <dt>En el horno</dt><dd>Queda en manchas blancas sobre el rojo del tomate</dd>
+            <dt>En el horno</dt><dd>Queda en manchas blancas sobre el tomate</dd>
           </dl>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="menu-section" id="carta">
+  <section id="carta">
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">La carta</p>
@@ -292,16 +313,16 @@
       </div>
       <div class="menus">
         <div>
-          <article class="menu" aria-label="Carta versión roja">
+          <article class="menu" aria-label="Carta versión tomate">
             <div class="menu-body" data-menu></div>
-            <div class="band"><p class="small">pizza napolitana a domicilio</p><p class="logo">CRUST*É</p></div>
+            <div class="band"><p class="small">Pizza napolitana a domicilio</p><p class="logo">Crusté</p></div>
           </article>
-          <p class="menu-caption">Versión roja</p>
+          <p class="menu-caption">Versión tomate</p>
         </div>
         <div>
           <article class="menu cream" aria-label="Carta versión crema">
             <div class="menu-body" data-menu></div>
-            <div class="band"><p class="small">pizza napolitana a domicilio</p><p class="logo">CRUST*É</p></div>
+            <div class="band"><p class="small">Pizza napolitana a domicilio</p><p class="logo">Crusté</p></div>
           </article>
           <p class="menu-caption">Versión crema</p>
         </div>
@@ -313,38 +334,46 @@
     <img src="img/amigos.jpg" alt="Amigos compartiendo pizzas margherita sobre una tabla de madera">
     <div class="overlay">
       <div class="wrap">
-        <p class="eyebrow" style="color:var(--crema-2)">Eventos Crusté</p>
+        <p class="eyebrow">Eventos Crusté</p>
         <h2>Tú pones la mesa. Yo pongo el fuego.</h2>
-        <p>Cumpleaños, juntas de amigos y celebraciones en casa. Escríbeme para reservar tu fecha.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contacto">
+    <div class="wrap">
+      <div class="card">
+        <p class="eyebrow">WhatsApp</p>
+        <p class="value" id="tel">+56 9 9576 9536</p>
+        <div class="actions">
+          <a class="btn solid" href="https://wa.me/56995769536" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+          <button class="btn" type="button" data-copy="+56995769536" id="copy-tel">Copiar número</button>
+        </div>
+      </div>
+      <div class="card">
+        <p class="eyebrow">Correo</p>
+        <p class="value" id="mail">marcelo.rrojas@usil.pe</p>
+        <div class="actions">
+          <button class="btn" type="button" data-copy="marcelo.rrojas@usil.pe" id="copy-mail">Copiar correo</button>
+        </div>
       </div>
     </div>
   </section>
 </main>
-<footer>Crusté Chile · Pizza napolitana a domicilio</footer>
+<footer>Crusté Chile · Pizza napolitana a domicilio · Santiago</footer>
 
 <template id="menu-tpl">
-  <h2 class="menu-title">MENÚ</h2>
-  <div class="menu-art">
-    <svg viewBox="0 0 150 90" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M95.4 59.5 A36 36 0 1 1 93.8 29.1 L62 46 Z"/>
-      <path d="M88.9 56.9 A29 29 0 1 1 87.6 32.4"/>
-      <path d="M78 43 L109.8 26.1 A36 36 0 0 1 111.4 56.5 Z"/>
-      <path d="M103.6 29.4 A29 29 0 0 1 104.9 53.9"/>
-      <circle cx="49.0" cy="53.5" r="5"/>
-      <circle cx="51.1" cy="33.0" r="4.5"/>
-      <circle cx="60.4" cy="63.9" r="4"/>
-      <circle cx="69.0" cy="33.9" r="4"/>
-      <circle cx="56.1" cy="45.0" r="3.5"/>
-      <circle cx="95.0" cy="43.0" r="3.5"/>
-      <path d="M49.4 64.0 Q54.3 64.6 56.3 60.0 Q51.3 59.4 49.4 64.0 Z M49.4 64.0 L56.3 60.0"/>
-      <path d="M60.1 24.1 Q62.8 28.3 67.6 26.8 Q64.9 22.6 60.1 24.1 Z M60.1 24.1 L67.6 26.8"/>
-      <path d="M77.3 58.9 Q74.6 54.7 69.8 56.1 Q72.5 60.3 77.3 58.9 Z M77.3 58.9 L69.8 56.1"/>
-      <path d="M41.3 38.5 Q39.9 43.3 44.1 46.0 Q45.5 41.2 41.3 38.5 Z M41.3 38.5 L44.1 46.0"/>
-      <path d="M118 34 c -4 -5 4 -8 0 -13 c -4 -5 4 -8 0 -13"/>
-      <path d="M128 34 c -4 -5 4 -8 0 -13 c -4 -5 4 -8 0 -13"/>
-      <path d="M138 34 c -4 -5 4 -8 0 -13 c -4 -5 4 -8 0 -13"/>
+  <h2 class="menu-title">Menú</h2>
+  <div class="menu-sub">
+    <p>Pizza napolitana<br>hecha al momento</p>
+    <svg class="badge" viewBox="0 0 100 100" aria-label="Horno a 450 grados">
+      <defs><path id="ring" d="M50 50 m-38 0 a38 38 0 1 1 76 0 a38 38 0 1 1 -76 0"/></defs>
+      <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="50" cy="50" r="29" fill="none" stroke="currentColor" stroke-width="1"/>
+      <text font-family="Archivo, Arial, sans-serif" font-size="9.5" font-weight="600" letter-spacing="2.2" fill="currentColor"><textPath href="#ring">MASA CAPUTO 00 · HORNO OONI ·</textPath></text>
+      <text x="50" y="50" text-anchor="middle" font-family="Instrument Serif, Georgia, serif" font-size="21" fill="currentColor">450°</text>
+      <text x="50" y="62" text-anchor="middle" font-family="Archivo, Arial, sans-serif" font-size="6.5" font-weight="600" letter-spacing="1.5" fill="currentColor">GRADOS</text>
     </svg>
-    <div class="oval">Horno<br>a 450 °C</div>
   </div>
   <div class="items">
     <div class="item"><div class="item-line"><span class="item-name">Margherita</span><span class="dots"></span><span class="price">5.999</span></div><p class="item-desc">Tomate pelado, mozzarella, albahaca fresca y aceite de oliva extra virgen.</p></div>
@@ -355,7 +384,7 @@
   </div>
   <div class="boxes">
     <div class="box">
-      <h4>Bebidas <small>extra, a pedido</small></h4>
+      <h4>Bebidas <small>Extra, a pedido</small></h4>
       <div class="row"><span>Coca-Cola lata</span><span class="dots"></span><span>1.399</span></div>
       <div class="row"><span>Fanta lata</span><span class="dots"></span><span>1.399</span></div>
       <div class="row"><span>Sprite lata</span><span class="dots"></span><span>1.399</span></div>
@@ -371,7 +400,26 @@
   </div>
 </template>
 <script>
-  // Una sola fuente para las dos versiones de la carta
+  // Una sola fuente para las dos versiones de la carta (ids únicos para el anillo del sello)
   const tpl = document.getElementById('menu-tpl');
-  document.querySelectorAll('[data-menu]').forEach(el => el.appendChild(tpl.content.cloneNode(true)));
+  document.querySelectorAll('[data-menu]').forEach((el, i) => {
+    const frag = tpl.content.cloneNode(true);
+    frag.querySelector('#ring').id = 'ring' + i;
+    frag.querySelector('textPath').setAttribute('href', '#ring' + i);
+    el.appendChild(frag);
+  });
+  // Botones de copiar
+  document.querySelectorAll('[data-copy]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const label = btn.textContent;
+      const done = () => { btn.textContent = 'Copiado'; setTimeout(() => btn.textContent = label, 1600); };
+      const fallback = () => {
+        const target = btn.closest('.card').querySelector('.value');
+        const r = document.createRange(); r.selectNodeContents(target);
+        const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+        btn.textContent = 'Seleccionado, copia con Ctrl+C';
+      };
+      try { navigator.clipboard.writeText(btn.dataset.copy).then(done, fallback); } catch (e) { fallback(); }
+    });
+  });
 </script>
