@@ -1,7 +1,7 @@
 <title>Crusté Chile</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:wdth,wght@62..125,400..700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:wdth,wght@62..125,400..700&family=Modak&family=Oswald:wght@400;500;600&display=swap">
 <style>
   /* Paleta de Marcelo: tomate, oliva, crema, blanco. Un solo look deliberado. */
   :root {
@@ -15,6 +15,7 @@
     --tinta-suave: #5E5530;
     --serif: "Instrument Serif", "Times New Roman", Georgia, serif;
     --sans: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --paper: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
   * { box-sizing: border-box; }
   body { background: var(--blanco); color: var(--tinta); font-family: var(--sans); font-size: 16px; line-height: 1.6; }
@@ -106,33 +107,58 @@
   .cheese dt { font-stretch: 75%; font-weight: 600; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; padding-top: 3px; }
   .cheese dd { margin: 0; }
 
-  /* ---------- CARTA ---------- */
-  .menu { --bg: var(--tomate); --fg: var(--blanco); --band-bg: var(--crema); --band-fg: var(--tomate-hondo);
-    background: var(--bg); color: var(--fg); border-radius: 4px; overflow: hidden; box-shadow: 0 18px 40px -22px rgba(60,20,5,.55); display: flex; flex-direction: column; max-width: 460px; margin: 0 auto; }
-  .menu.cream { --bg: var(--crema); --fg: var(--tomate-hondo); --band-bg: var(--tomate); --band-fg: var(--blanco); }
-  .menu-body { padding: 28px 28px 22px; display: grid; gap: 16px; }
-  .menu-title { font-size: 108px; line-height: .8; text-align: center; letter-spacing: .02em; }
-  .menu-sub { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-  .menu-sub p { font-family: var(--serif); font-style: italic; font-size: 20px; line-height: 1.1; }
-  .badge { width: 92px; height: 92px; flex: none; }
-  .items { display: grid; gap: 13px; }
-  .item { display: grid; gap: 2px; position: relative; }
-  .item-line { display: flex; align-items: baseline; gap: 6px; }
-  .item-name { font-stretch: 80%; font-weight: 700; font-size: 16px; text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; }
-  .dots { flex: 1; border-bottom: 2px dotted currentColor; transform: translateY(-4px); min-width: 16px; }
-  .price { font-family: var(--serif); font-size: 21px; font-variant-numeric: tabular-nums; white-space: nowrap; line-height: 1; }
-  .item-desc { font-size: 12.5px; line-height: 1.4; }
-  .item-desc b { font-weight: 700; }
-  .nuestra { transform: rotate(-5deg) translateY(-2px); background: var(--fg); color: var(--bg); font-family: var(--serif); font-style: italic; font-size: 15px; line-height: 1.3; padding: 0 8px; border-radius: 3px; white-space: nowrap; }
-  .boxes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
-  .box { border: 1.5px solid currentColor; border-radius: 12px; padding: 10px 12px 11px; display: grid; gap: 3px; align-content: start; }
-  .box h4 { font-family: var(--serif); font-weight: 400; font-size: 22px; margin: 0 0 2px; line-height: 1; }
-  .box h4 small { display: block; font-family: var(--sans); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; margin-top: 3px; opacity: .85; }
-  .row { display: flex; align-items: baseline; gap: 4px; font-size: 12px; font-variant-numeric: tabular-nums; }
-  .row .dots { border-bottom: 1px solid currentColor; transform: translateY(-3px); opacity: .5; min-width: 8px; }
-  .band { background: var(--band-bg); color: var(--band-fg); text-align: center; padding: 12px 10px 14px; margin-top: auto; }
-  .band .small { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
-  .band .logo { font-family: var(--serif); font-style: italic; font-size: 36px; line-height: 1.05; }
+  /* ---------- CARTA: portada roja que se abre a la hoja del menú ---------- */
+  .carta-section { background: var(--oliva); }
+  .carta-section .section-head .eyebrow { color: var(--crema); }
+  .carta-section .section-head h2 { color: var(--blanco); }
+  .carta-toggle { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .stage { position: relative; display: flex; justify-content: center; align-items: flex-start; min-height: 560px; }
+  .cover {
+    position: relative; z-index: 2; width: min(340px, 86vw); aspect-ratio: 1/2; background: var(--tomate); color: var(--blanco);
+    overflow: hidden; cursor: pointer; box-shadow: 14px 18px 0 -2px rgba(60,40,5,.25), 0 22px 40px -18px rgba(60,20,5,.6);
+    transform: rotate(-3deg); transition: transform .6s cubic-bezier(.2,.8,.2,1), opacity .4s, margin .6s cubic-bezier(.2,.8,.2,1);
+  }
+  .cover::after, .sheet::after { content: ""; position: absolute; inset: 0; background-image: var(--paper); opacity: .22; mix-blend-mode: multiply; pointer-events: none; }
+  .cover-word {
+    position: absolute; left: 50%; top: 50%; font-family: "Modak", "Arial Black", sans-serif; font-size: 250px; line-height: .8; white-space: nowrap;
+    transform: translate(-50%, -54%) rotate(90deg); letter-spacing: -.02em;
+  }
+  .cover-foot { position: absolute; left: 0; right: 0; bottom: 18px; display: grid; justify-items: center; gap: 8px; text-align: center; }
+  .cover-foot .hint { background: var(--blanco); color: var(--tomate-hondo); font-family: "Oswald", var(--sans); font-weight: 500; font-size: 15px; letter-spacing: .08em; text-transform: uppercase; padding: 6px 16px; border-radius: 99px; }
+  .cover:hover { transform: rotate(-1deg) translateY(-4px); }
+  .carta-toggle:focus-visible + .stage .cover { outline: 3px solid var(--tinta); outline-offset: 4px; }
+
+  .sheet {
+    position: absolute; left: 50%; top: 0; width: min(480px, 100%); background: #FBF8EE; color: var(--tomate-hondo);
+    padding: 34px 28px 30px; opacity: 0; visibility: hidden; transform: translate(-50%, 24px) rotate(1deg);
+    transition: opacity .5s .15s, transform .6s .1s cubic-bezier(.2,.8,.2,1), visibility 0s .6s;
+    box-shadow: 0 22px 40px -20px rgba(60,40,5,.55);
+  }
+  .sheet-title { display: flex; align-items: center; justify-content: center; gap: 18px; font-family: "Oswald", var(--sans); font-weight: 500; font-size: 78px; line-height: 1; letter-spacing: .01em; margin-bottom: 22px; }
+  .star { width: 22px; height: 22px; fill: currentColor; flex: none; }
+  .sheet-title .star { width: 30px; height: 30px; }
+  .sheet-box { border: 1.5px solid currentColor; border-radius: 18px; padding: 22px 20px 20px; display: grid; gap: 22px; }
+  .sheet-h { display: flex; align-items: center; justify-content: center; gap: 10px; font-family: "Oswald", var(--sans); font-weight: 500; font-size: 22px; text-transform: uppercase; letter-spacing: .03em; }
+  .sheet-h .star { width: 15px; height: 15px; }
+  .pz { display: grid; gap: 12px; }
+  .pz-row { display: grid; grid-template-columns: 1fr auto; column-gap: 12px; align-items: baseline; }
+  .pz-name { font-family: "Oswald", var(--sans); font-weight: 600; font-size: 19px; text-transform: uppercase; letter-spacing: .03em; }
+  .pz-name .tag { font-family: var(--serif); font-style: italic; text-transform: none; letter-spacing: 0; font-weight: 400; font-size: 15px; background: var(--tomate); color: var(--blanco); padding: 0 7px; border-radius: 3px; margin-left: 6px; vertical-align: 2px; }
+  .pz-price { font-family: "Oswald", var(--sans); font-weight: 500; font-size: 19px; font-variant-numeric: tabular-nums; }
+  .pz-desc { grid-column: 1 / -1; font-family: "Oswald", var(--sans); font-variant: small-caps; font-size: 15px; letter-spacing: .02em; line-height: 1.3; color: #9C3A22; }
+  .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; text-align: center; }
+  .col h4 { font-family: "Oswald", var(--sans); font-weight: 500; font-size: 17px; text-transform: uppercase; margin: 0 0 8px; letter-spacing: .03em; }
+  .col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; font-family: "Oswald", var(--sans); font-variant: small-caps; font-size: 14px; line-height: 1.25; color: #9C3A22; }
+  .col b { font-weight: 500; color: var(--tomate-hondo); }
+  .sheet-foot { text-align: center; margin-top: 16px; font-family: "Oswald", var(--sans); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; }
+  .reopen { display: none; margin: 22px auto 0; width: max-content; font: 500 14px "Oswald", var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--crema); border: 1.5px solid currentColor; border-radius: 99px; padding: 5px 16px; cursor: pointer; }
+
+  /* abierta */
+  .carta-toggle:checked + .stage .sheet { position: relative; left: auto; opacity: 1; visibility: visible; transform: rotate(1deg); transition: opacity .5s .15s, transform .6s .1s cubic-bezier(.2,.8,.2,1), visibility 0s; }
+  .carta-toggle:checked + .stage .cover { margin-right: -14px; transform: rotate(-7deg) translate(-24px, 34px); z-index: 1; }
+  .carta-toggle:checked + .stage .cover .hint { visibility: hidden; }
+
+  @media (prefers-reduced-motion: reduce) { .cover, .sheet { transition: none !important; } }
 
   /* ---------- CIERRE + CONTACTO ---------- */
   .closing { position: relative; padding: 0; color: var(--blanco); }
@@ -153,6 +179,8 @@
   footer { background: var(--tinta); color: var(--crema); text-align: center; padding-block: 18px; font-size: 14px; }
 
   @media (max-width: 860px) {
+    .carta-toggle:checked + .stage .cover { position: absolute; opacity: 0; pointer-events: none; margin: 0; transform: translateY(-20px) scale(.9); }
+    .carta-toggle:checked ~ .reopen, .carta-toggle:checked + .stage + .reopen { display: block; }
     .hero .wrap, .about { grid-template-columns: 1fr; }
     .about { gap: 40px; }
     .anatomy-wrap { grid-template-columns: 1fr; gap: 36px; }
@@ -167,11 +195,11 @@
     .demo-text p { font-size: 14px; line-height: 1.5; }
     .cheese { grid-template-columns: 1fr; }
     .anatomy { grid-template-columns: 1fr 1fr; }
-    .menu-body { padding: 24px 18px 18px; }
-    .menu-title { font-size: 84px; }
-    .item-name { font-size: 14px; white-space: normal; }
-    .boxes { grid-template-columns: 1fr; }
     .card .value { font-size: 26px; }
+    .sheet { padding: 26px 16px 22px; }
+    .sheet-title { font-size: 60px; }
+    .sheet-box { padding: 18px 12px 16px; }
+    .cols { grid-template-columns: 1fr; gap: 18px; }
   }
   @media (prefers-reduced-motion: reduce) { .loop video { display: none; } .loop { background: #FDFDFB url(img/armando-poster.jpg) center/cover; aspect-ratio: 46/62; } }
 </style>
@@ -187,7 +215,7 @@
         <span>Horno Ooni a +450 °C</span>
         <span>Eventos y cumpleaños</span>
       </div>
-      <a class="cta" href="#carta">Ver carta ↓</a>
+      <a class="cta" href="#carta" id="ver-carta">Ver carta ↓</a>
     </div>
     <div class="hero-photo">
       <figure class="instax">
@@ -294,53 +322,40 @@
     </div>
   </section>
 
-  <section id="carta">
+  <section id="carta" class="carta-section">
     <div class="wrap">
       <div class="section-head" style="margin-inline:auto;text-align:center">
         <p class="eyebrow">La carta</p>
         <h2>Menú Crusté</h2>
-        <p>Pizzas de 12" (unos 30 cm), para 1 a 2 personas. Precios en pesos chilenos.</p>
       </div>
-      <article class="menu" aria-label="Carta Crusté">
-        <div class="menu-body">
-  <h2 class="menu-title">Menú</h2>
-  <div class="menu-sub">
-    <p>Pizza napolitana<br>hecha al momento</p>
-    <svg class="badge" viewBox="0 0 100 100" aria-label="Horno a 450 grados">
-      <defs><path id="ring" d="M50 50 m-38 0 a38 38 0 1 1 76 0 a38 38 0 1 1 -76 0"/></defs>
-      <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width="1.5"/>
-      <circle cx="50" cy="50" r="29" fill="none" stroke="currentColor" stroke-width="1"/>
-      <text font-family="Archivo, Arial, sans-serif" font-size="9.5" font-weight="600" letter-spacing="0" fill="currentColor"><textPath href="#ring" textLength="226" lengthAdjust="spacing">MASA CAPUTO 00 · HORNO OONI ·</textPath></text>
-      <text x="50" y="50" text-anchor="middle" font-family="Instrument Serif, Georgia, serif" font-size="21" fill="currentColor">450°</text>
-      <text x="50" y="62" text-anchor="middle" font-family="Archivo, Arial, sans-serif" font-size="6.5" font-weight="600" letter-spacing="1.5" fill="currentColor">GRADOS</text>
-    </svg>
-  </div>
-  <div class="items">
-    <div class="item"><div class="item-line"><span class="item-name">Margherita</span><span class="dots"></span><span class="price">5.999</span></div><p class="item-desc">Tomate pelado, mozzarella, albahaca fresca y aceite de oliva extra virgen.</p></div>
-    <div class="item"><div class="item-line"><span class="item-name">Margherita Verace</span><span class="dots"></span><span class="price">7.999</span></div><p class="item-desc">Tomate pelado, fior di latte, albahaca fresca y aceite de oliva extra virgen.</p></div>
-    <div class="item"><div class="item-line"><span class="item-name">Pepperoni</span><span class="dots"></span><span class="price">5.999</span></div><p class="item-desc">Tomate pelado, mozzarella, pepperoni y aceite de oliva extra virgen.</p></div>
-    <div class="item"><div class="item-line"><span class="item-name">Pesto &amp; Guanciale</span><span class="dots"></span><span class="price">7.999</span></div><p class="item-desc">Pesto de albahaca, mozzarella y guanciale crocante. <b>Con fior di latte 9.999.</b></p></div>
-    <div class="item"><div class="item-line"><span class="item-name">Crusté</span><span class="nuestra">La nuestra</span><span class="dots"></span><span class="price">7.999</span></div><p class="item-desc">Base de tomate, cebolla caramelizada, carne mechada, pimentón picado fino y pecorino rallado al final.</p></div>
-  </div>
-  <div class="boxes">
-    <div class="box">
-      <h4>Bebidas <small>Extra, a pedido</small></h4>
-      <div class="row"><span>Coca-Cola lata</span><span class="dots"></span><span>1.399</span></div>
-      <div class="row"><span>Fanta lata</span><span class="dots"></span><span>1.399</span></div>
-      <div class="row"><span>Sprite lata</span><span class="dots"></span><span>1.399</span></div>
-    </div>
-    <div class="box">
-      <h4>Agrega toppings</h4>
-      <div class="row"><span>Fior di latte</span><span class="dots"></span><span>2.000</span></div>
-      <div class="row"><span>Guanciale</span><span class="dots"></span><span>2.000</span></div>
-      <div class="row"><span>Pepperoni</span><span class="dots"></span><span>1.500</span></div>
-      <div class="row"><span>Pecorino rallado</span><span class="dots"></span><span>1.000</span></div>
-      <div class="row"><span>Albahaca extra</span><span class="dots"></span><span>500</span></div>
-    </div>
-  </div>
-        </div>
-        <div class="band"><p class="small">Pizza napolitana a domicilio</p><p class="logo">Crusté</p></div>
-      </article>
+      <input type="checkbox" id="abrir-carta" class="carta-toggle">
+      <div class="stage">
+        <label class="cover" for="abrir-carta" aria-label="Abrir la carta">
+          <span class="cover-word" aria-hidden="true">Crusté</span>
+          <span class="cover-foot"><span class="hint">Toca para abrir</span></span>
+        </label>
+        <article class="sheet" id="hoja-menu" aria-label="Menú Crusté">
+          <h3 class="sheet-title"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12.0,2.0 13.8,8.9 20.7,7.0 15.6,12.0 20.7,17.0 13.8,15.1 12.0,22.0 10.2,15.1 3.3,17.0 8.4,12.0 3.3,7.0 10.2,8.9"/></svg><span>MENÚ</span><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12.0,2.0 13.8,8.9 20.7,7.0 15.6,12.0 20.7,17.0 13.8,15.1 12.0,22.0 10.2,15.1 3.3,17.0 8.4,12.0 3.3,7.0 10.2,8.9"/></svg></h3>
+          <div class="sheet-box">
+            <p class="sheet-h"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12.0,2.0 13.8,8.9 20.7,7.0 15.6,12.0 20.7,17.0 13.8,15.1 12.0,22.0 10.2,15.1 3.3,17.0 8.4,12.0 3.3,7.0 10.2,8.9"/></svg>Pizzas napolitanas<svg class="star" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12.0,2.0 13.8,8.9 20.7,7.0 15.6,12.0 20.7,17.0 13.8,15.1 12.0,22.0 10.2,15.1 3.3,17.0 8.4,12.0 3.3,7.0 10.2,8.9"/></svg></p>
+            <div class="pz">
+            <div class="pz-row"><span class="pz-name">Margherita</span><span class="pz-price">5.999</span><p class="pz-desc">Tomate pelado, mozzarella, albahaca fresca y aceite de oliva</p></div>
+            <div class="pz-row"><span class="pz-name">Margherita Verace</span><span class="pz-price">7.999</span><p class="pz-desc">Tomate pelado, fior di latte, albahaca fresca y aceite de oliva</p></div>
+            <div class="pz-row"><span class="pz-name">Pepperoni</span><span class="pz-price">5.999</span><p class="pz-desc">Tomate pelado, mozzarella, pepperoni y aceite de oliva</p></div>
+            <div class="pz-row"><span class="pz-name">Pesto &amp; Guanciale</span><span class="pz-price">7.999</span><p class="pz-desc">Pesto de albahaca, mozzarella y guanciale crocante · con fior di latte 9.999</p></div>
+            <div class="pz-row"><span class="pz-name">Crusté<span class="tag">la nuestra</span></span><span class="pz-price">7.999</span><p class="pz-desc">Tomate, cebolla caramelizada, carne mechada, pimentón picado fino y pecorino</p></div>
+            </div>
+            <p class="sheet-h"><svg class="star" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12.0,2.0 13.8,8.9 20.7,7.0 15.6,12.0 20.7,17.0 13.8,15.1 12.0,22.0 10.2,15.1 3.3,17.0 8.4,12.0 3.3,7.0 10.2,8.9"/></svg>Extras<svg class="star" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12.0,2.0 13.8,8.9 20.7,7.0 15.6,12.0 20.7,17.0 13.8,15.1 12.0,22.0 10.2,15.1 3.3,17.0 8.4,12.0 3.3,7.0 10.2,8.9"/></svg></p>
+            <div class="cols">
+              <div class="col"><h4>Toppings</h4><ul><li>Fior di latte <b>2.000</b></li><li>Guanciale <b>2.000</b></li><li>Pepperoni <b>1.500</b></li><li>Pecorino <b>1.000</b></li><li>Albahaca <b>500</b></li></ul></div>
+              <div class="col"><h4>Bebidas</h4><ul><li>Coca-Cola lata <b>1.399</b></li><li>Fanta lata <b>1.399</b></li><li>Sprite lata <b>1.399</b></li><li>Extra, a pedido</li></ul></div>
+              <div class="col"><h4>El queso</h4><ul><li><b>Mozzarella</b></li><li>firme, gratina</li><li><b>Fior di latte</b></li><li>fresco, cremoso</li></ul></div>
+            </div>
+          </div>
+          <p class="sheet-foot">Pizzas de 12" · precios en pesos chilenos</p>
+        </article>
+      </div>
+      <label class="reopen" for="abrir-carta">Ver portada</label>
     </div>
   </section>
 
