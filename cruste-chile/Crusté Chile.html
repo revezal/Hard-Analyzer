@@ -97,10 +97,10 @@
   .section-head { display: grid; gap: 10px; margin-bottom: 36px; max-width: 640px; }
   .section-head .eyebrow { color: var(--tomate-hondo); }
   .section-head h2 { font-size: clamp(38px, 5.5vw, 58px); color: var(--tomate); }
-  .anatomy-wrap { display: grid; grid-template-columns: 260px 1fr; gap: 48px; align-items: center; margin-bottom: 48px; }
+  .anatomy-wrap { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 48px; align-items: center; margin-bottom: 48px; }
   .loop { margin: 0; background: #FDFDFB; padding: 10px 10px 42px; transform: rotate(-2deg); box-shadow: 0 18px 34px -18px rgba(60,40,5,.55); justify-self: center; width: 100%; max-width: 260px; }
   .loop video { width: 100%; aspect-ratio: 46/62; object-fit: cover; }
-  .anatomy { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 22px 20px; }
+  .anatomy { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(170px, 100%), 1fr)); gap: 22px 20px; min-width: 0; }
   .ing { border-top: 2px solid var(--tomate); padding-top: 12px; display: grid; gap: 4px; align-content: start; }
   .ing h3 { font-size: 26px; color: var(--tomate-hondo); }
   .ing p { font-size: 14.5px; color: var(--tinta-suave); line-height: 1.5; }
@@ -156,7 +156,6 @@
   .col h4 { font-family: "Oswald", var(--sans); font-weight: 500; font-size: 17px; text-transform: uppercase; margin: 0 0 8px; letter-spacing: .03em; }
   .col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; font-family: "Oswald", var(--sans); font-variant: small-caps; font-size: 14px; line-height: 1.25; color: #9C3A22; }
   .col b { font-weight: 500; color: var(--tomate-hondo); }
-  .sheet-foot { text-align: center; margin-top: 16px; font-family: "Oswald", var(--sans); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; }
   .reopen { display: none; margin: 22px auto 0; width: max-content; font: 500 14px "Oswald", var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--crema); border: 1.5px solid currentColor; border-radius: 99px; padding: 5px 16px; cursor: pointer; }
 
   /* abierta */
@@ -200,7 +199,10 @@
     .demo-text h3 { font-size: 24px; }
     .demo-text p { font-size: 14px; line-height: 1.5; }
     .cheese { grid-template-columns: 1fr; }
-    .anatomy { grid-template-columns: 1fr 1fr; }
+    .anatomy { grid-template-columns: 1fr; gap: 16px; }
+    .ing { grid-template-columns: 110px minmax(0, 1fr); column-gap: 14px; align-items: baseline; }
+    .ing p { font-size: 15px; }
+    .loop { transform: none; }
     .card .value { font-size: 26px; }
     .sheet { padding: 26px 16px 22px; }
     .sheet-title { font-size: 60px; }
@@ -361,7 +363,6 @@
               <div class="col"><h4>El queso</h4><ul><li><b>Mozzarella</b></li><li>firme, gratina</li><li><b>Fior di latte</b></li><li>fresco, cremoso</li></ul></div>
             </div>
           </div>
-          <p class="sheet-foot">Pizzas de 12" · precios en pesos chilenos</p>
         </article>
       </div>
       <label class="reopen" for="abrir-carta">Ver portada</label>
