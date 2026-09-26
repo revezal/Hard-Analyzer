@@ -15,14 +15,16 @@ Supuestos de compra (CLP):
 Porción: masa 250 g (155 g harina), salsa 80 g, queso 110–120 g.
 Operación por pizza: caja + servilleta ~500, gas ~250 → **750**.
 
-| Pizza | Ingredientes | + operación | Precio | Food cost |
-|---|---|---|---|---|
-| Margherita (mozzarella) | 2.320 | 3.070 | 9.990 | 31% |
-| Margherita Verace (fior di latte) | 3.500 | 4.250 | 12.990 | 33% |
-| Pepperoni | 3.180 | 3.930 | 11.990 | 33% |
-| Pesto & Guanciale (mozzarella) | 3.470 | 4.220 | 12.990 | 32% |
-| Pesto & Guanciale (fior di latte) | 4.650 | 5.400 | 15.990 | 34% |
-| Crusté | 4.100 | 4.850 | 14.990 | 32% |
+| Pizza | Ingredientes | + operación | Precio | Food cost | Ganancia bruta |
+|---|---|---|---|---|---|
+| Margherita (mozzarella) | 2.320 | 3.070 | 5.999 | 51% | 2.929 |
+| Margherita Verace (fior di latte) | 3.500 | 4.250 | 7.999 | 53% | 3.749 |
+| Pepperoni | 3.180 | 3.930 | 5.999 | 66% | 2.069 |
+| Pesto & Guanciale (mozzarella) | 3.470 | 4.220 | 7.999 | 53% | 3.779 |
+| Pesto & Guanciale (fior di latte) | 4.650 | 5.400 | 9.999 | 54% | 4.599 |
+| Crusté | 4.100 | 4.850 | 7.999 | 61% | 3.149 |
+
+Precios bajados a pedido de Marcelo (sep 2026). Toppings: fior di latte +2.000.
 
 Bebidas lata: venta 1.399. Si la lata chica cuesta ~550, margen ~850 por unidad.
-Objetivo: food cost 30–34% (no incluye tu hora de trabajo ni traslado).
+Referencia de mercado: food cost 30–34% (no incluye tu hora de trabajo ni traslado).

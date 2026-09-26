@@ -38,8 +38,15 @@
   .wordmark sup { font-size: .28em; vertical-align: top; position: relative; top: .35em; margin-left: .05em; }
   .hero .lead { font-size: 19px; max-width: 30ch; }
   .hero .lead em { font-family: var(--italic); font-size: 1.25em; }
-  .hero-photo { position: relative; justify-self: center; width: min(340px, 100%); }
-  .hero-photo img { border-radius: 170px 170px 14px 14px; border: 3px solid var(--crema); aspect-ratio: 4/5; object-fit: cover; object-position: 45% center; width: 100%; }
+  /* Foto tipo Instax mini: marco blanco, borde inferior ancho */
+  .hero-photo { position: relative; justify-self: center; width: min(320px, 100%); }
+  .instax {
+    background: #FCFBF8; padding: 14px 14px 58px; border-radius: 4px; transform: rotate(3deg);
+    box-shadow: 0 1px 0 rgba(0,0,0,.08), 0 22px 40px -18px rgba(30,5,5,.65);
+  }
+  .instax img { width: 100%; aspect-ratio: 46/62; object-fit: cover; object-position: 45% center; border-radius: 1px; filter: sepia(.18) saturate(.92) contrast(1.06) brightness(1.02); }
+  .instax figcaption { position: absolute; left: 0; right: 0; bottom: 14px; text-align: center; font-family: var(--italic); font-style: italic; font-size: 22px; color: #3A2A26; }
+  .tape { position: absolute; top: -12px; left: 50%; width: 96px; height: 26px; transform: translateX(-50%) rotate(-4deg); background: rgba(239,228,212,.82); box-shadow: 0 1px 2px rgba(0,0,0,.12); }
   .stamp {
     position: absolute; left: -34px; bottom: 36px; transform: rotate(-12deg);
     border: 2px solid var(--crema); border-radius: 50%; padding: 12px 20px; background: var(--rojo);
@@ -66,21 +73,24 @@
   .gear { background: var(--tinta); color: var(--crema); }
   .gear .section-head h2 { color: var(--crema); }
   .gear .eyebrow { color: #E9A9A0; }
-  .gear-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: start; }
+  .gear-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; }
   .gear-photo img { border-radius: 14px; width: 100%; }
   .gear-photo figcaption { font-size: 13px; opacity: .7; margin-top: 8px; }
   .gear-list { display: grid; gap: 0; list-style: none; margin: 0; padding: 0; }
   .gear-list li { display: grid; gap: 4px; padding-block: 16px; border-top: 1px dashed rgba(247,240,230,.3); }
-  .gear-list li:last-child { border-bottom: 1px dashed rgba(247,240,230,.3); }
+   .gear-list li:last-child { border-bottom: 1px dashed rgba(247,240,230,.3); }
   .gear-list h3 { font-size: 20px; }
   .gear-list p { font-size: 15px; opacity: .85; }
   .gear-list .spec { font-family: var(--display); font-size: 12px; letter-spacing: .1em; color: #E9A9A0; }
-  .demo { display: grid; grid-template-columns: 220px 1fr; gap: 28px; align-items: center; margin-top: 48px; }
-  .demo img { border-radius: 12px; aspect-ratio: 4/5; object-fit: cover; width: 100%; }
+  .demo { display: grid; grid-template-columns: 280px 1fr; gap: 28px; align-items: center; margin-top: 48px; }
+  .demo img { border-radius: 2px; aspect-ratio: 4/5; object-fit: cover; width: 100%; box-shadow: 0 18px 36px -20px rgba(0,0,0,.8); }
   .demo p { font-size: 17px; max-width: 52ch; }
 
   /* ---------- MARGHERITA / QUESOS ---------- */
-  .anatomy { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 18px; margin-bottom: 44px; }
+  .anatomy-wrap { display: grid; grid-template-columns: 240px 1fr; gap: 36px; align-items: center; margin-bottom: 44px; }
+  .anatomy { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 18px; }
+  .loop { margin: 0; background: #FCFBF8; padding: 10px 10px 40px; transform: rotate(-2deg); box-shadow: 0 18px 34px -18px rgba(30,5,5,.5); }
+  .loop video { display: block; width: 100%; aspect-ratio: 46/62; object-fit: cover; filter: sepia(.12) contrast(1.05); }
   .ing { border-top: 2px solid var(--rojo); padding-top: 12px; display: grid; gap: 4px; }
   .ing h3 { font-size: 17px; color: var(--rojo); }
   .ing p { font-size: 14.5px; color: var(--tinta-suave); line-height: 1.5; }
@@ -143,12 +153,14 @@
     .about .portrait { max-width: 240px; }
     .menus { grid-template-columns: minmax(0, 440px); }
     .cheese { grid-template-columns: 1fr; }
+    .anatomy-wrap { grid-template-columns: 1fr; }
+    .loop { max-width: 220px; }
     .cheese > div + div { border-left: 0; border-top: 2px solid var(--rojo); }
     .stamp { left: -8px; }
   }
   @media (max-width: 520px) {
     .demo { grid-template-columns: 1fr; }
-    .demo img { max-width: 240px; }
+    .demo img { max-width: 280px; }
     .menu-body { padding: 22px 18px 18px; }
     .menu-title { font-size: 72px; }
     .menu-art svg { width: 120px; }
@@ -170,10 +182,14 @@
         <span>Eventos y cumpleaños</span>
       </div>
     </div>
-    <figure class="hero-photo" style="margin:0">
-      <img src="img/hero.jpg" alt="Pizza con rúcula recibiendo un hilo de reducción de balsámico sobre una pala perforada Ooni">
+    <div class="hero-photo">
+      <figure class="instax" style="margin:0">
+        <span class="tape" aria-hidden="true"></span>
+        <img src="img/hero.jpg" alt="Pizza con rúcula recibiendo un hilo de reducción de balsámico sobre una pala perforada Ooni">
+        <figcaption>recién salida del horno</figcaption>
+      </figure>
       <div class="stamp">Pizzaiolo<br>por amor</div>
-    </figure>
+    </div>
   </div>
 </header>
 
@@ -187,13 +203,11 @@
       <div class="about-text">
         <p class="eyebrow">Quién está detrás del horno</p>
         <p class="big">Soy Marcelo, pizzaiolo por amor y manager de oficio.</p>
-        <p>De lunes a viernes lidero las operaciones de <b>Kigos Chile</b>, distribuidor oficial de <b>Ooni Pizza Ovens</b> en el país: los hornos de pizza portátiles más vendidos del mundo. Ahí me encargo del sitio web y su SEO, de la tienda física, de los reportes de venta y finanzas, de Instagram y de la atención a clientes.</p>
-        <p>Pero donde de verdad me encuentro es frente al fuego. Pasar el día rodeado de hornos Ooni y de la mejor harina italiana terminó en lo inevitable: amasar, fermentar y hornear para la gente que quiero. Crusté nace de ahí, de querer compartir una pizza napolitana bien hecha en tu mesa, con tu gente.</p>
+        <p>De lunes a viernes soy manager en <b>Kigos Chile</b>, distribuidor oficial de <b>Ooni Pizza Ovens</b>.</p>
+        <p>Rodeado de hornos Ooni y harina italiana, terminé amasando y horneando para la gente que quiero. Así nace Crusté: pizza napolitana bien hecha, en tu mesa y con tu gente.</p>
         <div class="roles">
           <span>Manager en Kigos Chile</span>
-          <span>E-commerce y SEO</span>
-          <span>Ventas y finanzas</span>
-          <span>Pizzaiolo</span>
+          <span>Pizzaiolo en Crusté</span>
         </div>
       </div>
     </div>
@@ -216,26 +230,11 @@
             <h3>Ooni Koda 16</h3>
             <p>Piedra de 16" y llama en L. Llega a 500 °C en unos 20 minutos y hornea una napolitana en 60 a 90 segundos.</p>
           </li>
-          <li>
-            <span class="spec">Accesorio</span>
-            <h3>Pala giratoria</h3>
-            <p>Para girar la pizza dentro del horno sin sacarla y lograr un cornicione parejo y leopardado.</p>
-          </li>
-          <li>
-            <span class="spec">Accesorio</span>
-            <h3>Pala perforada</h3>
-            <p>Suelta el exceso de harina antes de entrar a la piedra. Menos quemado, base más limpia.</p>
-          </li>
-          <li>
-            <span class="spec">Control</span>
-            <h3>Termómetro infrarrojo</h3>
-            <p>Mido la piedra antes de cada pizza. Si no está sobre 400 °C, no entra.</p>
-          </li>
         </ul>
       </div>
       <div class="demo">
-        <img src="img/demo-kigos.jpg" alt="Demostración de pizza en la tienda Kigos Chile">
-        <p>En Kigos hacemos demostraciones en vivo con estaciones de trabajo profesionales. Crusté trabaja con el mismo estándar: estación de preparación, ingredientes en porciones y horno a temperatura antes de que llegue el primer invitado.</p>
+        <img src="img/marcelo-demo.jpg" alt="Marcelo poniendo salsa de tomate a una pizza en una demostración en la tienda Kigos">
+        <p>En Kigos hago demostraciones en vivo con estaciones de trabajo profesionales. En Crusté llevo el mismo estándar: estación de preparación, ingredientes en porciones y el horno caliente antes de que llegue el primer invitado.</p>
       </div>
     </div>
   </section>
@@ -246,12 +245,17 @@
         <p class="eyebrow">Lo que lleva una margherita</p>
         <h2>Cinco ingredientes, cero atajos</h2>
       </div>
+      <div class="anatomy-wrap">
+      <figure class="loop">
+        <video src="img/armando.mp4" poster="img/armando-poster.jpg" autoplay muted loop playsinline aria-label="Manos poniendo fior di latte y albahaca sobre una pizza"></video>
+      </figure>
       <div class="anatomy">
         <div class="ing"><h3>Masa</h3><p>Harina Caputo Pizzeria tipo 00, agua, sal y levadura. Fermentación lenta para una masa liviana y fácil de digerir.</p></div>
         <div class="ing"><h3>Tomate</h3><p>Tomate pelado italiano, aplastado a mano con una pizca de sal. Sin cocinar: se cocina en el horno.</p></div>
         <div class="ing"><h3>Queso</h3><p>Mozzarella o fior di latte. De eso depende si es Margherita o Verace.</p></div>
         <div class="ing"><h3>Albahaca</h3><p>Hojas frescas, siempre enteras. Se ponen antes de hornear para que perfumen.</p></div>
         <div class="ing"><h3>Aceite de oliva</h3><p>Extra virgen, un hilo al salir del horno.</p></div>
+      </div>
       </div>
 
       <div class="cheese">
@@ -321,23 +325,33 @@
 <template id="menu-tpl">
   <h2 class="menu-title">MENÚ</h2>
   <div class="menu-art">
-    <svg viewBox="0 0 170 80" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M8 58 C 40 30, 90 14, 140 10 C 146 22, 146 36, 140 46 C 100 52, 50 60, 8 58 Z"/>
-      <path d="M140 10 C 152 16, 156 38, 146 50 C 144 48, 142 47, 140 46"/>
-      <circle cx="62" cy="44" r="6"/><circle cx="96" cy="30" r="5"/><circle cx="118" cy="40" r="4.5"/>
-      <path d="M40 50 q4 -4 8 0 M78 40 q3 -3 7 0 M108 22 q3 -3 7 0"/>
-      <path d="M72 26 c 4 -2 8 0 10 3 c -3 1 -7 0 -10 -3 z"/>
-      <path d="M24 56 c -2 6 -1 12 3 16 M50 57 c 0 5 2 9 5 11"/>
-      <path d="M96 8 c -3 -6 3 -8 0 -14 M114 6 c -3 -6 3 -8 0 -14 M130 5 c -3 -6 3 -8 0 -14" transform="translate(0,10) scale(1,.8)"/>
+    <svg viewBox="0 0 150 90" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M95.4 59.5 A36 36 0 1 1 93.8 29.1 L62 46 Z"/>
+      <path d="M88.9 56.9 A29 29 0 1 1 87.6 32.4"/>
+      <path d="M78 43 L109.8 26.1 A36 36 0 0 1 111.4 56.5 Z"/>
+      <path d="M103.6 29.4 A29 29 0 0 1 104.9 53.9"/>
+      <circle cx="49.0" cy="53.5" r="5"/>
+      <circle cx="51.1" cy="33.0" r="4.5"/>
+      <circle cx="60.4" cy="63.9" r="4"/>
+      <circle cx="69.0" cy="33.9" r="4"/>
+      <circle cx="56.1" cy="45.0" r="3.5"/>
+      <circle cx="95.0" cy="43.0" r="3.5"/>
+      <path d="M49.4 64.0 Q54.3 64.6 56.3 60.0 Q51.3 59.4 49.4 64.0 Z M49.4 64.0 L56.3 60.0"/>
+      <path d="M60.1 24.1 Q62.8 28.3 67.6 26.8 Q64.9 22.6 60.1 24.1 Z M60.1 24.1 L67.6 26.8"/>
+      <path d="M77.3 58.9 Q74.6 54.7 69.8 56.1 Q72.5 60.3 77.3 58.9 Z M77.3 58.9 L69.8 56.1"/>
+      <path d="M41.3 38.5 Q39.9 43.3 44.1 46.0 Q45.5 41.2 41.3 38.5 Z M41.3 38.5 L44.1 46.0"/>
+      <path d="M118 34 c -4 -5 4 -8 0 -13 c -4 -5 4 -8 0 -13"/>
+      <path d="M128 34 c -4 -5 4 -8 0 -13 c -4 -5 4 -8 0 -13"/>
+      <path d="M138 34 c -4 -5 4 -8 0 -13 c -4 -5 4 -8 0 -13"/>
     </svg>
     <div class="oval">Horno<br>a 450 °C</div>
   </div>
   <div class="items">
-    <div class="item"><div class="item-line"><span class="item-name">Margherita</span><span class="dots"></span><span class="price">9.990</span></div><p class="item-desc">Tomate pelado, mozzarella, albahaca fresca y aceite de oliva extra virgen.</p></div>
-    <div class="item"><div class="item-line"><span class="item-name">Margherita Verace</span><span class="dots"></span><span class="price">12.990</span></div><p class="item-desc">Tomate pelado, fior di latte, albahaca fresca y aceite de oliva extra virgen.</p></div>
-    <div class="item"><div class="item-line"><span class="item-name">Pepperoni</span><span class="dots"></span><span class="price">11.990</span></div><p class="item-desc">Tomate pelado, mozzarella, pepperoni y aceite de oliva extra virgen.</p></div>
-    <div class="item"><div class="item-line"><span class="item-name">Pesto &amp; Guanciale</span><span class="dots"></span><span class="price">12.990</span></div><p class="item-desc">Pesto de albahaca, mozzarella y guanciale crocante. <b>Con fior di latte 15.990.</b></p></div>
-    <div class="item star"><span class="nuestra">La nuestra</span><div class="item-line"><span class="item-name">Crusté</span><span class="dots"></span><span class="price">14.990</span></div><p class="item-desc">Base de tomate, cebolla caramelizada, carne mechada, pimentón picado fino y pecorino rallado al final.</p></div>
+    <div class="item"><div class="item-line"><span class="item-name">Margherita</span><span class="dots"></span><span class="price">5.999</span></div><p class="item-desc">Tomate pelado, mozzarella, albahaca fresca y aceite de oliva extra virgen.</p></div>
+    <div class="item"><div class="item-line"><span class="item-name">Margherita Verace</span><span class="dots"></span><span class="price">7.999</span></div><p class="item-desc">Tomate pelado, fior di latte, albahaca fresca y aceite de oliva extra virgen.</p></div>
+    <div class="item"><div class="item-line"><span class="item-name">Pepperoni</span><span class="dots"></span><span class="price">5.999</span></div><p class="item-desc">Tomate pelado, mozzarella, pepperoni y aceite de oliva extra virgen.</p></div>
+    <div class="item"><div class="item-line"><span class="item-name">Pesto &amp; Guanciale</span><span class="dots"></span><span class="price">7.999</span></div><p class="item-desc">Pesto de albahaca, mozzarella y guanciale crocante. <b>Con fior di latte 9.999.</b></p></div>
+    <div class="item star"><span class="nuestra">La nuestra</span><div class="item-line"><span class="item-name">Crusté</span><span class="dots"></span><span class="price">7.999</span></div><p class="item-desc">Base de tomate, cebolla caramelizada, carne mechada, pimentón picado fino y pecorino rallado al final.</p></div>
   </div>
   <div class="boxes">
     <div class="box">
@@ -348,7 +362,7 @@
     </div>
     <div class="box">
       <h4>Agrega toppings</h4>
-      <div class="row"><span>Fior di latte</span><span class="dots"></span><span>3.000</span></div>
+      <div class="row"><span>Fior di latte</span><span class="dots"></span><span>2.000</span></div>
       <div class="row"><span>Guanciale</span><span class="dots"></span><span>2.000</span></div>
       <div class="row"><span>Pepperoni</span><span class="dots"></span><span>1.500</span></div>
       <div class="row"><span>Pecorino rallado</span><span class="dots"></span><span>1.000</span></div>
