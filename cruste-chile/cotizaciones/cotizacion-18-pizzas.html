@@ -26,7 +26,7 @@
   .doc p { font-family: var(--cond); font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 6px 0 0; }
 
   main { padding: 30px 48px 0; display: grid; gap: 26px; flex: 1; }
-  .meta { display: grid; grid-template-columns: repeat(4, 1fr); border: 1.5px solid var(--tomate-hondo); border-radius: 14px; overflow: hidden; }
+  .meta { display: grid; grid-template-columns: repeat(3, 1fr); border: 1.5px solid var(--tomate-hondo); border-radius: 14px; overflow: hidden; }
   .meta div { padding: 12px 14px; display: grid; gap: 2px; }
   .meta div + div { border-left: 1.5px solid var(--tomate-hondo); }
   .label { font-family: var(--cond); font-weight: 500; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--tomate-hondo); }
@@ -70,9 +70,8 @@
     .doc { text-align: left; }
     .brand { font-size: 64px; }
     main { padding: 22px 20px 0; }
-    .meta { grid-template-columns: 1fr 1fr; }
-    .meta div:nth-child(3) { border-left: 0; }
-    .meta div:nth-child(n+3) { border-top: 1.5px solid var(--tomate-hondo); }
+    .meta { grid-template-columns: 1fr; }
+    .meta div + div { border-left: 0; border-top: 1.5px solid var(--tomate-hondo); }
     .bottom { grid-template-columns: 1fr; }
     td.n.unit, th.unit { display: none; }
     footer { padding: 18px 20px; }
@@ -95,9 +94,8 @@
 
   <main>
     <div class="meta">
-      <div><span class="label">Cliente</span><span class="val blank" contenteditable="true">Nombre</span></div>
-      <div><span class="label">Fecha del evento</span><span class="val blank" contenteditable="true">Por confirmar</span></div>
-      <div><span class="label">Comuna</span><span class="val blank" contenteditable="true">Por confirmar</span></div>
+      <div><span class="label">Fecha del evento</span><span class="val">Sábado 3 de octubre</span></div>
+      <div><span class="label">Comuna</span><span class="val">Las Condes</span></div>
       <div><span class="label">Personas</span><span class="val">25 aprox.</span></div>
     </div>
 
