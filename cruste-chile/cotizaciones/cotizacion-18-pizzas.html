@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cotización Crusté</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:wdth,wght@62..125,400..700&family=Modak&family=Oswald:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --tomate: #E8462A; --tomate-hondo: #C73A21; --oliva: #827123; --crema: #FFF9B4; --blanco: #FAFFFA;
+    --tinta: #2B2610; --tinta-suave: #5E5530; --papel: #FBF8EE;
+    --serif: "Instrument Serif", Georgia, serif; --sans: "Archivo", Arial, sans-serif; --cond: "Oswald", "Arial Narrow", sans-serif;
+  }
+  @page { size: letter; margin: 0; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #E9E4D2; color: var(--tinta); font-family: var(--sans); font-size: 14px; line-height: 1.5; }
+  .page { width: 8.5in; min-height: 11in; margin: 0 auto; background: var(--papel); display: flex; flex-direction: column; position: relative; overflow: hidden; }
+  @media screen and (max-width: 860px) { .page { width: 100%; min-height: 0; } }
+
+  header { background: var(--tomate); color: var(--blanco); padding: 34px 48px 30px; display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; position: relative; overflow: hidden; }
+  .brand { font-family: "Modak", "Arial Black", sans-serif; font-size: 86px; line-height: .8; letter-spacing: -.01em; }
+  .brand-sub { font-family: var(--cond); font-weight: 500; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; margin-top: 10px; color: var(--crema); }
+  .doc { text-align: right; }
+  .doc h1 { font-family: var(--serif); font-weight: 400; font-style: italic; font-size: 46px; line-height: 1; margin: 0; }
+  .doc p { font-family: var(--cond); font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 6px 0 0; }
+
+  main { padding: 30px 48px 0; display: grid; gap: 26px; flex: 1; }
+  .meta { display: grid; grid-template-columns: repeat(4, 1fr); border: 1.5px solid var(--tomate-hondo); border-radius: 14px; overflow: hidden; }
+  .meta div { padding: 12px 14px; display: grid; gap: 2px; }
+  .meta div + div { border-left: 1.5px solid var(--tomate-hondo); }
+  .label { font-family: var(--cond); font-weight: 500; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--tomate-hondo); }
+  .val { font-family: var(--serif); font-size: 21px; line-height: 1.15; }
+  .val.blank { color: #B9AE86; }
+
+  h2 { display: flex; align-items: center; gap: 10px; font-family: var(--cond); font-weight: 500; font-size: 18px; letter-spacing: .06em; text-transform: uppercase; color: var(--tomate-hondo); margin: 0 0 10px; }
+  h2 svg { width: 14px; height: 14px; fill: currentColor; }
+
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  th { font-family: var(--cond); font-weight: 500; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--tinta-suave); text-align: left; padding: 0 0 8px; border-bottom: 1.5px solid var(--tinta); }
+  th.n, td.n { text-align: right; }
+  td { padding: 13px 0; border-bottom: 1px dashed #CFC49A; vertical-align: top; }
+  td.q { font-family: var(--serif); font-size: 26px; line-height: 1; width: 56px; }
+  .pz { font-family: var(--cond); font-weight: 600; font-size: 17px; letter-spacing: .03em; text-transform: uppercase; }
+  .pz .half { color: var(--tomate); padding: 0 4px; }
+  .desc { font-size: 12.5px; color: var(--tinta-suave); margin-top: 2px; }
+  td.n { font-size: 15px; white-space: nowrap; padding-left: 16px; }
+  td.n.unit { color: var(--tinta-suave); }
+
+  .bottom { display: grid; grid-template-columns: 1fr 300px; gap: 28px; align-items: start; }
+  .incl ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+  .incl li { display: grid; grid-template-columns: 14px 1fr; gap: 10px; align-items: baseline; font-size: 13.5px; }
+  .incl li::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--oliva); transform: translateY(-1px); }
+  .note { margin-top: 14px; font-size: 12.5px; color: var(--tinta-suave); }
+
+  .total { background: var(--tomate); color: var(--blanco); border-radius: 16px; padding: 18px 20px 20px; display: grid; gap: 8px; }
+  .total .row { display: flex; justify-content: space-between; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+  .total .row span:first-child { opacity: .9; }
+  .total .big { border-top: 1px solid rgba(250,255,250,.5); padding-top: 10px; margin-top: 4px; display: flex; justify-content: space-between; align-items: baseline; }
+  .total .big span:first-child { font-family: var(--cond); font-weight: 500; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; }
+  .total .big b { font-family: var(--serif); font-weight: 400; font-size: 44px; line-height: 1; }
+  .total .pp { font-size: 12px; text-align: right; color: var(--crema); }
+
+  footer { margin-top: 30px; background: var(--oliva); color: var(--blanco); padding: 18px 48px 20px; display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+  footer .thanks { font-family: var(--serif); font-style: italic; font-size: 26px; line-height: 1.1; }
+  footer .contact { display: grid; gap: 2px; text-align: right; font-size: 13px; }
+  footer .contact b { font-family: var(--cond); font-weight: 500; letter-spacing: .12em; text-transform: uppercase; font-size: 11px; color: var(--crema); }
+
+  @media screen and (max-width: 640px) {
+    header { padding: 24px 20px; flex-direction: column; align-items: flex-start; }
+    .doc { text-align: left; }
+    .brand { font-size: 64px; }
+    main { padding: 22px 20px 0; }
+    .meta { grid-template-columns: 1fr 1fr; }
+    .meta div:nth-child(3) { border-left: 0; }
+    .meta div:nth-child(n+3) { border-top: 1.5px solid var(--tomate-hondo); }
+    .bottom { grid-template-columns: 1fr; }
+    td.n.unit, th.unit { display: none; }
+    footer { padding: 18px 20px; }
+    footer .contact { text-align: left; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div>
+      <div class="brand">Crusté</div>
+      <div class="brand-sub">Pizza napolitana a domicilio · Santiago</div>
+    </div>
+    <div class="doc">
+      <h1>Cotización</h1>
+      <p>N° CRU-001 · 29 sep 2026</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="meta">
+      <div><span class="label">Cliente</span><span class="val blank" contenteditable="true">Nombre</span></div>
+      <div><span class="label">Fecha del evento</span><span class="val blank" contenteditable="true">Por confirmar</span></div>
+      <div><span class="label">Comuna</span><span class="val blank" contenteditable="true">Por confirmar</span></div>
+      <div><span class="label">Personas</span><span class="val">25 aprox.</span></div>
+    </div>
+
+    <section>
+      <h2><svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12,2 13.8,8.9 20.7,7 15.6,12 20.7,17 13.8,15.1 12,22 10.2,15.1 3.3,17 8.4,12 3.3,7 10.2,8.9"/></svg>Pizzas napolitanas de 12" · mitad y mitad</h2>
+      <table>
+        <thead><tr><th>Cant.</th><th>Pizza</th><th class="n unit">Unitario</th><th class="n">Subtotal</th></tr></thead>
+        <tbody>
+          <tr><td class="q">6</td><td><div class="pz">Margherita <span class="half">/</span> Pepperoni</div><div class="desc">Tomate pelado, mozzarella, albahaca fresca y aceite de oliva · mitad con pepperoni</div></td><td class="n unit">$5.999</td><td class="n">$35.994</td></tr>
+          <tr><td class="q">6</td><td><div class="pz">Margherita <span class="half">/</span> Pesto &amp; Guanciale</div><div class="desc">Mitad margherita · mitad pesto de albahaca, mozzarella y guanciale crocante</div></td><td class="n unit">$6.999</td><td class="n">$41.994</td></tr>
+          <tr><td class="q">6</td><td><div class="pz">Margherita <span class="half">/</span> Crusté</div><div class="desc">Mitad margherita · mitad tomate, cebolla caramelizada, carne mechada, pimentón y pecorino</div></td><td class="n unit">$6.999</td><td class="n">$41.994</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="bottom">
+      <div class="incl">
+        <h2><svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12,2 13.8,8.9 20.7,7 15.6,12 20.7,17 13.8,15.1 12,22 10.2,15.1 3.3,17 8.4,12 3.3,7 10.2,8.9"/></svg>Incluye</h2>
+        <ul>
+          <li>18 pizzas napolitanas de 12" (unos 30 cm)</li>
+          <li>Masa con harina italiana Caputo Pizzeria</li>
+          <li>Horneado en vivo en horno Ooni, cada pizza en 60 a 90 segundos</li>
+          <li>Pizzaiolo a cargo del horno durante el servicio</li>
+        </ul>
+        <p class="note">Bebidas en lata (Coca-Cola, Fanta o Sprite) disponibles como extra a $1.399 c/u. Cotización válida por 7 días.</p>
+      </div>
+      <div class="total">
+        <div class="row"><span>Pizzas (18)</span><span>$119.982</span></div>
+        <div class="row"><span>Bebidas</span><span>Opcional</span></div>
+        <div class="big"><span>Total</span><b>$119.982</b></div>
+        <div class="pp">≈ $4.800 por persona</div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="thanks">Tú pones la mesa.<br>Yo pongo el fuego.</div>
+    <div class="contact">
+      <b>Marcelo Rojas · Pizzaiolo</b>
+      <span>WhatsApp +56 9 9576 9536</span>
+      <span>marcelo.rrojas@usil.pe</span>
+    </div>
+  </footer>
+</div>
+</body>
+</html>
