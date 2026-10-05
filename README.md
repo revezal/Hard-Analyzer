@@ -16,12 +16,13 @@ Sistema en PHP para **capturar carritos abandonados**, enviar una **secuencia au
    | 3 | 72 horas después | Cupón único (5% por defecto, válido 3 días, solo para ese email) |
 4. **Link mágico de recuperación**: el botón del correo rearma el carrito, aplica el cupón, prellena nombre/email/teléfono y lleva directo al checkout.
 5. **Detiene la secuencia** si el cliente compra, vuelve a la tienda o se da de baja.
-6. **Panel en WooCommerce → Carritos abandonados** con:
+6. **Aviso al equipo + WhatsApp**: cuando un carrito queda abandonado les llega un correo a ustedes con nombre, teléfono, productos y total, y un botón verde **"Escribirle por WhatsApp"** que abre WhatsApp (o WhatsApp Business) con el mensaje ya escrito e incluye el link para retomar la compra. Ustedes lo revisan y lo envían. Se puede limitar a carritos con teléfono y/o sobre cierto monto (ej. solo hornos).
+7. **Panel en WooCommerce → Carritos abandonados** con:
    - Carritos abandonados, valor perdido, carritos recuperados, **ingresos recuperados** y **tasa de recuperación**.
    - Listado con cliente, productos, total, estado, correos enviados, cupón, pedido y **link directo a WhatsApp** del cliente.
    - Exportar a CSV (abre bien en Excel, con acentos).
    - Configuración de tiempos, textos, cupón y envío de **correo de prueba**.
-7. Cada pedido recuperado queda con una **nota interna** en el pedido ("Pedido recuperado desde carrito abandonado #...").
+8. Cada pedido recuperado queda con una **nota interna** en el pedido ("Pedido recuperado desde carrito abandonado #...").
 
 ## Instalación
 
@@ -46,7 +47,9 @@ Para que los correos no lleguen a spam, usa un plugin SMTP (WP Mail SMTP, Fluent
 
 ## Variables para los textos
 
-`{first_name}`, `{cart_total}`, `{coupon_code}`, `{coupon_amount}`, `{coupon_days}`, `{site_name}`
+Correos: `{first_name}`, `{cart_total}`, `{coupon_code}`, `{coupon_amount}`, `{coupon_days}`, `{site_name}`
+
+WhatsApp: `{first_name}`, `{products}`, `{cart_total}`, `{recover_url}`, `{coupon_code}`, `{site_name}`
 
 ## Privacidad
 
@@ -66,7 +69,8 @@ kigos-abandoned-cart/
     ├── class-kac-db.php            # Tabla wp_kac_carts + métricas
     ├── class-kac-tracker.php       # Guarda carritos y los vincula a pedidos
     ├── class-kac-recovery.php      # Link de recuperación y baja
-    ├── class-kac-mailer.php        # Correos + cupones automáticos
+    ├── class-kac-mailer.php        # Correos + cupones automáticos + aviso al equipo
+    ├── class-kac-whatsapp.php      # Links wa.me con mensaje prellenado
     ├── class-kac-cron.php          # Proceso cada 15 min (abandono, envíos, limpieza)
     └── class-kac-admin.php         # Panel, configuración y exportación CSV
 ```

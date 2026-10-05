@@ -40,6 +40,12 @@ class KAC_Settings {
 			'coupon_amount'    => 5,
 			'coupon_days'      => 3,
 			'coupon_min_total' => 0,
+			// Aviso interno al equipo para contactar por WhatsApp.
+			'notify_enabled'   => 1,
+			'notify_email'     => '',
+			'notify_min_total' => 0,
+			'notify_phone_only'=> 1,
+			'wa_message'       => "Hola {first_name}! Te escribimos de Kigos 🍕 Vimos que dejaste {products} en tu carrito. ¿Te podemos ayudar con alguna duda sobre el producto, el despacho o las formas de pago? Puedes retomar tu compra aquí: {recover_url}",
 			// Otros.
 			'min_cart_total'   => 0,
 			'from_name'        => '',

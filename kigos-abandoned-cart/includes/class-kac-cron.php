@@ -52,6 +52,7 @@ class KAC_Cron {
 		set_transient( 'kac_cron_lock', 1, 10 * MINUTE_IN_SECONDS );
 
 		self::mark_abandoned();
+		self::notify_team();
 		self::send_due_emails();
 		self::cleanup();
 
@@ -71,6 +72,33 @@ class KAC_Cron {
 				$cutoff
 			)
 		);
+	}
+
+	/**
+	 * Avisa por correo al equipo de cada carrito recién abandonado,
+	 * con el botón para escribirle al cliente por WhatsApp.
+	 */
+	private static function notify_team() {
+		global $wpdb;
+
+		if ( ! KAC_Settings::get( 'notify_enabled' ) ) {
+			return;
+		}
+
+		$sql = 'SELECT * FROM ' . KAC_DB::table() . " WHERE status = 'abandoned' AND team_notified = 0 AND cart_total >= %f";
+		if ( KAC_Settings::get( 'notify_phone_only' ) ) {
+			$sql .= " AND phone <> ''";
+		}
+		$rows = $wpdb->get_results( $wpdb->prepare( $sql . ' ORDER BY abandoned_at ASC LIMIT %d', (float) KAC_Settings::get( 'notify_min_total' ), self::BATCH ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+
+		foreach ( $rows as $row ) {
+			if ( KAC_Recovery::is_unsubscribed( $row->email ) ) {
+				continue;
+			}
+			if ( KAC_Mailer::notify_team( $row ) ) {
+				KAC_DB::update( $row->id, array( 'team_notified' => 1 ), false );
+			}
+		}
 	}
 
 	private static function send_due_emails() {

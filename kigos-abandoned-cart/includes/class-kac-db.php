@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
 
 class KAC_DB {
 
-	const DB_VERSION = '1.0.0';
+	const DB_VERSION = '1.1.0';
 
 	public static function table() {
 		global $wpdb;
@@ -43,6 +43,7 @@ class KAC_DB {
 			emails_sent TINYINT UNSIGNED NOT NULL DEFAULT 0,
 			last_email_at DATETIME NULL,
 			link_clicked TINYINT(1) NOT NULL DEFAULT 0,
+			team_notified TINYINT(1) NOT NULL DEFAULT 0,
 			token VARCHAR(64) NOT NULL DEFAULT '',
 			coupon_code VARCHAR(100) NOT NULL DEFAULT '',
 			order_id BIGINT UNSIGNED NOT NULL DEFAULT 0,

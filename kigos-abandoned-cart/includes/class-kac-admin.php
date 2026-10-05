@@ -180,8 +180,12 @@ class KAC_Admin {
 						<td>
 							<strong><?php echo esc_html( trim( $row->first_name . ' ' . $row->last_name ) ); ?></strong><br />
 							<a href="mailto:<?php echo esc_attr( $row->email ); ?>"><?php echo esc_html( $row->email ); ?></a>
-							<?php if ( $row->phone ) : ?>
-								<br /><a href="<?php echo esc_url( 'https://wa.me/' . preg_replace( '/\D/', '', $row->phone ) ); ?>" target="_blank" rel="noopener">WhatsApp <?php echo esc_html( $row->phone ); ?></a>
+							<?php $wa = KAC_WhatsApp::link( $row ); ?>
+							<?php if ( $wa ) : ?>
+								<br /><a href="<?php echo esc_url( $wa ); ?>" target="_blank" rel="noopener">WhatsApp <?php echo esc_html( $row->phone ); ?></a>
+							<?php endif; ?>
+							<?php if ( $row->team_notified ) : ?>
+								<br /><small>Equipo avisado</small>
 							<?php endif; ?>
 						</td>
 						<td><?php echo esc_html( implode( ', ', $names ) ); ?></td>
@@ -280,6 +284,18 @@ class KAC_Admin {
 				</table>
 			<?php endfor; ?>
 
+			<h2>Aviso al equipo + WhatsApp</h2>
+			<p>Cuando un carrito queda abandonado, les llega un correo con los datos del cliente y un botón que abre WhatsApp con el mensaje ya escrito.</p>
+			<table class="form-table">
+				<?php
+				$field( 'notify_enabled', 'Enviar aviso al equipo', 'checkbox' );
+				$field( 'notify_email', 'Email del equipo', 'text', 'Puedes poner varios separados por coma. Vacío = email del administrador.' );
+				$field( 'notify_phone_only', 'Solo carritos con teléfono', 'checkbox', 'Si está activo, solo avisa cuando el cliente dejó su teléfono (para poder escribirle).' );
+				$field( 'notify_min_total', 'Monto mínimo para avisar', 'number', 'Ej: 300000 para que solo avise por hornos. 0 = todos.' );
+				$field( 'wa_message', 'Mensaje de WhatsApp', 'textarea', 'Variables: {first_name}, {products}, {cart_total}, {recover_url}, {coupon_code}, {site_name}' );
+				?>
+			</table>
+
 			<h2>Cupón</h2>
 			<table class="form-table">
 				<?php
@@ -303,6 +319,7 @@ class KAC_Admin {
 				<option value="1">Correo 1</option>
 				<option value="2">Correo 2</option>
 				<option value="3">Correo 3</option>
+				<option value="team">Aviso al equipo (WhatsApp)</option>
 			</select>
 			<input type="email" name="to" value="<?php echo esc_attr( wp_get_current_user()->user_email ); ?>" class="regular-text" />
 			<?php submit_button( 'Enviar prueba', 'secondary', 'submit', false ); ?>
@@ -323,6 +340,10 @@ class KAC_Admin {
 				$clean[ $key ] = max( 0, (float) $value );
 			} elseif ( false !== strpos( $key, '_body' ) || 'consent_text' === $key ) {
 				$clean[ $key ] = sanitize_textarea_field( $value );
+			} elseif ( 'wa_message' === $key ) {
+				$clean[ $key ] = sanitize_textarea_field( $value );
+			} elseif ( 'notify_email' === $key ) {
+				$clean[ $key ] = implode( ',', array_filter( array_map( 'sanitize_email', explode( ',', $value ) ), 'is_email' ) );
 			} elseif ( 'from_email' === $key ) {
 				$clean[ $key ] = sanitize_email( $value );
 			} elseif ( 'coupon_type' === $key ) {
@@ -350,7 +371,7 @@ class KAC_Admin {
 		global $wpdb;
 		self::check( 'kac_send_test' );
 
-		$step = isset( $_POST['step'] ) ? (int) $_POST['step'] : 1;
+		$step = isset( $_POST['step'] ) ? sanitize_key( $_POST['step'] ) : '1';
 		$to   = isset( $_POST['to'] ) ? sanitize_email( wp_unslash( $_POST['to'] ) ) : '';
 
 		$row = $wpdb->get_row( 'SELECT * FROM ' . KAC_DB::table() . ' ORDER BY id DESC LIMIT 1' ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
@@ -359,7 +380,11 @@ class KAC_Admin {
 			exit;
 		}
 
-		$ok = is_email( $to ) && KAC_Mailer::send( $row, $step, $to, true );
+		if ( 'team' === $step ) {
+			$ok = is_email( $to ) && KAC_Mailer::notify_team( $row, $to );
+		} else {
+			$ok = is_email( $to ) && KAC_Mailer::send( $row, (int) $step, $to, true );
+		}
 		wp_safe_redirect( self::url( array( 'tab' => 'settings', 'kac_msg' => $ok ? 'test_ok' : 'test_fail' ) ) );
 		exit;
 	}

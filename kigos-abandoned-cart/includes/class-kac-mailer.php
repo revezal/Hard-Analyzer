@@ -120,6 +120,55 @@ class KAC_Mailer {
 	}
 
 	/**
+	 * Aviso interno al equipo: un carrito quedó abandonado, con botón para
+	 * abrir WhatsApp con el mensaje ya escrito.
+	 *
+	 * @param object $row
+	 * @param string $to Destinatario alternativo (para pruebas).
+	 * @return bool
+	 */
+	public static function notify_team( $row, $to = '' ) {
+		if ( ! $to ) {
+			$to = KAC_Settings::get( 'notify_email' );
+			$to = $to ? $to : get_option( 'admin_email' ); // Lista separada por comas, ya validada al guardar.
+		}
+
+		$wa_link = KAC_WhatsApp::link( $row );
+		$total   = wp_strip_all_tags( wc_price( $row->cart_total, array( 'currency' => $row->currency ) ) );
+		$name    = trim( $row->first_name . ' ' . $row->last_name );
+		$subject = sprintf( '🛒 Carrito abandonado: %s – %s', $name ? $name : $row->email, $total );
+
+		ob_start();
+		?>
+		<p><strong><?php echo esc_html( $name ? $name : 'Cliente sin nombre' ); ?></strong> dejó su carrito sin terminar la compra.</p>
+		<table cellspacing="0" cellpadding="6" border="0" style="width:100%;margin-bottom:12px;">
+			<tr><td style="width:110px;color:#777;">Email</td><td><?php echo esc_html( $row->email ); ?></td></tr>
+			<tr><td style="color:#777;">Teléfono</td><td><?php echo esc_html( $row->phone ? $row->phone : '—' ); ?></td></tr>
+			<tr><td style="color:#777;">Productos</td><td><?php echo esc_html( KAC_WhatsApp::products_text( $row ) ); ?></td></tr>
+			<tr><td style="color:#777;">Total</td><td><strong><?php echo esc_html( $total ); ?></strong></td></tr>
+		</table>
+
+		<?php if ( $wa_link ) : ?>
+			<p style="text-align:center;margin:24px 0;">
+				<a href="<?php echo esc_url( $wa_link ); ?>" style="background:#25D366;color:#fff;padding:14px 28px;border-radius:30px;text-decoration:none;font-weight:bold;display:inline-block;">Escribirle por WhatsApp</a>
+			</p>
+			<p style="font-size:12px;color:#777;">Mensaje que se abrirá (lo puedes editar antes de enviar):</p>
+			<blockquote style="border-left:3px solid #25D366;margin:0;padding:8px 12px;color:#444;"><?php echo esc_html( KAC_WhatsApp::message( $row ) ); ?></blockquote>
+		<?php else : ?>
+			<p>El cliente no dejó teléfono. Recibirá los correos automáticos de recuperación.</p>
+		<?php endif; ?>
+
+		<p style="font-size:12px;color:#777;margin-top:24px;">
+			<a href="<?php echo esc_url( admin_url( 'admin.php?page=' . KAC_Admin::SLUG ) ); ?>">Ver todos los carritos abandonados</a>
+		</p>
+		<?php
+		$content = ob_get_clean();
+
+		$mailer = WC()->mailer();
+		return (bool) $mailer->send( $to, $subject, $mailer->wrap_message( 'Carrito abandonado', $content ), array( 'Content-Type: text/html; charset=UTF-8' ) );
+	}
+
+	/**
 	 * Crea (una sola vez por carrito) un cupón de uso único restringido al email del cliente.
 	 */
 	public static function ensure_coupon( $row ) {
