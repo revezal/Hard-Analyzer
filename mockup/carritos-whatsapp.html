@@ -1,0 +1,296 @@
+<title>Recuperación de Carritos Kigos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: stepper across the top, then a stage with the "device" on the left and the explanation on the right; stacks on phones. */
+:root{
+  --bg:#F2F3F0; --surface:#FFFFFF; --ink:#1A1E1C; --muted:#5F6662; --line:#DCDFDA;
+  --ember:#C9461A; --ember-soft:#FBE7DE; --wa:#1FA855; --wa-bubble:#D9FDD3; --wa-bg:#EFEAE2;
+  --mail-bg:#F7F7F5; --shadow:0 18px 40px -22px rgba(20,30,25,.35);
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"Figtree", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121614; --surface:#1B201E; --ink:#ECEFEC; --muted:#A3AAA6; --line:#2E3532;
+  --ember:#F07444; --ember-soft:#3A2219; --wa:#2BD46C; --wa-bubble:#144D37; --wa-bg:#0E1714;
+  --mail-bg:#161A18; --shadow:0 18px 40px -22px rgba(0,0,0,.8); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121614; --surface:#1B201E; --ink:#ECEFEC; --muted:#A3AAA6; --line:#2E3532;
+  --ember:#F07444; --ember-soft:#3A2219; --wa:#2BD46C; --wa-bubble:#144D37; --wa-bg:#0E1714;
+  --mail-bg:#161A18; --shadow:0 18px 40px -22px rgba(0,0,0,.8); color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:16px;padding-block:28px 48px;display:grid;gap:22px}
+header{display:grid;gap:6px}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ember);font-weight:700}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(26px,4vw,38px);line-height:1.1;margin:0;text-wrap:balance}
+.lede{color:var(--muted);margin:0;max-width:62ch}
+.sample{display:inline-block;font-size:12px;border:1px dashed var(--line);border-radius:6px;padding:2px 8px;color:var(--muted);margin-top:4px;width:fit-content}
+
+/* Stepper */
+.steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;list-style:none;margin:0;padding:0}
+.steps button{all:unset;cursor:pointer;display:grid;gap:2px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);min-width:0;height:100%}
+.steps button:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
+.steps .when{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;font-variant-numeric:tabular-nums}
+.steps .what{font-size:13px;font-weight:600;line-height:1.25}
+.steps [aria-current="step"]{border-color:var(--ember);background:var(--ember-soft)}
+.steps [aria-current="step"] .when{color:var(--ember)}
+.steps .done .when::after{content:" ✓";color:var(--wa)}
+@media (max-width:760px){.steps{grid-template-columns:repeat(5,minmax(120px,1fr));overflow-x:auto;padding-bottom:4px}}
+
+/* Stage */
+.stage{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:860px){.stage{grid-template-columns:1fr}}
+.device{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden;min-height:440px;display:flex;flex-direction:column}
+.chrome{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
+.chrome i{width:9px;height:9px;border-radius:50%;background:var(--line);display:inline-block}
+.chrome span{margin-left:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.screen{padding:20px;display:grid;gap:14px;flex:1;align-content:start;animation:in .35s ease}
+@keyframes in{from{opacity:.4;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.screen{animation:none}}
+
+.explain{display:grid;gap:14px}
+.explain h2{font-family:var(--display);font-weight:800;font-size:24px;line-height:1.15;margin:0;text-wrap:balance}
+.explain p{margin:0;color:var(--muted);max-width:60ch}
+.who{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;width:fit-content}
+.who.cliente{background:var(--ember-soft);color:var(--ember)}
+.who.sistema{background:var(--line);color:var(--ink)}
+.who.equipo{background:var(--wa-bubble);color:var(--ink)}
+.explain ul{margin:0;padding-left:18px;color:var(--ink);display:grid;gap:6px}
+.nav{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+.btn{all:unset;cursor:pointer;padding:11px 18px;border-radius:999px;font-weight:700;font-size:14px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
+.btn[disabled]{opacity:.4;cursor:default}
+
+/* Checkout screen */
+.field{display:grid;gap:4px}
+.field label{font-size:12px;font-weight:600;color:var(--muted)}
+.field .input{border:1px solid var(--line);border-radius:8px;padding:10px 12px;min-height:42px;font-size:14px;background:var(--bg)}
+.field .input.typing::after{content:"|";animation:blink 1s steps(1) infinite;color:var(--ember)}
+@keyframes blink{50%{opacity:0}}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.toast{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-left:4px solid var(--wa);border-radius:8px;padding:10px 12px;font-size:13px;background:var(--bg)}
+.toast code{font-size:12px}
+.consent{font-size:11px;color:var(--muted)}
+.cartline{display:flex;justify-content:space-between;gap:10px;font-size:14px;padding:10px 0;border-bottom:1px solid var(--line)}
+.cartline b{font-variant-numeric:tabular-nums;white-space:nowrap}
+.thumb{width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,var(--ember-soft),var(--line));flex:none;display:grid;place-items:center;font-size:20px}
+.prod{display:flex;gap:10px;align-items:center;min-width:0}
+
+/* Mail screen */
+.mail{background:var(--mail-bg)}
+.mailhead{display:grid;gap:2px;font-size:13px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.mailhead .subj{font-weight:700;font-size:15px}
+.mailbody{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:10px;font-size:14px}
+.kv{display:grid;grid-template-columns:96px minmax(0,1fr);gap:4px 10px;font-size:13px}
+.kv dt{color:var(--muted)} .kv dd{margin:0;overflow-wrap:anywhere}
+.wa-btn{all:unset;cursor:pointer;justify-self:center;background:var(--wa);color:#fff;padding:12px 22px;border-radius:999px;font-weight:700;font-size:14px}
+.wa-btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.quote{border-left:3px solid var(--wa);padding:6px 10px;color:var(--muted);font-size:13px}
+.pulse{animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 8px color-mix(in srgb,var(--wa) 25%,transparent)}}
+@media (prefers-reduced-motion:reduce){.pulse{animation:none}}
+
+/* WhatsApp screen */
+.wa{background:var(--wa-bg);padding:0;gap:0}
+.wa-top{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--surface);border-bottom:1px solid var(--line)}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--ember-soft);color:var(--ember);display:grid;place-items:center;font-weight:800}
+.wa-top small{display:block;color:var(--muted);font-size:11px}
+.chat{display:grid;gap:8px;padding:16px 14px;min-height:240px;align-content:end}
+.bubble{max-width:85%;padding:8px 10px 18px;border-radius:10px;font-size:13.5px;position:relative;background:var(--surface);overflow-wrap:anywhere}
+.bubble.me{justify-self:end;background:var(--wa-bubble)}
+.bubble time{position:absolute;right:8px;bottom:3px;font-size:10px;color:var(--muted)}
+.bubble a{color:var(--wa);text-decoration:underline}
+.compose{display:flex;gap:8px;align-items:flex-end;padding:10px;background:var(--surface);border-top:1px solid var(--line)}
+.compose .box{flex:1;min-width:0;background:var(--bg);border-radius:18px;padding:8px 12px;font-size:13px;max-height:120px;overflow:auto}
+.send{all:unset;cursor:pointer;width:40px;height:40px;border-radius:50%;background:var(--wa);color:#fff;display:grid;place-items:center;font-size:16px;flex:none}
+.send:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+/* Admin screen */
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:2px}
+.kpi small{color:var(--muted);font-size:11px}
+.kpi b{font-family:var(--display);font-size:20px;font-variant-numeric:tabular-nums}
+.tablebox{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:460px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+td.num{font-variant-numeric:tabular-nums;text-align:right}
+.pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700}
+.pill.rec{background:var(--wa-bubble);color:var(--ink)}
+.pill.ab{background:var(--ember-soft);color:var(--ember)}
+
+/* Parallel lane */
+.lane{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:grid;gap:12px}
+.lane h3{margin:0;font-family:var(--display);font-size:18px}
+.lane-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:760px){.lane-grid{grid-template-columns:1fr 1fr}}
+.lane-item{border-top:3px solid var(--line);padding-top:8px;display:grid;gap:2px;font-size:13px}
+.lane-item b{font-variant-numeric:tabular-nums}
+.lane-item.team{border-top-color:var(--wa)}
+.lane-item.auto{border-top-color:var(--ember)}
+.lane-item span{color:var(--muted)}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Maqueta · Plugin Kigos Carritos Abandonados</div>
+    <h1>Así se recupera un carrito: correo automático + WhatsApp de ustedes</h1>
+    <p class="lede">Recorre los pasos o haz clic en los botones de cada pantalla. El cliente nunca recibe un WhatsApp automático: el sistema les avisa por correo y ustedes envían el mensaje desde su WhatsApp Business.</p>
+    <span class="sample">Cliente, producto y montos son datos de ejemplo</span>
+  </header>
+
+  <ol class="steps" id="steps"></ol>
+
+  <section class="stage">
+    <div class="device" id="device"></div>
+    <div class="explain" id="explain"></div>
+  </section>
+
+  <section class="lane" aria-label="Línea de tiempo completa">
+    <h3>Línea de tiempo después del abandono</h3>
+    <div class="lane-grid">
+      <div class="lane-item team"><b>+1 hora</b>Aviso a ustedes con botón de WhatsApp<span>Solo si dejó teléfono (configurable)</span></div>
+      <div class="lane-item auto"><b>+1 hora</b>Correo 1 al cliente: "¿Se te olvidó algo?"<span>Automático</span></div>
+      <div class="lane-item auto"><b>+24 horas</b>Correo 2: ofrecer ayuda<span>Automático</span></div>
+      <div class="lane-item auto"><b>+72 horas</b>Correo 3 con cupón único 5%<span>Automático · se detiene si compra</span></div>
+    </div>
+  </section>
+</div>
+
+<script>
+const C = { name:"Camila", last:"Soto", email:"camila.soto@gmail.com", phone:"+56 9 8765 4321", product:"Horno Ooni Koda 16", total:"$649.990" };
+const recoverUrl = "kigos.cl/?kac_recover=8f3a…";
+const waMsg = `Hola ${C.name}! Te escribimos de Kigos 🍕 Vimos que dejaste ${C.product} en tu carrito. ¿Te podemos ayudar con alguna duda sobre el producto, el despacho o las formas de pago? Puedes retomar tu compra aquí: ${recoverUrl}`;
+
+let waSent = false;
+let current = 0;
+
+const steps = [
+  {
+    when:"Minuto 0", what:"Cliente escribe sus datos", url:"kigos.cl/finalizar-compra", who:["cliente","Cliente"],
+    title:"Camila llega al checkout y escribe su email y teléfono",
+    text:"Apenas sale de cada campo, el plugin guarda el carrito con sus datos, aunque no apriete \"Realizar pedido\".",
+    bullets:["Funciona con checkout clásico y por bloques","Bajo el formulario se muestra el aviso de privacidad","Si después cierra la pestaña, ya tenemos cómo contactarla"],
+    render:() => `
+      <div class="cartline"><div class="prod"><div class="thumb">🔥</div><div>${C.product} <span style="color:var(--muted)">× 1</span></div></div><b>${C.total}</b></div>
+      <div class="row2">
+        <div class="field"><label>Nombre</label><div class="input">${C.name}</div></div>
+        <div class="field"><label>Apellidos</label><div class="input">${C.last}</div></div>
+      </div>
+      <div class="field"><label>Correo electrónico</label><div class="input">${C.email}</div></div>
+      <div class="field"><label>Teléfono</label><div class="input typing">${C.phone}</div></div>
+      <p class="consent">Guardamos tu carrito para recordarte tu compra. Puedes darte de baja cuando quieras.</p>
+      <div class="toast"><span>💾</span><div><b>Carrito guardado</b> (esto no lo ve el cliente)<br><code>estado: activo · ${C.email} · ${C.phone}</code></div></div>`
+  },
+  {
+    when:"+60 min", what:"Les llega el aviso por correo", url:"Bandeja de entrada · ventas@kigos.cl", who:["sistema","Sistema → equipo"], mail:true,
+    title:"Pasa una hora sin compra y les llega este correo",
+    text:"El carrito queda marcado como abandonado. A ustedes les llega un aviso con los datos del cliente y un botón verde que abre WhatsApp con el mensaje ya escrito.",
+    bullets:["Pueden poner uno o varios correos del equipo","Opción: avisar solo si el carrito supera un monto (ej. solo hornos)","Cada carrito avisa una sola vez"],
+    render:() => `
+      <div class="mailhead">
+        <span class="subj">🛒 Carrito abandonado: ${C.name} ${C.last} – ${C.total}</span>
+        <span style="color:var(--muted)">De: Kigos &lt;tienda@kigos.cl&gt; · Para: ventas@kigos.cl</span>
+      </div>
+      <div class="mailbody">
+        <div><b>${C.name} ${C.last}</b> dejó su carrito sin terminar la compra.</div>
+        <dl class="kv"><dt>Email</dt><dd>${C.email}</dd><dt>Teléfono</dt><dd>${C.phone}</dd><dt>Productos</dt><dd>${C.product}</dd><dt>Total</dt><dd><b>${C.total}</b></dd></dl>
+        <button class="wa-btn pulse" data-go="2">Escribirle por WhatsApp</button>
+        <small style="color:var(--muted)">Mensaje que se abrirá (lo puedes editar antes de enviar):</small>
+        <div class="quote">${waMsg}</div>
+      </div>`
+  },
+  {
+    when:"+61 min", what:"Ustedes envían el WhatsApp", url:"WhatsApp Business", who:["equipo","Equipo Kigos"], wa:true,
+    title:"Se abre WhatsApp con el mensaje listo",
+    text:"El botón abre el chat con Camila en su WhatsApp o WhatsApp Business (celular o computador). Pueden ajustar el texto y apretar enviar.",
+    bullets:["No usa la API pagada de WhatsApp: lo envían ustedes","El número se arregla solo al formato +56 9","El link del mensaje rearma el carrito de la clienta"],
+    render:() => `
+      <div class="wa-top"><div class="avatar">C</div><div><b>${C.name} ${C.last}</b><small>${C.phone}</small></div></div>
+      <div class="chat" id="chat">
+        ${waSent ? `<div class="bubble me">${waMsg.replace(recoverUrl,`<a>${recoverUrl}</a>`)}<time>15:42 ✓✓</time></div>
+        <div class="bubble">Hola! Sí, tenía dudas con el despacho a Viña. ¿Llega esta semana? 🙌<time>15:47</time></div>
+        <div class="bubble me">¡Sí! Despacho express a Viña llega en 48 h. Con el link ya tienes tu carrito armado 😉<time>15:48 ✓✓</time></div>` : ""}
+      </div>
+      <div class="compose">
+        <div class="box">${waSent ? '<span style="color:var(--muted)">Escribe un mensaje</span>' : waMsg}</div>
+        <button class="send ${waSent ? "" : "pulse"}" id="send" aria-label="Enviar mensaje">➤</button>
+      </div>`
+  },
+  {
+    when:"+70 min", what:"Cliente vuelve con su carrito", url:"kigos.cl/finalizar-compra", who:["cliente","Cliente"],
+    title:"Camila toca el link y vuelve directo a pagar",
+    text:"El link del WhatsApp (o de los correos) rearma su carrito, completa sus datos y la deja en el checkout. Si ya se envió el correo 3, también aplica el cupón.",
+    bullets:["Desde que vuelve a la tienda, se pausan los correos automáticos","Si compra, no recibe ningún correo más"],
+    render:() => `
+      <div class="toast"><span>✅</span><div><b>¡Bienvenida de vuelta, ${C.name}!</b><br>Tu carrito está tal como lo dejaste.</div></div>
+      <div class="cartline"><div class="prod"><div class="thumb">🔥</div><div>${C.product} <span style="color:var(--muted)">× 1</span></div></div><b>${C.total}</b></div>
+      <div class="row2">
+        <div class="field"><label>Nombre</label><div class="input">${C.name}</div></div>
+        <div class="field"><label>Apellidos</label><div class="input">${C.last}</div></div>
+      </div>
+      <div class="field"><label>Correo electrónico</label><div class="input">${C.email}</div></div>
+      <div class="field"><label>Teléfono</label><div class="input">${C.phone}</div></div>
+      <button class="btn primary" style="justify-self:stretch;text-align:center" data-go="4">Realizar pedido · ${C.total}</button>`
+  },
+  {
+    when:"Resultado", what:"Venta recuperada en el panel", url:"WooCommerce → Carritos abandonados", who:["sistema","Panel de Kigos"],
+    title:"La venta queda registrada como recuperada",
+    text:"En WooCommerce → Carritos abandonados ven cuántos carritos se perdieron, cuántos se recuperaron y cuánta plata volvió. El pedido queda con una nota interna.",
+    bullets:["Desde la tabla pueden abrir WhatsApp a cualquier carrito con el mismo mensaje","Exportar a CSV para el reporte semanal"],
+    render:() => `
+      <div class="kpis">
+        <div class="kpi"><small>Abandonados (30 días)</small><b>48</b></div>
+        <div class="kpi"><small>Recuperados</small><b>9</b></div>
+        <div class="kpi"><small>Ingresos recuperados</small><b>$3,1 M</b></div>
+      </div>
+      <div class="tablebox"><table>
+        <thead><tr><th>Cliente</th><th>Productos</th><th style="text-align:right">Total</th><th>Estado</th><th>Pedido</th></tr></thead>
+        <tbody>
+          <tr><td><b>${C.name} ${C.last}</b><br><small style="color:var(--wa)">WhatsApp · Equipo avisado</small></td><td>${C.product}</td><td class="num">${C.total}</td><td><span class="pill rec">Recuperado</span></td><td>#18432</td></tr>
+          <tr><td><b>Diego Muñoz</b><br><small style="color:var(--wa)">WhatsApp · Equipo avisado</small></td><td>Pala de pizza 14"</td><td class="num">$39.990</td><td><span class="pill ab">Abandonado</span></td><td>—</td></tr>
+          <tr><td><b>Fernanda Rojas</b><br><small style="color:var(--muted)">Sin teléfono</small></td><td>Horno Ooni Karu 12</td><td class="num">$389.990</td><td><span class="pill ab">Abandonado</span></td><td>—</td></tr>
+        </tbody>
+      </table></div>
+      <small style="color:var(--muted)">Nota en el pedido #18432: "Pedido recuperado desde carrito abandonado #212 (correos enviados: 1)."</small>`
+  }
+];
+
+const $steps = document.getElementById("steps");
+const $device = document.getElementById("device");
+const $explain = document.getElementById("explain");
+
+function go(i){
+  current = Math.max(0, Math.min(steps.length - 1, i));
+  render();
+}
+
+function render(){
+  $steps.innerHTML = steps.map((s,i) => `<li><button class="${i < current ? "done" : ""}" ${i === current ? 'aria-current="step"' : ""} data-go="${i}"><span class="when">${s.when}</span><span class="what">${s.what}</span></button></li>`).join("");
+  const s = steps[current];
+  $device.innerHTML = `<div class="chrome"><i></i><i></i><i></i><span>${s.url}</span></div><div class="screen ${s.mail ? "mail" : ""} ${s.wa ? "wa" : ""}">${s.render()}</div>`;
+  $explain.innerHTML = `
+    <span class="who ${s.who[0]}">${s.who[1]}</span>
+    <h2>${s.title}</h2>
+    <p>${s.text}</p>
+    <ul>${s.bullets.map(b => `<li>${b}</li>`).join("")}</ul>
+    <div class="nav">
+      <button class="btn" data-go="${current - 1}" ${current === 0 ? "disabled" : ""}>Anterior</button>
+      ${current < steps.length - 1 ? `<button class="btn primary" data-go="${current + 1}">Siguiente paso</button>` : `<button class="btn primary" id="restart">Ver de nuevo</button>`}
+    </div>`;
+  const send = document.getElementById("send");
+  if (send) send.addEventListener("click", () => { if (!waSent) { waSent = true; render(); } else { go(3); } });
+}
+
+document.addEventListener("click", e => {
+  const t = e.target.closest("[data-go]");
+  if (t && !t.disabled) { go(+t.dataset.go); return; }
+  if (e.target.closest("#restart")) { waSent = false; go(0); }
+});
+
+render();
+</script>
