@@ -1,7 +1,8 @@
 <?php
 /**
  * Links de los correos:
- *   ?kac_recover=TOKEN -> restaura el carrito (y el cupón) y lleva al checkout.
+ *   ?carrito=TOKEN     -> restaura el carrito (y el cupón) y lleva al checkout.
+ *                         (?kac_recover=TOKEN se mantiene por compatibilidad con correos ya enviados).
  *   ?kac_unsub=TOKEN   -> da de baja al cliente de los recordatorios.
  */
 
@@ -14,7 +15,7 @@ class KAC_Recovery {
 	}
 
 	public static function recover_url( $row ) {
-		return add_query_arg( 'kac_recover', $row->token, home_url( '/' ) );
+		return add_query_arg( 'carrito', $row->token, home_url( '/' ) );
 	}
 
 	public static function unsubscribe_url( $row ) {
@@ -26,12 +27,70 @@ class KAC_Recovery {
 			return;
 		}
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- links firmados por token aleatorio.
-		if ( isset( $_GET['kac_recover'] ) ) {
-			self::recover( sanitize_text_field( wp_unslash( $_GET['kac_recover'] ) ) );
-		} elseif ( isset( $_GET['kac_unsub'] ) ) {
+		$token = '';
+		if ( isset( $_GET['carrito'] ) ) {
+			$token = sanitize_text_field( wp_unslash( $_GET['carrito'] ) );
+		} elseif ( isset( $_GET['kac_recover'] ) ) {
+			$token = sanitize_text_field( wp_unslash( $_GET['kac_recover'] ) );
+		}
+
+		if ( $token && KAC_DB::get_by_token( $token ) ) {
+			if ( self::is_link_preview_bot() ) {
+				self::render_preview( KAC_DB::get_by_token( $token ) );
+			}
+			self::recover( $token );
+		} elseif ( isset( $_GET['kac_unsub'] ) && ! self::is_link_preview_bot() ) {
 			self::unsubscribe( sanitize_text_field( wp_unslash( $_GET['kac_unsub'] ) ) );
 		}
 		// phpcs:enable
+	}
+
+	/**
+	 * WhatsApp, Facebook, Gmail, etc. abren el link para armar la vista previa.
+	 * Esa visita no debe restaurar el carrito ni contar como clic del cliente.
+	 */
+	private static function is_link_preview_bot() {
+		$ua = isset( $_SERVER['HTTP_USER_AGENT'] ) ? strtolower( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) ) : '';
+		if ( '' === $ua ) {
+			return true;
+		}
+		foreach ( array( 'whatsapp', 'facebookexternalhit', 'facebot', 'telegrambot', 'twitterbot', 'slackbot', 'discordbot', 'linkedinbot', 'skypeuripreview', 'googleimageproxy', 'google-safety', 'googlebot', 'bingbot', 'applebot', 'bot/', 'crawler', 'spider', 'preview' ) as $needle ) {
+			if ( false !== strpos( $ua, $needle ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Página mínima con etiquetas Open Graph: es lo que muestra WhatsApp en la tarjeta del link.
+	 */
+	private static function render_preview( $row ) {
+		$items   = json_decode( (string) $row->cart_contents, true );
+		$first   = is_array( $items ) && $items ? reset( $items ) : null;
+		$product = $first ? wc_get_product( ! empty( $first['variation_id'] ) ? $first['variation_id'] : $first['product_id'] ) : null;
+		$image   = $product ? wp_get_attachment_image_url( $product->get_image_id(), 'woocommerce_single' ) : '';
+		if ( ! $image ) {
+			$image = get_site_icon_url( 512 );
+		}
+
+		$title       = 'Tu carrito te espera en ' . get_bloginfo( 'name' );
+		$description = $first ? KAC_WhatsApp::products_text( $row ) . ' · Retoma tu compra en un clic.' : 'Retoma tu compra en un clic.';
+
+		nocache_headers();
+		header( 'Content-Type: text/html; charset=utf-8' );
+		echo '<!doctype html><html lang="es"><head><meta charset="utf-8">';
+		echo '<title>' . esc_html( $title ) . '</title>';
+		echo '<meta property="og:type" content="website">';
+		echo '<meta property="og:site_name" content="' . esc_attr( get_bloginfo( 'name' ) ) . '">';
+		echo '<meta property="og:title" content="' . esc_attr( $title ) . '">';
+		echo '<meta property="og:description" content="' . esc_attr( $description ) . '">';
+		if ( $image ) {
+			echo '<meta property="og:image" content="' . esc_url( $image ) . '">';
+		}
+		echo '<meta name="robots" content="noindex,nofollow">';
+		echo '</head><body></body></html>';
+		exit;
 	}
 
 	private static function recover( $token ) {

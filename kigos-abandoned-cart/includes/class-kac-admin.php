@@ -455,6 +455,13 @@ class KAC_Admin {
 				$clean[ $key ] = sanitize_text_field( $value );
 			}
 		}
+		// Emojis -> entidades, para que no se rompan si la base de datos no es utf8mb4.
+		foreach ( $clean as $key => $value ) {
+			if ( is_string( $value ) ) {
+				$clean[ $key ] = wp_encode_emoji( $value );
+			}
+		}
+
 		update_option( KAC_Settings::OPTION, $clean );
 		wp_safe_redirect( self::url( array( 'tab' => 'settings', 'kac_msg' => 'saved' ) ) );
 		exit;

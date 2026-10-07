@@ -81,7 +81,7 @@ class KAC_DB {
 
 	public static function get_by_token( $token ) {
 		global $wpdb;
-		if ( ! is_string( $token ) || ! preg_match( '/^[a-f0-9]{32,64}$/', $token ) ) {
+		if ( ! is_string( $token ) || ! preg_match( '/^[a-f0-9]{16,64}$/', $token ) ) {
 			return null;
 		}
 		return $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . self::table() . ' WHERE token = %s', $token ) );
@@ -106,7 +106,7 @@ class KAC_DB {
 		$data['created_at'] = $now;
 		$data['updated_at'] = $now;
 		if ( empty( $data['token'] ) ) {
-			$data['token'] = bin2hex( random_bytes( 20 ) );
+			$data['token'] = bin2hex( random_bytes( 8 ) ); // 16 caracteres: link corto para WhatsApp.
 		}
 		$wpdb->insert( self::table(), $data );
 		return (int) $wpdb->insert_id;

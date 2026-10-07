@@ -45,7 +45,7 @@ class KAC_Settings {
 			'notify_email'     => '',
 			'notify_min_total' => 0,
 			'notify_phone_only'=> 1,
-			'wa_message'       => "Hola {first_name}! Te escribimos de Kigos 🍕 Vimos que dejaste {products} en tu carrito. ¿Te podemos ayudar con alguna duda sobre el producto, el despacho o las formas de pago? Puedes retomar tu compra aquí: {recover_url}",
+			'wa_message'       => "Hola {first_name}! 👋 Te escribe el equipo de Kigos.\n\nVimos que quedó pendiente {products} en tu carrito. ¿Te quedó alguna duda con el producto, el despacho o el pago? Te ayudamos por aquí 🙌\n\nTu carrito quedó guardado, puedes retomarlo acá:\n{recover_url}",
 			// Otros.
 			'min_cart_total'   => 0,
 			'from_name'        => '',
@@ -57,7 +57,14 @@ class KAC_Settings {
 
 	public static function all() {
 		$saved = get_option( self::OPTION, array() );
-		return wp_parse_args( is_array( $saved ) ? $saved : array(), self::defaults() );
+		$all   = wp_parse_args( is_array( $saved ) ? $saved : array(), self::defaults() );
+		// Los emojis se guardan como entidades (&#x1f355;) para no romperse en bases utf8.
+		foreach ( $all as $key => $value ) {
+			if ( is_string( $value ) && false !== strpos( $value, '&#' ) ) {
+				$all[ $key ] = html_entity_decode( $value, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+			}
+		}
+		return $all;
 	}
 
 	public static function get( $key ) {
