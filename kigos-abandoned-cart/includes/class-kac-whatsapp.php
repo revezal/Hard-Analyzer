@@ -36,19 +36,35 @@ class KAC_WhatsApp {
 		return $names ? $names[0] : 'productos';
 	}
 
+	/**
+	 * Nombre del producto de mayor valor del carrito (ej. el horno, no el accesorio).
+	 */
+	public static function main_product( $row ) {
+		$main = null;
+		foreach ( (array) json_decode( (string) $row->cart_contents, true ) as $item ) {
+			if ( ! $main || (float) $item['line_total'] > (float) $main['line_total'] ) {
+				$main = $item;
+			}
+		}
+		return $main ? $main['name'] : 'tus productos';
+	}
+
 	public static function message( $row ) {
-		$first = $row->first_name ? $row->first_name : '';
-		return strtr(
+		$first   = $row->first_name ? $row->first_name : '';
+		$message = strtr(
 			(string) KAC_Settings::get( 'wa_message' ),
 			array(
 				'{first_name}'  => $first,
-				'{products}'    => self::products_text( $row ),
+				'{products}'     => self::products_text( $row ),
+				'{main_product}' => self::main_product( $row ),
 				'{cart_total}'  => wp_strip_all_tags( wc_price( $row->cart_total, array( 'currency' => $row->currency ) ) ),
 				'{recover_url}' => KAC_Recovery::recover_url( $row ),
 				'{coupon_code}' => $row->coupon_code,
 				'{site_name}'   => get_bloginfo( 'name' ),
 			)
 		);
+		// Si el cliente no dejó nombre: "Hola **!" -> "Hola!".
+		return str_replace( array( ' **', '**' ), '', $message );
 	}
 
 	/**

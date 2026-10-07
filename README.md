@@ -49,7 +49,7 @@ Para que los correos no lleguen a spam, usa un plugin SMTP (WP Mail SMTP, Fluent
 
 Correos: `{first_name}`, `{cart_total}`, `{coupon_code}`, `{coupon_amount}`, `{coupon_days}`, `{site_name}`
 
-WhatsApp: `{first_name}`, `{products}`, `{cart_total}`, `{recover_url}`, `{coupon_code}`, `{site_name}`
+WhatsApp: `{first_name}`, `{main_product}`, `{products}`, `{cart_total}`, `{recover_url}`, `{coupon_code}`, `{site_name}`
 
 ## Privacidad
 

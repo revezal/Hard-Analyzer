@@ -45,7 +45,7 @@ class KAC_Settings {
 			'notify_email'     => '',
 			'notify_min_total' => 0,
 			'notify_phone_only'=> 1,
-			'wa_message'       => "Hola {first_name}! 👋 Te escribe el equipo de Kigos.\n\nVimos que quedó pendiente {products} en tu carrito. ¿Te quedó alguna duda con el producto, el despacho o el pago? Te ayudamos por aquí 🙌\n\nTu carrito quedó guardado, puedes retomarlo acá:\n{recover_url}",
+			'wa_message'       => "Hola *{first_name}*! 🍕\nTe saludamos de Kigos Chile, vimos que quedó pendiente *{main_product}* en tu carrito. ¿Te quedó alguna duda con el producto, el despacho o el pago? Te ayudamos por aquí 🙌\n\nTu carrito quedó guardado, puedes retomarlo acá:\n{recover_url}\n\nEquipo Kigos",
 			// Otros.
 			'min_cart_total'   => 0,
 			'from_name'        => '',

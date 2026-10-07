@@ -395,7 +395,7 @@ class KAC_Admin {
 				$field( 'notify_email', 'Email del equipo', 'text', 'Puedes poner varios separados por coma. Vacío = email del administrador.' );
 				$field( 'notify_phone_only', 'Solo carritos con teléfono', 'checkbox', 'Si está activo, solo avisa cuando el cliente dejó su teléfono (para poder escribirle).' );
 				$field( 'notify_min_total', 'Monto mínimo para avisar', 'number', 'Ej: 300000 para que solo avise por hornos. 0 = todos.' );
-				$field( 'wa_message', 'Mensaje de WhatsApp', 'textarea', 'Variables: {first_name}, {products}, {cart_total}, {recover_url}, {coupon_code}, {site_name}' );
+				$field( 'wa_message', 'Mensaje de WhatsApp', 'textarea', 'Variables: {first_name}, {main_product} (el producto de mayor valor), {products} (todos), {cart_total}, {recover_url}, {coupon_code}, {site_name}. Para negrita en WhatsApp usa *asteriscos*.' );
 				?>
 			</table>
 
