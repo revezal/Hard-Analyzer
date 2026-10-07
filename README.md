@@ -70,7 +70,7 @@ kigos-abandoned-cart/
     ├── class-kac-tracker.php       # Guarda carritos y los vincula a pedidos
     ├── class-kac-recovery.php      # Link de recuperación y baja
     ├── class-kac-mailer.php        # Correos + cupones automáticos + aviso al equipo
-    ├── class-kac-whatsapp.php      # Links wa.me con mensaje prellenado
+    ├── class-kac-whatsapp.php      # Links de WhatsApp con mensaje prellenado
     ├── class-kac-cron.php          # Proceso cada 15 min (abandono, envíos, limpieza)
     └── class-kac-admin.php         # Panel, configuración y exportación CSV
 ```

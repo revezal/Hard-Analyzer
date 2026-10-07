@@ -177,7 +177,7 @@ class KAC_Mailer {
 
 		<?php if ( $wa_link ) : ?>
 			<p style="text-align:center;margin:24px 0;">
-				<a href="<?php echo esc_url( $wa_link ); ?>" style="background:#25D366;color:#fff;padding:14px 28px;border-radius:30px;text-decoration:none;font-weight:bold;display:inline-block;">Escribirle por WhatsApp</a>
+				<a href="<?php echo esc_attr( $wa_link ); ?>" style="background:#25D366;color:#fff;padding:14px 28px;border-radius:30px;text-decoration:none;font-weight:bold;display:inline-block;">Escribirle por WhatsApp</a>
 			</p>
 			<p style="font-size:12px;color:#777;">Mensaje que se abrirá (lo puedes editar antes de enviar):</p>
 			<blockquote style="border-left:3px solid #25D366;margin:0;padding:8px 12px;color:#444;"><?php echo esc_html( KAC_WhatsApp::message( $row ) ); ?></blockquote>

@@ -1,6 +1,6 @@
 <?php
 /**
- * Links de WhatsApp con mensaje prellenado (wa.me) para que el equipo
+ * Links de WhatsApp con mensaje prellenado (api.whatsapp.com) para que el equipo
  * contacte manualmente al cliente desde su propio WhatsApp / WhatsApp Business.
  */
 
@@ -68,13 +68,19 @@ class KAC_WhatsApp {
 	}
 
 	/**
-	 * @return string URL wa.me o '' si el carrito no tiene teléfono.
+	 * Usa api.whatsapp.com/send y no wa.me: la redirección de wa.me rompe los
+	 * emojis (aparecen como �) en WhatsApp Web / Desktop.
+	 *
+	 * Al imprimirla en HTML usar esc_attr(), no esc_url(): esc_url() borra los
+	 * saltos de línea (%0A) del mensaje.
+	 *
+	 * @return string URL o '' si el carrito no tiene teléfono.
 	 */
 	public static function link( $row ) {
 		$phone = self::normalize_phone( $row->phone );
 		if ( strlen( $phone ) < 8 ) {
 			return '';
 		}
-		return 'https://wa.me/' . $phone . '?text=' . rawurlencode( self::message( $row ) );
+		return 'https://api.whatsapp.com/send?phone=' . $phone . '&text=' . rawurlencode( self::message( $row ) );
 	}
 }

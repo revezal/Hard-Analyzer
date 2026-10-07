@@ -185,7 +185,7 @@ class KAC_Admin {
 							<a href="mailto:<?php echo esc_attr( $row->email ); ?>"><?php echo esc_html( $row->email ); ?></a>
 							<?php $wa = KAC_WhatsApp::link( $row ); ?>
 							<?php if ( $wa ) : ?>
-								<br /><a href="<?php echo esc_url( $wa ); ?>" target="_blank" rel="noopener">WhatsApp <?php echo esc_html( $row->phone ); ?></a>
+								<br /><a href="<?php echo esc_attr( $wa ); ?>" target="_blank" rel="noopener">WhatsApp <?php echo esc_html( $row->phone ); ?></a>
 							<?php endif; ?>
 							<?php if ( $row->team_notified ) : ?>
 								<br /><small>Equipo avisado</small>
