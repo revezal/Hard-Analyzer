@@ -40,23 +40,48 @@ class KAC_Cron {
 		wp_clear_scheduled_hook( KAC_CRON_HOOK );
 	}
 
-	public static function run() {
+	/** Contadores de la última ejecución (se muestran en el panel). */
+	private static $stats = array();
+
+	/**
+	 * @param string $trigger 'cron' o 'manual'.
+	 * @return array|null Resumen de lo que se hizo, o null si no corrió.
+	 */
+	public static function run( $trigger = 'cron' ) {
 		if ( ! KAC_Settings::get( 'enabled' ) || ! function_exists( 'WC' ) ) {
-			return;
+			return null;
 		}
 
 		// Evita ejecuciones simultáneas.
 		if ( get_transient( 'kac_cron_lock' ) ) {
-			return;
+			return null;
 		}
 		set_transient( 'kac_cron_lock', 1, 10 * MINUTE_IN_SECONDS );
 
-		self::mark_abandoned();
+		self::$stats = array(
+			'abandoned'   => 0,
+			'team_sent'   => 0,
+			'team_failed' => 0,
+			'mail_sent'   => 0,
+			'mail_failed' => 0,
+			'waiting'     => 0,
+		);
+
+		self::$stats['abandoned'] = (int) self::mark_abandoned();
 		self::notify_team();
 		self::send_due_emails();
 		self::cleanup();
 
 		delete_transient( 'kac_cron_lock' );
+
+		$result = array(
+			'time'    => time(),
+			'trigger' => is_string( $trigger ) ? $trigger : 'cron',
+			'stats'   => self::$stats,
+		);
+		update_option( 'kac_last_run', $result, false );
+
+		return $result;
 	}
 
 	private static function mark_abandoned() {
@@ -64,7 +89,7 @@ class KAC_Cron {
 		$minutes = max( 5, (int) KAC_Settings::get( 'abandon_minutes' ) );
 		$cutoff  = gmdate( 'Y-m-d H:i:s', time() - $minutes * MINUTE_IN_SECONDS );
 
-		$wpdb->query(
+		return $wpdb->query(
 			$wpdb->prepare(
 				'UPDATE ' . KAC_DB::table() . " SET status = 'abandoned', abandoned_at = %s
 				 WHERE status = 'active' AND updated_at < %s",
@@ -97,6 +122,9 @@ class KAC_Cron {
 			}
 			if ( KAC_Mailer::notify_team( $row ) ) {
 				KAC_DB::update( $row->id, array( 'team_notified' => 1 ), false );
+				self::$stats['team_sent']++;
+			} else {
+				self::$stats['team_failed']++;
 			}
 		}
 	}
@@ -154,6 +182,7 @@ class KAC_Cron {
 			$last_email = $row->last_email_at ? strtotime( $row->last_email_at . ' UTC' ) : 0;
 
 			if ( $now < $due_at || ( $now - $last_email ) < HOUR_IN_SECONDS ) {
+				self::$stats['waiting']++;
 				continue;
 			}
 
@@ -166,6 +195,9 @@ class KAC_Cron {
 					),
 					false
 				);
+				self::$stats['mail_sent']++;
+			} else {
+				self::$stats['mail_failed']++;
 			}
 		}
 	}

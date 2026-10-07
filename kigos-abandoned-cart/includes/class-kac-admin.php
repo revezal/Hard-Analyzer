@@ -78,7 +78,8 @@ class KAC_Admin {
 			'test_ok'    => array( 'success', 'Correo de prueba enviado.' ),
 			'test_fail'  => array( 'error', 'No se pudo enviar el correo de prueba (revisa el SMTP del sitio).' ),
 			'test_empty' => array( 'warning', 'Aún no hay carritos capturados para armar la vista previa.' ),
-			'ran'        => array( 'success', 'Proceso ejecutado.' ),
+			'ran'        => array( 'success', 'Proceso ejecutado. Revisa el resultado en "Estado del sistema".' ),
+			'ran_off'    => array( 'error', 'El proceso no corrió: revisa que "Activar sistema" esté marcado en Configuración.' ),
 		);
 		$msg = isset( $_GET['kac_msg'] ) ? sanitize_key( $_GET['kac_msg'] ) : '';
 		if ( isset( $map[ $msg ] ) ) {
@@ -99,6 +100,8 @@ class KAC_Admin {
 
 		$since = gmdate( 'Y-m-d H:i:s', time() - $days * DAY_IN_SECONDS );
 		$stats = KAC_DB::stats( $since );
+
+		self::render_status();
 
 		$per_page = 25;
 		$where    = $wpdb->prepare( 'WHERE created_at >= %s', $since );
@@ -225,6 +228,106 @@ class KAC_Admin {
 			);
 			echo '</div></div>';
 		}
+	}
+
+	/**
+	 * Caja de diagnóstico: muestra en qué paso está el sistema y si falló el envío de correos.
+	 */
+	private static function render_status() {
+		global $wpdb;
+
+		$counts = $wpdb->get_results( 'SELECT status, COUNT(*) AS qty FROM ' . KAC_DB::table() . ' GROUP BY status', OBJECT_K ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+		$count  = function ( $s ) use ( $counts ) {
+			return isset( $counts[ $s ] ) ? (int) $counts[ $s ]->qty : 0;
+		};
+		$total  = array_sum( array_map( 'intval', wp_list_pluck( $counts, 'qty' ) ) );
+
+		$next     = wp_next_scheduled( KAC_CRON_HOOK );
+		$cron_off = defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON;
+		$last     = get_option( 'kac_last_run' );
+		$error    = get_option( 'kac_last_mail_error' );
+		$minutes  = max( 5, (int) KAC_Settings::get( 'abandon_minutes' ) );
+		$steps    = KAC_Settings::email_steps();
+		$first    = $steps ? reset( $steps ) : null;
+
+		$ago = function ( $ts ) {
+			return $ts ? sprintf( 'hace %s', human_time_diff( $ts ) ) : '—';
+		};
+
+		$lines = array();
+
+		// 1. Captura.
+		if ( ! $total ) {
+			$lines[] = array( 'warn', 'Captura de carritos', 'Todavía no se ha guardado ningún carrito. Haz la prueba en incógnito escribiendo email y teléfono en el checkout (sal del campo con Tab o clic afuera).' );
+		} else {
+			$lines[] = array( 'ok', 'Captura de carritos', sprintf( '%d guardados · %d activos · %d abandonados · %d recuperados.', $total, $count( 'active' ), $count( 'abandoned' ), $count( 'recovered' ) ) );
+		}
+
+		// 2. Proceso automático.
+		if ( $cron_off ) {
+			$lines[] = array( 'warn', 'Proceso automático', 'WP-Cron está desactivado en wp-config.php (DISABLE_WP_CRON). Necesitas un cron real en el hosting, o usa "Procesar ahora".' );
+		} elseif ( ! $next ) {
+			$lines[] = array( 'bad', 'Proceso automático', 'No está programado. Desactiva y vuelve a activar el plugin.' );
+		} else {
+			$late    = $next < time() - 15 * MINUTE_IN_SECONDS;
+			$lines[] = array( $late ? 'warn' : 'ok', 'Proceso automático', $late ? sprintf( 'Está atrasado (%s). WP-Cron solo corre cuando alguien visita el sitio; configura un cron real o usa "Procesar ahora".', $ago( $next ) ) : sprintf( 'Corre cada 15 minutos. Próxima vez: en %s.', human_time_diff( $next ) ) );
+		}
+
+		// 3. Última ejecución.
+		if ( $last ) {
+			$st      = $last['stats'];
+			$lines[] = array(
+				( $st['team_failed'] || $st['mail_failed'] ) ? 'bad' : 'ok',
+				'Última ejecución',
+				sprintf(
+					'%s (%s): %d marcados como abandonados · %d avisos al equipo enviados%s · %d correos a clientes enviados%s · %d esperando su hora.',
+					$ago( $last['time'] ),
+					'manual' === $last['trigger'] ? 'manual' : 'automática',
+					$st['abandoned'],
+					$st['team_sent'],
+					$st['team_failed'] ? sprintf( ' (%d fallaron)', $st['team_failed'] ) : '',
+					$st['mail_sent'],
+					$st['mail_failed'] ? sprintf( ' (%d fallaron)', $st['mail_failed'] ) : '',
+					$st['waiting']
+				),
+			);
+		} else {
+			$lines[] = array( 'warn', 'Última ejecución', 'El proceso aún no ha corrido nunca. Presiona "Procesar ahora".' );
+		}
+
+		// 4. Errores de correo.
+		if ( $error && ( ! $last || $error['time'] >= $last['time'] - HOUR_IN_SECONDS ) ) {
+			$lines[] = array( 'bad', 'Error al enviar correo', sprintf( '%s a %s: %s', $ago( $error['time'] ), $error['to'], $error['message'] ) );
+		}
+
+		// 5. Recordatorio de tiempos.
+		$lines[] = array(
+			'info',
+			'Tiempos actuales',
+			sprintf(
+				'Un carrito pasa a abandonado tras %d min sin actividad. El aviso al equipo sale en la siguiente ejecución%s. El correo 1 al cliente sale %s después de abandonado.',
+				$minutes,
+				KAC_Settings::get( 'notify_phone_only' ) ? ' (solo si dejó teléfono)' : '',
+				$first ? ( $first['delay'] ? $first['delay'] . ' h' : 'inmediatamente' ) : '—'
+			),
+		);
+
+		$colors = array(
+			'ok'   => '#00a32a',
+			'warn' => '#dba617',
+			'bad'  => '#d63638',
+			'info' => '#72aee6',
+		);
+		?>
+		<div style="background:#fff;border:1px solid #dcdcde;border-radius:8px;padding:12px 16px;margin-bottom:20px;">
+			<h2 style="margin:4px 0 8px;font-size:15px;">Estado del sistema</h2>
+			<?php foreach ( $lines as $line ) : ?>
+				<p style="margin:6px 0;padding-left:10px;border-left:4px solid <?php echo esc_attr( $colors[ $line[0] ] ); ?>;">
+					<strong><?php echo esc_html( $line[1] ); ?>:</strong> <?php echo esc_html( $line[2] ); ?>
+				</p>
+			<?php endforeach; ?>
+		</div>
+		<?php
 	}
 
 	private static function render_settings() {
@@ -392,8 +495,8 @@ class KAC_Admin {
 	public static function run_now() {
 		self::check( 'kac_run_now' );
 		delete_transient( 'kac_cron_lock' );
-		KAC_Cron::run();
-		wp_safe_redirect( self::url( array( 'kac_msg' => 'ran' ) ) );
+		$result = KAC_Cron::run( 'manual' );
+		wp_safe_redirect( self::url( array( 'kac_msg' => $result ? 'ran' : 'ran_off' ) ) );
 		exit;
 	}
 

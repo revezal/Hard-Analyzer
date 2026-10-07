@@ -49,7 +49,7 @@ class KAC_Mailer {
 		add_filter( 'woocommerce_email_from_name', $name_cb, 99 );
 		add_filter( 'woocommerce_email_from_address', $email_cb, 99 );
 
-		$sent = $mailer->send( $to ? $to : $row->email, $subject, $message, array( 'Content-Type: text/html; charset=UTF-8' ) );
+		$sent = self::deliver( $to ? $to : $row->email, $subject, $message );
 
 		remove_filter( 'woocommerce_email_from_name', $name_cb, 99 );
 		remove_filter( 'woocommerce_email_from_address', $email_cb, 99 );
@@ -120,6 +120,33 @@ class KAC_Mailer {
 	}
 
 	/**
+	 * Envía con el mailer de WooCommerce y guarda el último error de wp_mail
+	 * para mostrarlo en el panel.
+	 */
+	private static function deliver( $to, $subject, $message ) {
+		$error   = null;
+		$catcher = function ( $wp_error ) use ( &$error ) {
+			$error = $wp_error instanceof WP_Error ? $wp_error->get_error_message() : 'Error desconocido';
+		};
+		add_action( 'wp_mail_failed', $catcher );
+		$sent = (bool) WC()->mailer()->send( $to, $subject, $message, array( 'Content-Type: text/html; charset=UTF-8' ) );
+		remove_action( 'wp_mail_failed', $catcher );
+
+		if ( ! $sent ) {
+			update_option(
+				'kac_last_mail_error',
+				array(
+					'time'    => time(),
+					'to'      => $to,
+					'message' => $error ? $error : 'wp_mail devolvió falso (revisa la configuración de correo/SMTP del sitio).',
+				),
+				false
+			);
+		}
+		return $sent;
+	}
+
+	/**
 	 * Aviso interno al equipo: un carrito quedó abandonado, con botón para
 	 * abrir WhatsApp con el mensaje ya escrito.
 	 *
@@ -164,8 +191,7 @@ class KAC_Mailer {
 		<?php
 		$content = ob_get_clean();
 
-		$mailer = WC()->mailer();
-		return (bool) $mailer->send( $to, $subject, $mailer->wrap_message( 'Carrito abandonado', $content ), array( 'Content-Type: text/html; charset=UTF-8' ) );
+		return self::deliver( $to, $subject, WC()->mailer()->wrap_message( 'Carrito abandonado', $content ) );
 	}
 
 	/**
