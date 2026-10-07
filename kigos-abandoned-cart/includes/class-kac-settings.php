@@ -58,13 +58,36 @@ class KAC_Settings {
 	public static function all() {
 		$saved = get_option( self::OPTION, array() );
 		$all   = wp_parse_args( is_array( $saved ) ? $saved : array(), self::defaults() );
-		// Los emojis se guardan como entidades (&#x1f355;) para no romperse en bases utf8.
+		$defaults = self::defaults();
 		foreach ( $all as $key => $value ) {
-			if ( is_string( $value ) && false !== strpos( $value, '&#' ) ) {
-				$all[ $key ] = html_entity_decode( $value, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+			if ( ! is_string( $value ) ) {
+				continue;
+			}
+			// Los emojis se guardan como entidades (&#x1f355;) para no romperse en bases utf8.
+			if ( false !== strpos( $value, '&#' ) ) {
+				$value       = html_entity_decode( $value, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+				$all[ $key ] = $value;
+			}
+			// Textos que quedaron con emojis rotos (guardados antes de la v1.3): volver al texto por defecto.
+			if ( isset( $defaults[ $key ] ) && self::is_broken( $value ) ) {
+				$all[ $key ] = $defaults[ $key ];
 			}
 		}
+		// Mensaje de WhatsApp antiguo (v1.1): reemplazarlo por el nuevo formato.
+		if ( false !== strpos( $all['wa_message'], 'Te escribimos de Kigos' ) ) {
+			$all['wa_message'] = $defaults['wa_message'];
+		}
 		return $all;
+	}
+
+	/**
+	 * Texto con bytes inválidos, el carácter de reemplazo (�) o un emoji convertido en "?".
+	 */
+	private static function is_broken( $text ) {
+		if ( function_exists( 'mb_check_encoding' ) && ! mb_check_encoding( $text, 'UTF-8' ) ) {
+			return true;
+		}
+		return false !== strpos( $text, "\u{FFFD}" ) || (bool) preg_match( '/[a-z0-9,.!] \?(\s|$)/iu', $text );
 	}
 
 	public static function get( $key ) {
