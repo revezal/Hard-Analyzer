@@ -1,0 +1,8 @@
+FRAN MERA — sitios para revisar en Safari
+Cada archivo se abre con doble clic (fotos y videos van incluidos adentro).
+
+fran-mera-sitio-principal.html    Sitio principal (KELOKERA, discos, bio, Childhood Boys, booking)
+fran-mera-sitio-A-buttermax.html  Ejemplo A: puntos semitono, Fran/Mera manuscrito, cápsulas, booking con foco
+fran-mera-sitio-B-rueda.html      Ejemplo B: rueda gigante (trayectoria y lo más escuchado)
+fran-mera-sitio-C-cartas.html     Ejemplo C: todo el sitio en una pila de cartas 3D
+fran-mera-sitio-D-creacion.html   Ejemplo D: mano de malla + mano real, play del videoclip

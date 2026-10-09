@@ -34,15 +34,13 @@ window.FM = {
   // Sube las fotos con estos nombres a assets/fotos/. Si un archivo no existe, aparece un placeholder.
   // Los ítems con "video" se reproducen en el mix (mudos, en loop) y usan "poster" para la transición glitch.
   livePhotos: [
-    { src: "assets/fotos/fran-01.jpg", label: "FRAN 01" },
-    { src: "assets/fotos/fran-02.jpg", label: "FRAN 02" },
-    { src: "assets/fotos/fran-03.jpg", label: "FRAN 03" },
-    { src: "assets/fotos/fran-04.jpg", label: "FRAN 04" },
-    { src: "assets/fotos/fran-05.jpg", label: "FRAN 05" },
+    { src: "assets/fotos/kelokera-4.jpg", label: "KELOKERA" },
     { src: "assets/fotos/live-01.jpg", label: "LIVE 01" },
     { video: "assets/video/kiki.mp4", poster: "assets/video/kiki.jpg", label: "KIKI" },
+    { src: "assets/fotos/kelokera-2.jpg", label: "KELOKERA" },
     { src: "assets/fotos/live-02.jpg", label: "LIVE 02" },
-    { video: "assets/video/kelokera.mp4", poster: "assets/video/kelokera.jpg", label: "KELOKERA" }
+    { video: "assets/video/kelokera.mp4", poster: "assets/video/kelokera.jpg", label: "KELOKERA" },
+    { src: "assets/fotos/kelokera-6.jpg", label: "KELOKERA" }
   ],
 
   /* ---------- DISCOS: TEMAS MÁS ESCUCHADOS ---------- */
@@ -61,7 +59,7 @@ window.FM = {
     logo: "assets/logo/childhood-boys-gold.png", // logo dorado (subir archivo). Si no existe, se usa versión tipográfica.
     tagline: "Sello y estudio nacido de sueños de infancia.",
     founders: [
-      { name: "FRAN MERA", role: "Artista · Compositor · Productor", photo: "assets/fotos/fran-03.jpg" },
+      { name: "FRAN MERA", role: "Artista · Compositor · Productor", photo: "assets/fotos/kelokera-3.jpg" },
       { name: "DÍMELO YEPO", role: "Compositor · Productor", photo: "assets/fotos/yepo-01.jpg" }
     ],
     services: [

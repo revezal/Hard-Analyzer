@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fran Mera — Sitio C (estilo cartas en túnel)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter+Tight:wght@500;700&family=Rubik+Mono+One&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#000; --bone:#efe9df; --red:#ff1a0e; --gold:#f5b92e; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { -webkit-text-size-adjust:100%; }
+  body { background:var(--ink); color:var(--bone); font-family:"Inter Tight",system-ui,sans-serif; overflow-x:hidden; }
+  a { color:inherit; text-decoration:none; }
+  .tunnel { position:relative; }
+  .tunnel__s { position:sticky; top:0; height:100vh; height:100svh; overflow:hidden; perspective:900px; perspective-origin:50% 18%; }
+  .card { position:absolute; left:50%; top:47%; --w:min(62vw,340px); width:var(--w); aspect-ratio:4/5; margin-left:calc(var(--w)/-2); margin-top:calc(var(--w)*-0.625);
+    border-radius:18px; overflow:hidden; background:var(--c); transform-origin:50% 100%; will-change:transform; }
+  .card__bg { position:absolute; inset:0; background:center/cover; }
+  .card video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .card__in { position:absolute; inset:0; padding:18px; display:flex; flex-direction:column; justify-content:flex-end; }
+  .card__tag { position:absolute; top:14px; left:16px; font:700 9px "Space Mono",monospace; letter-spacing:.2em; text-transform:uppercase; }
+  .big { font:400 clamp(40px,7vw,64px)/.86 "Anton",sans-serif; text-transform:uppercase; }
+  .card p.txt { font:500 15px/1.45 "Inter Tight",sans-serif; }
+  .gold { font:400 38px/.9 "Rubik Mono One",sans-serif; background:linear-gradient(175deg,#fff1b8,#f5b92e 40%,#8a5a06 60%,#f5b92e); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .btn { display:inline-block; margin-top:14px; border:1.5px solid currentColor; border-radius:99px; padding:9px 16px; font:700 10px "Space Mono",monospace; letter-spacing:.15em; text-transform:uppercase; align-self:flex-start; }
+  .corner { position:absolute; z-index:2000; font:500 13px/1.15 "Inter Tight",sans-serif; }
+  .tl { top:16px; left:18px; } .tr { top:16px; right:18px; text-align:right; }
+  .bl { bottom:16px; left:18px; } .br { bottom:16px; right:18px; text-align:right; }
+  .tl img { width:84px; display:block; margin-bottom:6px; }
+  .count { font:400 46px/1 "Anton",sans-serif; }
+  #label { display:block; font-weight:700; } #sub { opacity:.55; }
+  .prog { position:absolute; left:18px; right:18px; bottom:8px; height:2px; background:#222; z-index:2000; }
+  .prog i { display:block; height:100%; width:0; background:var(--red); }
+  .end { min-height:60vh; display:grid; place-items:center; text-align:center; padding:40px 18px; }
+  .end h2 { font:400 clamp(48px,10vw,140px)/.85 "Anton",sans-serif; text-transform:uppercase; }
+  .end p { margin-top:16px; font:700 10px "Space Mono",monospace; letter-spacing:.15em; text-transform:uppercase; color:#777; }
+</style>
+</head>
+<body>
+<section class="tunnel" id="tunnel">
+  <div class="tunnel__s" id="stage">
+    <div class="corner tl"><img src="../assets/logo/logo-white.png" alt="Fran Mera">Iquique, Chile</div>
+    <div class="corner tr">Kelokera<br><span style="opacity:.55">Childhood Boys</span></div>
+    <div class="corner bl"><span class="count" id="count">01</span></div>
+    <div class="corner br"><span id="label">Fran Mera</span><span id="sub">Scroll ↓</span></div>
+    <div class="prog"><i id="bar"></i></div>
+  </div>
+</section>
+<section class="end"><div><h2>Fran Mera</h2><p>© Childhood Boys · Hecho en Chile</p></div></section>
+
+<script>
+const F="../assets/fotos/", V="../assets/video/", SP="https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw";
+/* El sitio completo vive en esta pila: cada carta es una sección */
+const CARDS=[
+  {c:"#ff1a0e", label:"Fran Mera", sub:"Cantante · Compositor · Productor", html:`<span class="card__tag">00 · Intro</span><p class="big" style="color:#000">Fran<br>Mera</p><p class="txt" style="color:#000;margin-top:8px">De Iquique pa'l mundo.</p>`},
+  {c:"#0f5c6e", label:"Kelokera", sub:"Nuevo single", bg:"../assets/fotos/kelokera-4.jpg", html:`<span class="card__tag">Nuevo single</span>`},
+  {c:"#111", label:"Kelokera", sub:"Videoclip oficial", video:"../assets/video/kelokera.mp4", html:`<span class="card__tag">Videoclip</span><p class="big">Kelo<br>kera</p>`},
+  {c:"#c8364a", label:"Otra Copa", sub:"734.394 reproducciones", html:`<span class="card__tag">Top 01</span><p class="big">Otra<br>Copa</p><a class="btn" href="${SP}" target="_blank">▶ Escuchar</a>`},
+  {c:"#d9c3a5", label:"Na Conmigo Na Contigo", sub:"1.499.347 reproducciones", html:`<span class="card__tag" style="color:#000">Top 02</span><p class="big" style="color:#000">Na conmigo<br>na contigo</p><a class="btn" style="color:#000" href="${SP}" target="_blank">▶ Escuchar</a>`},
+  {c:"#222", label:"En vivo", sub:"Último concierto", bg:"../assets/fotos/live-01.jpg", html:`<span class="card__tag">En vivo</span>`},
+  {c:"#2a5bd7", label:"Que Rico Fue", sub:"211.715 reproducciones", html:`<span class="card__tag">Top 03</span><p class="big">Que rico<br>fue</p><a class="btn" href="${SP}" target="_blank">▶ Escuchar</a>`},
+  {c:"#e0b9a8", label:"Dime Que Fue", sub:"387.223 reproducciones", html:`<span class="card__tag" style="color:#000">Top 04</span><p class="big" style="color:#000">Dime<br>que fue</p><a class="btn" style="color:#000" href="${SP}" target="_blank">▶ Escuchar</a>`},
+  {c:"#5a1610", label:"Kiki", sub:"Videoclip", video:"../assets/video/kiki.mp4", html:`<span class="card__tag">Videoclip</span><p class="big">Kiki</p>`},
+  {c:"#efe9df", label:"Bio", sub:"Desde los 14 años", html:`<span class="card__tag" style="color:#000">Bio</span><p class="txt" style="color:#000">Hizo del reggaetón su identidad desde los 14. Sonido fresco, melodías pegajosas y estilo propio que lo llevaron a radios nacionales, televisión y MTV. También compone y produce para artistas nacionales e internacionales.</p>`},
+  {c:"#333", label:"Backstage", sub:"Antes del show", bg:"../assets/fotos/live-02.jpg", html:`<span class="card__tag">Backstage</span>`},
+  {c:"#0a0a0a", label:"Childhood Boys", sub:"La discográfica", html:`<span class="card__tag" style="color:#f5b92e">Sello</span><p class="gold">CHILD<br>HOOD<br>BOYS</p><p class="txt" style="margin-top:10px;color:#cfc8bd">Sello y estudio de Fran Mera y Dímelo Yepo.</p>`},
+  {c:"#111", label:"Noche", sub:"Kelokera", bg:"../assets/fotos/kelokera-6.jpg", html:`<span class="card__tag">Kelokera</span>`},
+  {c:"#ff1a0e", label:"Booking", sub:"booking@franmera.com", html:`<span class="card__tag" style="color:#000">Contacto</span><p class="big" style="color:#000">Booking</p><a class="btn" style="color:#000" href="mailto:booking@franmera.com">Escribir →</a>`},
+];
+const stage=document.getElementById("stage"), tunnel=document.getElementById("tunnel");
+tunnel.style.height=(CARDS.length*70+100)+"vh";
+const els=CARDS.map(k=>{
+  const d=document.createElement("div"); d.className="card"; d.style.setProperty("--c",k.c);
+  d.innerHTML=(k.bg?`<div class="card__bg" style="background-image:url(${k.bg})"></div>`:"")+(k.video?`<video src="${k.video}" muted loop autoplay playsinline></video>`:"")+`<div class="card__in">${k.html}</div>`;
+  stage.appendChild(d); return d;
+});
+const N=CARDS.length, $=id=>document.getElementById(id); let last=-1;
+function frame(){
+  const r=tunnel.getBoundingClientRect(), p=Math.max(0,Math.min(1,-r.top/(r.height-innerHeight))), pos=p*(N-1), H=innerHeight;
+  els.forEach((el,i)=>{
+    const d=i-pos; let y,z,rx,o=1;
+    if(d>=0){ y=-Math.pow(d,.85)*H*.07; z=-d*120; rx=-d*2; o=d>8?0:1; }
+    else { const e=-d; y=e*H*.62; z=e*220; rx=Math.min(48,e*55); o=e>1.6?0:1; }
+    el.style.transform=`translate3d(0,${y}px,${z}px) rotateX(${rx}deg)`; el.style.zIndex=1000-Math.round(d*10); el.style.opacity=o;
+    el.style.pointerEvents=Math.abs(d)<.5?"auto":"none";
+  });
+  const a=Math.min(N-1,Math.round(pos));
+  if(a!==last){ last=a; $("count").textContent=String(a+1).padStart(2,"0"); $("label").textContent=CARDS[a].label; $("sub").textContent=CARDS[a].sub; }
+  $("bar").style.width=p*100+"%";
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

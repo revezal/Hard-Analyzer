@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fran Mera — Sitio A (estilo Buttermax)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter+Tight:wght@500;800;900&family=Rubik+Mono+One&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#0a0a0a; --red:#ff1a0e; --bone:#efe9df; --gold:#f5b92e; --mono:"Space Mono",monospace; --sans:"Inter Tight",system-ui,sans-serif; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+  body { background:var(--ink); color:var(--ink); font-family:var(--sans); overflow-x:hidden; }
+  a { color:inherit; text-decoration:none; }
+  .mono { font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; }
+
+  /* barra */
+  .bar { position:fixed; top:12px; left:14px; right:14px; z-index:50; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; color:var(--bone); mix-blend-mode:difference; }
+  .bar__x { font:900 20px var(--sans); }
+  .bar__logo { width:86px; }
+  .bar nav { justify-self:end; display:flex; gap:6px; }
+  .bar nav a { border:1px solid currentColor; border-radius:99px; padding:5px 11px; font:700 10px var(--mono); letter-spacing:.1em; text-transform:uppercase; }
+  @media (max-width:640px){ .bar nav a:not(:last-child){ display:none; } }
+
+  /* 1. semitono */
+  .ht { height:240vh; position:relative; }
+  .ht__s { position:sticky; top:0; height:100vh; height:100svh; overflow:hidden; }
+  .ht canvas { position:absolute; inset:0; width:100%; height:100%; }
+  .ht__hint { position:absolute; bottom:20px; width:100%; text-align:center; color:var(--bone); opacity:.6; }
+  .ht__logo { position:absolute; left:50%; top:50%; width:min(70vw,520px); transform:translate(-50%,-50%); transition:opacity .3s; }
+
+  /* 2. Fran / Mera */
+  .ttl { height:220vh; background:var(--red); position:relative; }
+  .ttl__s { position:sticky; top:0; height:100vh; height:100svh; overflow:hidden; display:grid; place-items:center; }
+  .dots i { position:absolute; width:6px; height:6px; border-radius:50%; background:var(--ink); }
+  .word { position:relative; display:flex; align-items:baseline; transform:translateY(-4vh); }
+  .word__fran { font:900 clamp(84px,17vw,280px)/.8 var(--sans); letter-spacing:-.06em; }
+  .word__mera { width:clamp(200px,38vw,640px); margin-left:-1vw; overflow:visible; }
+  .word__mera text { font:700 220px "Caveat",cursive; fill:transparent; stroke:var(--ink); stroke-width:5; }
+  .word__sub { position:absolute; left:4px; top:100%; margin-top:12px; }
+  .float { position:absolute; left:50%; top:50%; width:clamp(150px,22vw,300px); aspect-ratio:4/5; z-index:3; background:#111 center/cover; border-radius:8px; box-shadow:0 30px 60px rgba(0,0,0,.4); }
+
+  /* 3. manifiesto + objetos */
+  .man { background:var(--red); padding:16vh 4vw 6vh; }
+  .man p { font:900 clamp(28px,4.4vw,70px)/.95 var(--sans); letter-spacing:-.035em; text-transform:uppercase; max-width:20ch; }
+  .man p span { color:var(--bone); }
+  .objs { background:var(--red); padding:10vh 4vw 16vh; display:grid; grid-template-columns:repeat(3,1fr); row-gap:12vh; }
+  .obj { position:relative; display:grid; justify-items:center; gap:14px; }
+  .obj__pill { position:absolute; left:50%; top:-10vh; bottom:-6vh; width:58%; transform:translateX(-50%) scaleY(0); transform-origin:50% 0; border-radius:999px; background:var(--c); transition:transform .55s cubic-bezier(.2,.9,.2,1); }
+  .obj:hover .obj__pill, .obj.is-on .obj__pill { transform:translateX(-50%) scaleY(1); }
+  .vin { position:relative; width:min(24vw,230px); aspect-ratio:1; border-radius:50%; transition:transform .6s cubic-bezier(.2,1.4,.3,1);
+    background:radial-gradient(circle, var(--c) 0 30%, #111 30.5% 31.5%, transparent 32%), repeating-radial-gradient(circle,#161616 0 1px,#050505 1.5px 3px);
+    box-shadow:0 24px 30px rgba(0,0,0,.35); display:grid; place-items:center; }
+  .vin b { position:absolute; width:28%; text-align:center; font:800 clamp(8px,1vw,12px)/1 var(--sans); color:var(--ink); }
+  .vin::after { content:""; position:absolute; width:3%; aspect-ratio:1; border-radius:50%; background:var(--ink); }
+  .obj:hover .vin, .obj.is-on .vin { transform:translateY(-12px) rotate(-25deg) scale(1.08); }
+  .obj__cap { position:relative; display:flex; gap:10px; }
+  .obj__cap b { font-weight:700; }
+  @media (max-width:700px){ .objs{ grid-template-columns:1fr 1fr; row-gap:9vh; } .vin{ width:38vw; } }
+
+  /* 4. videoclips (sección oscura inclinada) */
+  .vids { background:var(--ink); color:var(--bone); padding:18vh 4vw; overflow:hidden; perspective:1200px; }
+  .vids h2 { font:900 clamp(56px,11vw,180px)/.8 var(--sans); letter-spacing:-.05em; color:var(--red); }
+  .vids__row { margin-top:8vh; display:grid; grid-template-columns:1.2fr 1fr; gap:4vw; transform-style:preserve-3d; }
+  .vcard { position:relative; border-radius:10px; overflow:hidden; background:#111; transform:rotateY(var(--ry,-14deg)) rotateX(6deg); transition:transform .8s cubic-bezier(.2,.9,.2,1); box-shadow:0 40px 80px rgba(0,0,0,.6); }
+  .vcard:hover { transform:none; }
+  .vcard video { display:block; width:100%; aspect-ratio:16/9; object-fit:cover; }
+  .vcard p { position:absolute; left:14px; bottom:12px; font:900 clamp(28px,4vw,60px)/.85 var(--sans); letter-spacing:-.04em; color:var(--bone); text-transform:uppercase; mix-blend-mode:difference; }
+  .vcard span { position:absolute; top:12px; left:14px; }
+  @media (max-width:700px){ .vids__row{ grid-template-columns:1fr; } }
+
+  /* 5. Childhood Boys */
+  .cb { background:var(--ink); color:var(--bone); padding:12vh 4vw 16vh; display:grid; grid-template-columns:1fr 1fr; gap:6vw; align-items:center; border-top:1px solid #222; }
+  .cb__logo { font:400 clamp(56px,9vw,130px)/.9 "Rubik Mono One",sans-serif; letter-spacing:-.05em; background:linear-gradient(175deg,#fff1b8,#f5b92e 40%,#8a5a06 60%,#f5b92e); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .cb p { font:500 18px/1.5 var(--sans); max-width:42ch; color:#cfc8bd; }
+  .cb ul { list-style:none; margin-top:24px; border-top:1px solid #333; }
+  .cb li { display:flex; justify-content:space-between; padding:14px 0; border-bottom:1px solid #333; font:800 22px var(--sans); text-transform:uppercase; letter-spacing:-.02em; }
+  .cb li span { color:var(--gold); }
+  @media (max-width:800px){ .cb{ grid-template-columns:1fr; } }
+
+  /* 6. booking */
+  .reach { position:relative; height:100vh; height:100svh; background:var(--ink); overflow:hidden; display:grid; align-items:end; }
+  .reach__top { position:absolute; inset:0 0 32% 0; background:var(--red); }
+  .reach__word { position:relative; z-index:3; font:900 clamp(64px,16vw,260px)/.8 var(--sans); letter-spacing:-.05em; color:var(--red); padding:0 3vw 6vh; pointer-events:none; }
+  .reach__mail { position:absolute; right:3vw; bottom:6vh; z-index:3; color:var(--bone); }
+  .spot { position:absolute; left:0; top:0; z-index:2; width:190px; height:64vh; pointer-events:none; transition:transform .3s cubic-bezier(.2,.9,.2,1); }
+  .spot__beam { position:absolute; inset:0; background:linear-gradient(180deg,transparent 0%,var(--ink) 28%); clip-path:polygon(46% 0,54% 0,100% 60%,100% 100%,0 100%,0 60%); }
+  .spot__pill { position:absolute; left:0; right:0; bottom:0; height:62%; border-radius:999px 999px 0 0; background:#ddd center 20%/cover; filter:grayscale(1) contrast(1.15); }
+  footer { background:var(--ink); color:#777; padding:20px 4vw 28px; display:flex; flex-wrap:wrap; gap:16px; justify-content:space-between; }
+  footer a:hover { color:var(--bone); }
+</style>
+</head>
+<body>
+<header class="bar">
+  <span class="bar__x">✦</span>
+  <img class="bar__logo" src="../assets/logo/logo-white.png" alt="Fran Mera">
+  <nav><a href="#musica">Música</a><a href="#videos">Videos</a><a href="#booking">Booking</a></nav>
+</header>
+
+<section class="ht" id="ht"><div class="ht__s"><canvas id="htc"></canvas><img class="ht__logo" id="htLogo" src="../assets/logo/logo-white.png" alt=""><p class="ht__hint mono">Scroll ↓</p></div></section>
+
+<section class="ttl" id="ttl"><div class="ttl__s">
+  <div class="dots" id="dots"></div>
+  <div class="word"><span class="word__fran">Fran</span>
+    <svg class="word__mera" viewBox="0 0 640 260" aria-label="Mera"><text id="mera" x="10" y="200">Mera</text></svg>
+    <span class="word__sub mono">Cantante · Compositor · Productor — Iquique, Chile</span></div>
+  <div class="float" id="float" style="background-image:url(../assets/fotos/kelokera-4.jpg)"></div>
+</div></section>
+
+<section class="man"><p>Fran Mera hizo del reggaetón su identidad <span>desde los 14</span>. De Iquique a radios nacionales, televisión y <span>MTV</span>. Hoy canta, compone y produce.</p></section>
+
+<section class="objs" id="musica"></section>
+
+<section class="vids" id="videos">
+  <p class="mono" style="color:#777">Videoclips</p>
+  <h2>MÍRALO</h2>
+  <div class="vids__row">
+    <a class="vcard" style="--ry:-14deg"><span class="mono">01 · Nuevo</span><video src="../assets/video/kelokera.mp4" poster="../assets/video/kelokera.jpg" muted loop autoplay playsinline></video><p>Kelokera</p></a>
+    <a class="vcard" style="--ry:14deg"><span class="mono">02</span><video src="../assets/video/kiki.mp4" poster="../assets/video/kiki.jpg" muted loop autoplay playsinline></video><p>Kiki</p></a>
+  </div>
+</section>
+
+<section class="cb">
+  <div><p class="mono" style="color:var(--gold);margin-bottom:14px">La discográfica</p><div class="cb__logo">CHILD<br>HOOD<br>BOYS</div></div>
+  <div>
+    <p>Sello y estudio fundado por <b style="color:var(--bone)">Fran Mera</b> y su hermano <b style="color:var(--bone)">Dímelo Yepo</b>. Nace de sus sueños de infancia.</p>
+    <ul><li>Producción <span>01</span></li><li>Composición <span>02</span></li><li>Estudio <span>03</span></li><li>Desarrollo de artista <span>04</span></li></ul>
+  </div>
+</section>
+
+<section class="reach" id="booking">
+  <div class="reach__top"></div>
+  <div class="spot" id="spot"><div class="spot__beam"></div><div class="spot__pill" style="background-image:url(../assets/fotos/live-02.jpg)"></div></div>
+  <p class="reach__word">BOOKING</p>
+  <a class="reach__mail mono" href="mailto:booking@franmera.com">booking@franmera.com</a>
+</section>
+<footer class="mono"><span>© Fran Mera · Childhood Boys</span><span><a href="https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw" target="_blank">Spotify</a> · <a href="#">Instagram</a> · <a href="#">TikTok</a> · <a href="#">YouTube</a></span></footer>
+
+<script>
+const TRACKS=[["Otra Copa","734.394","#c8364a"],["Na Conmigo Na Contigo","1.499.347","#d9c3a5"],["Que Rico Fue","211.715","#7fb2ff"],["Dime Que Fue","387.223","#e0b9a8"],["Kelokera","Nuevo","#efe9df"],["Kiki","Videoclip","#f5b92e"]];
+const SP="https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw";
+const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+const prog=el=>{const r=el.getBoundingClientRect();return clamp(-r.top/(r.height-innerHeight));};
+
+// objetos (temas)
+document.getElementById("musica").innerHTML=TRACKS.map(t=>`<a class="obj" href="${SP}" target="_blank" style="--c:${t[2]}"><span class="obj__pill"></span><div class="vin"><b>${t[0]}</b></div><p class="obj__cap mono"><b>${t[0]}</b><span>${t[1]}</span></p></a>`).join("");
+// en táctil: la cápsula se activa al pasar por el centro de la pantalla
+if(matchMedia("(hover:none)").matches){ const io=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle("is-on",e.isIntersecting)),{rootMargin:"-40% 0px -40% 0px"}); document.querySelectorAll(".obj").forEach(o=>io.observe(o)); }
+
+// puntos del título
+document.getElementById("dots").innerHTML=Array.from({length:70},()=>`<i style="left:${Math.random()*100}%;top:${Math.random()*100}%;transform:scale(${.5+Math.random()})"></i>`).join("");
+const mera=document.getElementById("mera"), L=1400; mera.style.strokeDasharray=L;
+
+// semitono
+const cv=document.getElementById("htc"), cx=cv.getContext("2d"), htLogo=document.getElementById("htLogo");
+function drawHT(p,t){
+  const dpr=Math.min(2,devicePixelRatio), W=cv.width=innerWidth*dpr, H=cv.height=innerHeight*dpr;
+  cx.fillStyle="#0a0a0a"; cx.fillRect(0,0,W,H);
+  const S=(innerWidth<700?18:26)*dpr, g=clamp((p-.12)/.75), field=.18+g*1.6;
+  for(let y=S/2;y<H+S;y+=S) for(let x=S/2;x<W+S;x+=S){
+    const nx=(x-W/2)/H, ny=(y-H/2)/H, d=Math.hypot(nx,ny);
+    const tri=Math.abs((((nx*3.2+t*.25)%2)+2)%2-1)-.5;
+    const band=Math.exp(-Math.pow((ny-tri*.22)/(.07+g*.9),2)), vis=clamp(1-(d-field)/.12);
+    const r=(1.2*dpr+band*S*.42)*vis+g*g*S*.75; if(r<.4) continue;
+    if(band>.35&&g<.95){ const o=2.4*dpr*(1-g); cx.globalCompositeOperation="lighter";
+      cx.fillStyle="#00c8ff"; cx.beginPath(); cx.arc(x-o,y,r,0,7); cx.fill(); cx.fillStyle="#ff00aa"; cx.beginPath(); cx.arc(x+o,y,r,0,7); cx.fill(); cx.globalCompositeOperation="source-over"; }
+    cx.fillStyle=band>.35||g>.6?"#ff1a0e":"rgba(239,233,223,.5)"; cx.beginPath(); cx.arc(x,y,r,0,7); cx.fill();
+  }
+  htLogo.style.opacity=1-clamp(p*4);
+}
+
+// booking: foco sigue al cursor / se mueve solo en táctil
+const reach=document.getElementById("booking"), spot=document.getElementById("spot"); let sx=innerWidth*.5, auto=true;
+reach.addEventListener("pointermove",e=>{ if(e.pointerType==="mouse"){ auto=false; sx=e.clientX; } });
+function loop(ts){
+  const t=ts/1000;
+  drawHT(prog(document.getElementById("ht")),t);
+  const p=prog(document.getElementById("ttl"));
+  mera.style.strokeDashoffset=L*(1-clamp(p/.55)); mera.style.fill=`rgba(10,10,10,${clamp((p-.45)/.2)})`;
+  document.getElementById("float").style.transform=`translate(-20%, ${(1-p)*70-60}vh) rotate(${(p-.5)*-14}deg)`;
+  if(auto) sx=innerWidth*(.5+.3*Math.sin(t*.6));
+  const H=reach.clientHeight; spot.style.transform=`translate(${sx-95}px, ${H-spot.offsetHeight-H*.08}px)`;
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

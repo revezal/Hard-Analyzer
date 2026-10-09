@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fran Mera — Sitio B (estilo rueda / recap)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@700&family=Inter+Tight:wght@400;500;800&family=Rubik+Mono+One&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#000; --bone:#efe9df; --red:#ff1a0e; --gold:#f5b92e; --sans:"Inter Tight",system-ui,sans-serif; --mono:"Space Mono",monospace; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { -webkit-text-size-adjust:100%; }
+  body { background:var(--ink); color:var(--bone); font-family:var(--sans); overflow-x:hidden; }
+  a { color:inherit; text-decoration:none; }
+  .mono { font:700 10px var(--mono); letter-spacing:.16em; text-transform:uppercase; }
+  .top { position:fixed; top:14px; left:18px; right:18px; z-index:20; display:flex; justify-content:space-between; align-items:center; }
+  .top img { width:72px; }
+
+  /* intro */
+  .intro { min-height:100vh; min-height:100svh; display:grid; place-items:center; text-align:center; padding:80px 18px; }
+  .intro h1 { font:400 clamp(64px,13vw,200px)/.85 "Anton",sans-serif; text-transform:uppercase; }
+  .intro h1 em { font:700 .62em "Caveat",cursive; color:var(--red); text-transform:none; display:block; margin-top:-.1em; }
+  .intro p { margin-top:22px; font-size:15px; color:#9a948b; }
+
+  /* rueda (reutilizable) */
+  .wheel { position:relative; }
+  .wheel__s { position:sticky; top:0; height:100vh; height:100svh; overflow:hidden; }
+  .wheel__title { position:absolute; left:18px; top:60px; z-index:2; }
+  .wheel__title b { display:block; font:400 clamp(34px,5vw,64px)/.9 "Anton",sans-serif; text-transform:uppercase; margin-top:6px; }
+  svg.rim { position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+  .rim line { stroke:rgba(239,233,223,.55); stroke-width:1.2; }
+  .rim text { fill:rgba(239,233,223,.8); font:500 12px var(--sans); letter-spacing:.06em; text-transform:uppercase; }
+  .it { position:absolute; left:0; top:0; transform-origin:0 50%; will-change:transform,opacity; }
+  .it__in { transform:translateY(-50%); display:flex; align-items:center; gap:8px; }
+
+  /* stickers */
+  .st-photo { width:70px; height:70px; border-radius:50%; background:#222 center/cover; box-shadow:0 0 0 3px var(--bone); flex:none; }
+  .st-pill { border:2px solid var(--bone); border-radius:999px; padding:10px 22px; font:500 26px var(--sans); white-space:nowrap; }
+  .st-stamp { width:64px; height:64px; border-radius:50%; display:grid; place-items:center; font:900 16px "Rubik Mono One",sans-serif; color:var(--red); background:var(--bone); margin-left:-18px; box-shadow:0 2px 10px rgba(0,0,0,.5); }
+  .st-stamp:first-child { margin-left:0; } .st-stamp.r { background:var(--red); color:var(--bone); }
+  .st-script { font:700 54px/1 "Caveat",cursive; position:relative; white-space:nowrap; }
+  .st-script::after { content:""; position:absolute; left:2px; right:2px; bottom:-6px; height:8px; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='8'%3E%3Cpath d='M0 4 Q4 0 8 4 T16 4' fill='none' stroke='%23ff1a0e' stroke-width='2'/%3E%3C/svg%3E") repeat-x; }
+  .st-letter { width:64px; height:64px; border-radius:50%; background:var(--bone); color:var(--ink); display:grid; place-items:center; font:800 34px var(--sans); flex:none; }
+  .st-text { font:400 10px/1.4 var(--mono); max-width:170px; opacity:.85; }
+  .st-gold { font:400 26px/.9 "Rubik Mono One",sans-serif; background:linear-gradient(175deg,#fff1b8,#f5b92e 40%,#8a5a06 60%,#f5b92e); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .st-kelo { font:400 52px/.85 "Anton",sans-serif; color:var(--red); }
+  .st-track { display:grid; gap:2px; } .st-track b { font:400 44px/.9 "Anton",sans-serif; text-transform:uppercase; white-space:nowrap; } .st-track span { font:700 10px var(--mono); letter-spacing:.14em; color:var(--red); }
+
+  /* videos */
+  .vids { padding:16vh 18px; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; max-width:1100px; margin:0 auto; }
+  .vids h2 { grid-column:1/-1; font:400 clamp(48px,9vw,120px)/.85 "Anton",sans-serif; text-transform:uppercase; }
+  .vid { position:relative; border-radius:22px; overflow:hidden; aspect-ratio:4/5; background:#111; }
+  .vid video { width:100%; height:100%; object-fit:cover; display:block; }
+  .vid b { position:absolute; left:16px; bottom:14px; font:400 44px/.9 "Anton",sans-serif; text-transform:uppercase; }
+  .vid span { position:absolute; top:14px; left:16px; }
+  @media (max-width:640px){ .vids{ grid-template-columns:1fr; } .vid{ aspect-ratio:16/11; } }
+
+  /* CB + booking */
+  .cb { text-align:center; padding:14vh 18px; border-top:1px solid #222; }
+  .cb__logo { font:400 clamp(56px,11vw,140px)/.9 "Rubik Mono One",sans-serif; letter-spacing:-.05em; background:linear-gradient(175deg,#fff1b8,#f5b92e 40%,#8a5a06 60%,#f5b92e); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .cb p { max-width:46ch; margin:22px auto 0; color:#9a948b; line-height:1.6; }
+  .end { min-height:70vh; display:grid; place-items:center; align-content:center; gap:26px; padding:40px 18px; }
+  .end a { display:flex; align-items:center; gap:14px; font:500 clamp(26px,4vw,40px) var(--sans); }
+  .end a:hover { color:var(--red); }
+  .end svg { width:.9em; height:.9em; }
+  .foot { text-align:center; padding:0 0 22px; color:#666; }
+</style>
+</head>
+<body>
+<div class="top"><img src="../assets/logo/logo-white.png" alt="Fran Mera"><span class="mono">Recap · Fran Mera</span></div>
+
+<section class="intro">
+  <div>
+    <h1>Fran Mera<em>de Iquique pa'l mundo</em></h1>
+    <p class="mono" style="margin-top:20px">Cantante · Compositor · Productor — Scroll ↓</p>
+  </div>
+</section>
+
+<section class="wheel" data-wheel="tl" style="height:520vh">
+  <div class="wheel__s"><p class="wheel__title mono">Capítulo 01<b>Trayectoria</b></p><svg class="rim"><g></g></svg></div>
+</section>
+
+<section class="wheel" data-wheel="tr" style="height:380vh">
+  <div class="wheel__s"><p class="wheel__title mono">Capítulo 02<b>Lo más escuchado</b></p><svg class="rim"><g></g></svg></div>
+</section>
+
+<section class="vids">
+  <h2>Videoclips</h2>
+  <div class="vid"><span class="mono">Nuevo</span><video src="../assets/video/kelokera.mp4" poster="../assets/video/kelokera.jpg" muted loop autoplay playsinline></video><b>Kelokera</b></div>
+  <div class="vid"><span class="mono">Videoclip</span><video src="../assets/video/kiki.mp4" poster="../assets/video/kiki.jpg" muted loop autoplay playsinline></video><b>Kiki</b></div>
+</section>
+
+<section class="cb">
+  <p class="mono" style="color:var(--gold);margin:0 0 18px">Capítulo 03 · La discográfica</p>
+  <div class="cb__logo">CHILD<br>HOOD<br>BOYS</div>
+  <p>Sello y estudio fundado por Fran Mera y su hermano Dímelo Yepo. Producción, composición, estudio y desarrollo de artistas.</p>
+</section>
+
+<section class="end">
+  <a href="https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M6 9l6-6 6 6M4 21h16"/></svg>Escuchar en Spotify</a>
+  <a href="mailto:booking@franmera.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12a8 8 0 1 1-2.3-5.7M20 4v5h-5"/></svg>Booking</a>
+</section>
+<p class="foot mono">© Fran Mera · Childhood Boys · Hecho en Chile</p>
+
+<script>
+const P="../assets/fotos/";
+const WHEELS={
+  tl:[
+    {l:"Inicios",   h:`<div class="st-photo" style="background-image:url(../assets/fotos/kelokera-1.jpg)"></div>`},
+    {l:"14 años",   h:`<div class="st-pill">reggaetón</div>`},
+    {l:"Iquique",   h:`<div class="st-stamp r">IQQ</div>`},
+    {l:"Radios",    h:`<div style="display:flex"><div class="st-stamp">FM</div><div class="st-stamp r">ON</div><div class="st-stamp">AIR!</div></div>`},
+    {l:"Televisión",h:`<div class="st-script">en vivo</div>`},
+    {l:"MTV",       h:`<div style="display:flex"><div class="st-letter">M</div><div class="st-photo" style="margin-left:-14px;background-image:url(../assets/fotos/kelokera-3.jpg)"></div></div>`},
+    {l:"Compositor",h:`<p class="st-text">Canciones para artistas nacionales e internacionales.</p>`},
+    {l:"Productor", h:`<div class="st-photo" style="background-image:url(../assets/fotos/kelokera-6.jpg)"></div>`},
+    {l:"Childhood Boys",h:`<div class="st-gold">CHILD<br>HOOD<br>BOYS</div>`},
+    {l:"En vivo",   h:`<div class="st-photo" style="background-image:url(../assets/fotos/live-01.jpg)"></div><div class="st-photo" style="margin-left:-18px;background-image:url(../assets/fotos/live-02.jpg)"></div>`},
+    {l:"Hoy",       h:`<div class="st-kelo">KELOKERA</div>`},
+  ],
+  tr:[
+    {l:"#01", h:`<div class="st-track"><b>Otra Copa</b><span>734.394 reproducciones</span></div>`},
+    {l:"#02", h:`<div class="st-track"><b>Na Conmigo Na Contigo</b><span>1.499.347 reproducciones</span></div>`},
+    {l:"#03", h:`<div class="st-track"><b>Que Rico Fue</b><span>211.715 reproducciones</span></div>`},
+    {l:"#04", h:`<div class="st-track"><b>Dime Que Fue</b><span>387.223 reproducciones</span></div>`},
+    {l:"#05", h:`<div class="st-track"><b>Kelokera</b><span>Nuevo single</span></div>`},
+  ]
+};
+const STEP=22*Math.PI/180;
+const wheels=[...document.querySelectorAll("[data-wheel]")].map(sec=>{
+  const items=WHEELS[sec.dataset.wheel], stage=sec.querySelector(".wheel__s"), g=sec.querySelector("g");
+  const els=items.map(t=>{const d=document.createElement("div"); d.className="it"; d.innerHTML=`<div class="it__in">${t.h}</div>`; stage.appendChild(d); return d;});
+  return {sec,items,g,els,G:{}};
+});
+function layout(){
+  const W=innerWidth,H=innerHeight,mob=W<700,R=Math.max(H*1.05,620),arcX=W*(mob?.16:.3);
+  wheels.forEach(w=>{
+    w.G={R,cx:arcX+R,cy:H/2,mob}; const t=[];
+    for(let a=-Math.PI;a<Math.PI;a+=STEP/4){const major=Math.abs(a/STEP-Math.round(a/STEP))<1e-3; t.push(`<line x1="${-R}" y1="0" x2="${-R+(major?26:16)}" y2="0" transform="rotate(${-a*180/Math.PI})"/>`);}
+    w.items.forEach((it,i)=>t.push(`<text x="${-R-14}" y="4" text-anchor="end" transform="rotate(${-i*STEP*180/Math.PI})">${it.l}</text>`));
+    w.g.innerHTML=t.join("");
+  });
+}
+addEventListener("resize",layout); layout();
+function frame(){
+  wheels.forEach(w=>{
+    const r=w.sec.getBoundingClientRect(), p=Math.max(0,Math.min(1,-r.top/(r.height-innerHeight)));
+    if(r.bottom<0||r.top>innerHeight) return;
+    const N=w.items.length, rot=-p*(N-1)*STEP, G=w.G;
+    w.g.setAttribute("transform",`translate(${G.cx} ${G.cy}) rotate(${-rot*180/Math.PI})`);
+    w.els.forEach((el,i)=>{
+      const phi=i*STEP+rot, ri=G.R-(G.mob?60:110), k=Math.max(0,1-Math.abs(phi)/STEP);
+      el.style.transform=`translate(${G.cx-ri*Math.cos(phi)}px,${G.cy+ri*Math.sin(phi)}px) rotate(${-phi*180/Math.PI}deg) scale(${(G.mob?.7:1)*(1+.5*k)})`;
+      el.style.opacity=Math.max(0,1-Math.abs(phi)/(STEP*4.2));
+    });
+  });
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

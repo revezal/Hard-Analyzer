@@ -9,7 +9,7 @@
   const SITE = me?.dataset.site || "index.html";
   const LISTEN = me?.dataset.listen || "#";
   const CUTOUT = "assets/fotos/fran-cutout.png";   // PNG sin fondo (ideal)
-  const PHOTO = "assets/fotos/fran-03.jpg";        // respaldo si no hay recorte
+  const PHOTO = "assets/fotos/kelokera-4.jpg";        // respaldo si no hay recorte
   const LOGO = "assets/logo/logo-white.png";
   const KEY = "fm_intro_seen";
 

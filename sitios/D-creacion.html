@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fran Mera — Sitio D (estilo La Creación)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Rubik+Mono+One&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* "La Creación de Adán": mano de malla roja (izquierda) que se estira hacia el play
+     cuando la mano real (tu cursor) se acerca. Todo dibujado en 3D con canvas, sin librerías. */
+  :root { --ink:#141414; --bone:#efe9df; --red:#ff1a0e; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:#0b0b0b; color:var(--bone); font-family:"Space Mono",monospace; }
+  .creation { position:relative; height:100vh; height:100svh; overflow:hidden; cursor:none;
+    background:radial-gradient(80% 70% at 50% 45%, #222 0%, #121212 60%, #0b0b0b 100%); }
+  canvas { position:absolute; inset:0; width:100%; height:100%; }
+  .play { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:76px; height:76px; border-radius:50%;
+    background:rgba(255,255,255,.12); border:0; display:grid; place-items:center; cursor:none; z-index:2;
+    transition:transform .3s, background .3s; }
+  .play::after { content:""; border-left:18px solid rgba(255,255,255,.7); border-top:11px solid transparent; border-bottom:11px solid transparent; margin-left:5px; }
+  .creation.is-near .play { transform:translate(-50%,-50%) scale(1.15); background:rgba(255,26,14,.85); }
+  .creation.is-near .play::after { border-left-color:#fff; }
+  .meta { position:absolute; left:50%; top:calc(50% + 58px); transform:translateX(-50%); text-align:center; z-index:2; font-size:11px; letter-spacing:.14em; line-height:1.9; color:rgba(239,233,223,.45); pointer-events:none; }
+  .meta b { color:rgba(239,233,223,.8); }
+  .tag { position:absolute; top:18px; right:18px; z-index:2; border:1px solid rgba(239,233,223,.3); padding:7px 12px; font-size:10px; letter-spacing:.15em; color:rgba(239,233,223,.7); text-decoration:none; }
+  .foot { position:absolute; bottom:16px; left:0; right:0; text-align:center; font-size:10px; letter-spacing:.12em; color:rgba(239,233,223,.35); z-index:2; }
+  .modal { position:fixed; inset:0; z-index:10; background:rgba(0,0,0,.92); display:none; place-items:center; padding:16px; }
+  .modal.is-open { display:grid; }
+  .modal__box { width:min(100%,1100px); aspect-ratio:16/9; background:#000; display:grid; place-items:center; position:relative; }
+  .modal__box iframe { width:100%; height:100%; border:0; }
+  .modal__close { position:absolute; top:-44px; right:0; background:none; border:1px solid #555; color:#fff; width:36px; height:36px; border-radius:50%; cursor:pointer; }
+
+  /* ---- resto del sitio ---- */
+  .logo { position:absolute; top:16px; left:18px; z-index:3; width:90px; }
+  .info { max-width:760px; margin:0 auto; padding:16vh 18px; text-align:center; }
+  .info h2 { font:400 clamp(40px,7vw,84px)/.9 "Anton",sans-serif; text-transform:uppercase; color:var(--bone); margin:14px 0 26px; }
+  .info .k { font-size:11px; letter-spacing:.2em; color:rgba(239,233,223,.45); text-transform:uppercase; }
+  .info p { font-size:13px; line-height:1.9; color:rgba(239,233,223,.65); }
+  .list { list-style:none; text-align:left; border-top:1px solid #2a2a2a; }
+  .list a { display:grid; grid-template-columns:40px 1fr auto; gap:12px; align-items:center; padding:18px 6px; border-bottom:1px solid #2a2a2a; transition:background .2s, padding .2s; }
+  .list a:hover { background:rgba(255,26,14,.08); padding-left:14px; }
+  .list b { font:400 clamp(22px,3.4vw,34px)/1 "Anton",sans-serif; text-transform:uppercase; color:var(--bone); letter-spacing:.01em; }
+  .list span { font-size:11px; color:rgba(239,233,223,.45); letter-spacing:.1em; }
+  .list em { font-style:normal; color:#ff5a3c; font-size:11px; }
+  .pics { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:34px; }
+  .pics div { aspect-ratio:3/4; background:center/cover; filter:grayscale(1) contrast(1.1); transition:filter .4s; }
+  .pics div:hover { filter:none; }
+  .cbl { font:400 clamp(44px,8vw,96px)/.9 "Rubik Mono One",sans-serif; letter-spacing:-.05em; background:linear-gradient(175deg,#fff1b8,#f5b92e 40%,#8a5a06 60%,#f5b92e); -webkit-background-clip:text; background-clip:text; color:transparent; margin:18px 0 22px; }
+  .sep { width:1px; height:80px; background:linear-gradient(transparent,#ff3b2a,transparent); margin:0 auto; }
+  .bk { display:inline-block; margin-top:26px; border:1px solid rgba(239,233,223,.35); padding:14px 22px; font-size:11px; letter-spacing:.2em; color:var(--bone); }
+  .bk:hover { border-color:#ff3b2a; color:#ff3b2a; }
+  .site-foot { text-align:center; padding:30px 18px 40px; font-size:10px; letter-spacing:.14em; color:rgba(239,233,223,.3); }
+</style>
+</head>
+<body>
+<section class="creation" id="creation">
+  <canvas id="cv"></canvas>
+  <img class="logo" src="../assets/logo/logo-white.png" alt="Fran Mera">
+  <a class="tag" href="#booking">BOOKING →</a>
+  <button class="play" id="play" aria-label="Ver videoclip de Kelokera"></button>
+  <p class="meta">KELOKERA — VIDEOCLIP OFICIAL<br>by<br><b>FRAN MERA · CHILDHOOD BOYS</b></p>
+  <p class="foot">ACERCA TU MANO AL PLAY · SCROLL ↓</p>
+</section>
+
+
+<section class="info" id="musica">
+  <p class="k">Lo más escuchado · Spotify</p>
+  <h2>Discografía</h2>
+  <ul class="list">
+    <li><a href="https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw" target="_blank"><span>01</span><b>Otra Copa</b><em>734.394</em></a></li>
+    <li><a href="https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw" target="_blank"><span>02</span><b>Na Conmigo Na Contigo</b><em>1.499.347</em></a></li>
+    <li><a href="https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw" target="_blank"><span>03</span><b>Que Rico Fue</b><em>211.715</em></a></li>
+    <li><a href="https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw" target="_blank"><span>04</span><b>Dime Que Fue</b><em>387.223</em></a></li>
+    <li><a href="https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw" target="_blank"><span>05</span><b>Kelokera</b><em>NUEVO</em></a></li>
+  </ul>
+</section>
+<div class="sep"></div>
+<section class="info">
+  <p class="k">Bio</p>
+  <h2>De Iquique pa'l mundo</h2>
+  <p>Fran Mera es cantante, compositor y productor chileno, nacido en Iquique. Hizo del reggaetón su identidad desde los 14 años.<br>Su sonido lo ha llevado a radios nacionales, televisión y plataformas internacionales como MTV.<br>En paralelo compone y produce para artistas nacionales e internacionales.</p>
+  <div class="pics"><div style="background-image:url(../assets/fotos/kelokera-2.jpg)"></div><div style="background-image:url(../assets/fotos/live-02.jpg)"></div><div style="background-image:url(../assets/fotos/kelokera-5.jpg)"></div></div>
+</section>
+<div class="sep"></div>
+<section class="info">
+  <p class="k">La discográfica</p>
+  <div class="cbl">CHILDHOOD<br>BOYS</div>
+  <p>Sello y estudio fundado junto a su hermano, el compositor y productor Dímelo Yepo.<br>Producción · Composición · Estudio · Desarrollo de artista</p>
+</section>
+<div class="sep"></div>
+<section class="info" id="booking">
+  <p class="k">Contacto</p>
+  <h2>Booking</h2>
+  <p>Shows, colaboraciones y prensa.</p>
+  <a class="bk" href="mailto:booking@franmera.com">BOOKING@FRANMERA.COM →</a>
+</section>
+<p class="site-foot">© FRAN MERA · CHILDHOOD BOYS · HECHO EN CHILE</p>
+
+<div class="modal" id="modal"><div class="modal__box" id="box"><button class="modal__close" id="close" aria-label="Cerrar">✕</button></div></div>
+
+<script>
+/* ======== CONFIG ======== */
+const YOUTUBE_ID = "";   // ID del videoclip de Kelokera en YouTube (ej: "dQw4w9WgXcQ")
+const VIDEO_SRC = "../assets/video/kelokera.mp4"; // se usa si no hay ID de YouTube
+
+/* ======== mini motor 3D ======== */
+const V={ add:(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]], sub:(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]],
+  mul:(a,s)=>[a[0]*s,a[1]*s,a[2]*s], dot:(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2],
+  len:a=>Math.hypot(a[0],a[1],a[2]), norm:a=>{const l=Math.hypot(a[0],a[1],a[2])||1;return [a[0]/l,a[1]/l,a[2]/l];},
+  cross:(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]] };
+const M={ // matrices 3x3 (filas)
+  mul:(A,B)=>A.map(r=>[0,1,2].map(j=>r[0]*B[0][j]+r[1]*B[1][j]+r[2]*B[2][j])),
+  ap:(A,v)=>[V.dot(A[0],v),V.dot(A[1],v),V.dot(A[2],v)],
+  rx:a=>{const c=Math.cos(a),s=Math.sin(a);return [[1,0,0],[0,c,-s],[0,s,c]];},
+  ry:a=>{const c=Math.cos(a),s=Math.sin(a);return [[c,0,s],[0,1,0],[-s,0,c]];},
+  rz:a=>{const c=Math.cos(a),s=Math.sin(a);return [[c,-s,0],[s,c,0],[0,0,1]];},
+  I:[[1,0,0],[0,1,0],[0,0,1]] };
+const col=(A,i)=>[A[0][i],A[1][i],A[2][i]];
+const D2R=Math.PI/180;
+
+/* tubo con tapas redondeadas: anillos × segmentos */
+function tube(A,B,u,v,ra,rb,ell=1,color,rings=8,segs=12){
+  const f=V.norm(V.sub(B,A)), P=[], N=[];
+  const ring=(c,r,fw)=>{ const p=[],n=[]; for(let j=0;j<segs;j++){ const a=j/segs*Math.PI*2, cs=Math.cos(a), sn=Math.sin(a);
+      const d=V.add(V.mul(u,cs*r),V.mul(v,sn*r*ell)); p.push(V.add(c,d)); n.push(V.norm(V.add(V.add(V.mul(u,cs),V.mul(v,sn/ell)),V.mul(f,fw)))); } P.push(p); N.push(n); };
+  for(let k=4;k>=1;k--){ const t=k/4*Math.PI/2; ring(V.sub(A,V.mul(f,ra*Math.sin(t)*.9)), ra*Math.cos(t)+1e-3, -Math.sin(t)); }
+  for(let k=0;k<=rings;k++){ const s=k/rings; ring(V.add(A,V.mul(V.sub(B,A),s)), ra+(rb-ra)*s, 0); }
+  for(let k=1;k<=4;k++){ const t=k/4*Math.PI/2; ring(V.add(B,V.mul(f,rb*Math.sin(t)*.9)), rb*Math.cos(t)+1e-3, Math.sin(t)); }
+  return {P,N,color};
+}
+
+/* mano: palma + 4 dedos (3 falanges) + pulgar, apuntando a +x, palma hacia -y */
+function hand(pose, skin){
+  const meshes=[], up=[0,1,0], side=[0,0,1];
+  meshes.push(tube([-2.6,0,0],[-1.15,0,0],side,up,.36,.3,.8,skin,6));            // antebrazo
+  meshes.push(tube([-1.1,0,0],[-.28,0,0],side,up,.40,.44,.38,skin,6,14));           // palma
+  const F=[ {z:.27,l:[.46,.3,.22],r:.095}, {z:.09,l:[.5,.32,.22],r:.1}, {z:-.1,l:[.46,.3,.2],r:.095}, {z:-.27,l:[.34,.22,.17],r:.08} ];
+  let tip=null;
+  F.forEach((fg,i)=>{
+    let p=[-.3,0,fg.z], R=M.ry((i-1.2)*-4*D2R);
+    fg.l.forEach((L,k)=>{
+      R=M.mul(R,M.rz(-pose.curl[i][k]*D2R));
+      const fw=col(R,0), uu=col(R,2), vv=col(R,1);
+      const q=V.add(p,V.mul(fw,L));
+      const r0=fg.r*(1-k*.12), r1=fg.r*(1-(k+1)*.12);
+      meshes.push(tube(p,q,uu,vv,r0,r1,.85,skin,4,12));
+      if(i===0&&k===2){ tip=V.add(q,V.mul(fw,r1)); if(pose.nail) meshes.push(tube(V.add(V.sub(q,V.mul(fw,.12)),V.mul(vv,r1*.75)),V.add(q,V.mul(vv,r1*.55)),uu,vv,.05,.045,.35,pose.nail,2,10)); }
+      p=q;
+    });
+  });
+  // pulgar
+  let p=[-.9,-.05,.32], R=M.mul(M.ry(-pose.thumb[0]*D2R),M.rz(-25*D2R));
+  [.42,.32].forEach((L,k)=>{ R=M.mul(R,M.rz(-pose.thumb[k+1]*D2R)); const fw=col(R,0); const q=V.add(p,V.mul(fw,L));
+    meshes.push(tube(p,q,col(R,2),col(R,1),.13-k*.02,.11-k*.02,.85,skin,4,12)); p=q; });
+  return {meshes,tip};
+}
+
+/* ======== escena ======== */
+const cv=document.getElementById("cv"), cx=cv.getContext("2d"), sec=document.getElementById("creation");
+let W,H,dpr,f,DCAM=7;
+function size(){ dpr=Math.min(2,devicePixelRatio); W=sec.clientWidth; H=sec.clientHeight; cv.width=W*dpr; cv.height=H*dpr; f=Math.min(W,H*1.3)*.62; }
+addEventListener("resize",size); size();
+const proj=p=>{ const k=f/(DCAM-p[2]); return [W/2+p[0]*k, H/2-p[1]*k]; };
+const unproj=(sx,sy,z)=>{ const k=(DCAM-z)/f; return [(sx-W/2)*k, -(sy-H/2)*k, z]; };
+
+const stars=Array.from({length:90},()=>[Math.random(),Math.random(),Math.random()*1.2+.3]);
+const WIRE_POSE_IDLE ={ curl:[[10,14,12],[22,28,22],[30,34,26],[36,36,28]], thumb:[40,15,20] };
+const WIRE_POSE_REACH={ curl:[[2,4,4],[12,18,14],[20,26,20],[28,30,22]], thumb:[35,10,12] };
+const REAL_POSE={ curl:[[0,4,6],[72,88,55],[76,90,55],[78,86,50]], thumb:[30,25,30], nail:"nail" };
+const lerp=(a,b,t)=>a+(b-a)*t;
+const lerpPose=(a,b,t)=>({curl:a.curl.map((r,i)=>r.map((v,k)=>lerp(v,b.curl[i][k],t))),thumb:a.thumb.map((v,i)=>lerp(v,b.thumb[i],t))});
+const realHand=hand(REAL_POSE,"skin");
+
+function xform(model,R,S,T){ // aplica rotación/escala/traslación a toda la malla
+  return model.meshes.map(m=>({color:m.color, P:m.P.map(r=>r.map(p=>V.add(V.mul(M.ap(R,p),S),T))), N:m.N.map(r=>r.map(n=>M.ap(R,n)))}));
+}
+
+function drawWire(meshes){
+  const front=new Path2D(), back=new Path2D(), cam=[0,0,DCAM];
+  meshes.forEach(m=>{ const P=m.P, Q=P.map(r=>r.map(proj));
+    for(let k=0;k<P.length;k++) for(let j=0;j<P[k].length;j++){
+      const j2=(j+1)%P[k].length, facing=V.dot(m.N[k][j],V.sub(cam,P[k][j]))>0, path=facing?front:back;
+      path.moveTo(Q[k][j][0],Q[k][j][1]); path.lineTo(Q[k][j2][0],Q[k][j2][1]);
+      if(k<P.length-1){ path.moveTo(Q[k][j][0],Q[k][j][1]); path.lineTo(Q[k+1][j][0],Q[k+1][j][1]); }
+    } });
+  cx.lineWidth=1; cx.strokeStyle="rgba(255,70,50,.16)"; cx.stroke(back);
+  cx.lineWidth=1.1; cx.strokeStyle="rgba(255,85,62,.85)"; cx.stroke(front);
+}
+
+const L=V.norm([-.5,.7,.8]);
+function drawSolid(meshes){
+  const quads=[], cam=[0,0,DCAM];
+  meshes.forEach(m=>{ const P=m.P;
+    for(let k=0;k<P.length-1;k++) for(let j=0;j<P[k].length;j++){ const j2=(j+1)%P[k].length;
+      const a=P[k][j],b=P[k][j2],c=P[k+1][j2],d=P[k+1][j];
+      const n=V.norm(V.add(V.add(m.N[k][j],m.N[k][j2]),V.add(m.N[k+1][j],m.N[k+1][j2])));
+      const ctr=V.mul(V.add(V.add(a,b),V.add(c,d)),.25);
+      if(V.dot(n,V.sub(cam,ctr))<0) continue;
+      quads.push({q:[a,b,c,d],n,z:ctr[2],nail:m.color==="nail"}); } });
+  quads.sort((x,y)=>x.z-y.z);
+  quads.forEach(o=>{
+    const dif=Math.max(0,V.dot(o.n,L)), rim=Math.pow(1-Math.max(0,o.n[2]),2)*.35;
+    const h=V.norm(V.add(L,[0,0,1])), spec=Math.pow(Math.max(0,V.dot(o.n,h)),24)*(o.nail?.9:.35);
+    const base=o.nail?[236,200,190]:[205,148,112];
+    const k=.32+.78*dif;
+    const c=base.map(v=>Math.min(255,Math.round(v*k+255*spec-v*rim*.4)));
+    cx.fillStyle=cx.strokeStyle=`rgb(${c})`;
+    cx.beginPath(); o.q.forEach((p,i)=>{const s=proj(p); i?cx.lineTo(s[0],s[1]):cx.moveTo(s[0],s[1]);}); cx.closePath(); cx.fill(); cx.lineWidth=.6; cx.stroke();
+  });
+}
+
+/* ======== interacción ======== */
+let mx=W*.8, my=H*.85, tx=mx, ty=my, hasMouse=false, reach=0;
+sec.addEventListener("pointermove",e=>{ if(e.pointerType!=="mouse") return; const r=sec.getBoundingClientRect(); tx=e.clientX-r.left; ty=e.clientY-r.top; hasMouse=true; });
+sec.addEventListener("pointerleave",()=>hasMouse=false);
+
+function frame(t){
+  t/=1000;
+  if(!hasMouse){ // demo automática (móvil / sin mouse): la mano entra y se acerca al play
+    const c=(Math.sin(t*.7)+1)/2;
+    tx=lerp(W*.86,W/2+28,c); ty=lerp(H*.9,H/2+30,c);
+  }
+  mx=lerp(mx,tx,.18); my=lerp(my,ty,.18);
+  const dist=Math.hypot(mx-W/2,my-H/2);
+  const target=Math.max(0,Math.min(1,1-(dist-40)/(Math.min(W,H)*.55)));
+  reach=lerp(reach,target,.06);
+  sec.classList.toggle("is-near",dist<70);
+
+  cx.setTransform(dpr,0,0,dpr,0,0); cx.clearRect(0,0,W,H);
+  cx.fillStyle="rgba(239,233,223,.5)";
+  stars.forEach(s=>{ cx.globalAlpha=.25+.25*Math.sin(t*s[2]*2+s[0]*9); cx.fillRect(s[0]*W,s[1]*H,s[2],s[2]); }); cx.globalAlpha=1;
+
+  const S=Math.min(W,H*1.4)/f*1.45; // escala de las manos en mundo
+  // ---- mano de malla (izquierda) ----
+  const wire=hand(lerpPose(WIRE_POSE_IDLE,WIRE_POSE_REACH,reach),"wire");
+  const Rw=M.mul(M.rz((-18+reach*10+Math.sin(t*1.3)*1.5)*D2R),M.rx(-62*D2R));
+  const tipW=V.mul(M.ap(Rw,wire.tip),S);
+  const goal=unproj(lerp(W*(W<700?.22:.3),W/2-34,reach), lerp(H*.42,H/2-6,reach)+Math.sin(t*1.1)*6, 0);
+  drawWire(xform(wire,Rw,S,V.sub(goal,tipW)));
+
+  // ---- mano real (cursor) ----
+  const Rr=M.mul(M.rz(150*D2R),M.rx(72*D2R));
+  const tipR=V.mul(M.ap(Rr,realHand.tip),S);
+  const at=unproj(mx,my,.4);
+  drawSolid(xform(realHand,Rr,S,V.sub(at,tipR)));
+
+  // brillo en la punta cuando están cerca
+  if(reach>.6){ const g=cx.createRadialGradient(W/2,H/2,0,W/2,H/2,90); g.addColorStop(0,`rgba(255,40,20,${(reach-.6)*.6})`); g.addColorStop(1,"rgba(255,40,20,0)"); cx.fillStyle=g; cx.fillRect(0,0,W,H); }
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+/* ======== video ======== */
+const modal=document.getElementById("modal"), box=document.getElementById("box");
+document.getElementById("play").addEventListener("click",()=>{
+  box.querySelector("iframe,video")?.remove();
+  box.insertAdjacentHTML("beforeend", YOUTUBE_ID
+    ? `<iframe src="https://www.youtube.com/embed/${YOUTUBE_ID}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>`
+    : `<video controls autoplay playsinline style="width:100%;height:100%;background:#000"><source src="${VIDEO_SRC}" type="video/mp4"></video>`);
+  modal.classList.add("is-open");
+});
+document.getElementById("close").addEventListener("click",()=>{ modal.classList.remove("is-open"); box.querySelector("iframe,video")?.remove(); });
+</script>
+</body>
+</html>
