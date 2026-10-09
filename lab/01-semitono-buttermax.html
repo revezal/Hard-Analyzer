@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 01 — Semitono + Fran/Mera + cápsulas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@700&family=Inter+Tight:wght@800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* Efecto inspirado en Buttermax, versión Fran Mera:
+     1) transición de puntos semitono en zigzag con separación RGB
+     2) "Fran" bloque + "Mera" manuscrito que se dibuja con el scroll, con foto flotando delante
+     3) grilla de objetos: al hover aparece una cápsula de color detrás
+     4) BOOKING con Fran asomándose desde una cápsula que sigue el cursor */
+  :root { --ink:#050505; --red:#ff1a0e; --bone:#efe9df; --mono:"Space Mono",monospace; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; }
+  body { background:var(--ink); color:var(--ink); font-family:var(--mono); overflow-x:hidden; }
+  .mono { font-size:11px; letter-spacing:.14em; text-transform:uppercase; }
+
+  /* barra superior tipo Buttermax */
+  .bar { position:fixed; top:14px; left:16px; right:16px; z-index:20; display:flex; justify-content:space-between; align-items:center; mix-blend-mode:difference; color:#fff; }
+  .bar img { width:84px; }
+  .bar nav { display:flex; gap:6px; }
+  .bar nav a { border:1px solid currentColor; border-radius:99px; padding:5px 12px; color:inherit; text-decoration:none; }
+
+  /* ---------- 1. semitono ---------- */
+  .ht { position:relative; height:260vh; }
+  .ht__sticky { position:sticky; top:0; height:100vh; overflow:hidden; }
+  .ht canvas { position:absolute; inset:0; width:100%; height:100%; }
+  .ht__hint { position:absolute; bottom:22px; left:0; right:0; text-align:center; color:var(--bone); opacity:.6; }
+
+  /* ---------- 2. Fran / Mera ---------- */
+  .title { position:relative; background:var(--red); height:220vh; }
+  .title__sticky { position:sticky; top:0; height:100vh; overflow:hidden; display:grid; place-items:center; }
+  .dots { position:absolute; inset:0; }
+  .dots i { position:absolute; width:6px; height:6px; border-radius:50%; background:var(--ink); }
+  .word { position:relative; display:flex; align-items:baseline; transform:translateY(-6vh); }
+  .word__fran { font:900 clamp(90px,17vw,280px)/.8 "Inter Tight",sans-serif; letter-spacing:-.06em; }
+  .word__mera { width:clamp(220px,38vw,640px); margin-left:-1vw; overflow:visible; }
+  .word__mera text { font:700 220px "Caveat",cursive; fill:transparent; stroke:var(--ink); stroke-width:5; paint-order:stroke; }
+  .word__sub { position:absolute; left:4px; top:100%; margin-top:10px; }
+  .float { position:absolute; left:50%; top:50%; width:clamp(160px,22vw,320px); aspect-ratio:3/4; z-index:3;
+    background:#111 center/cover; border-radius:6px; box-shadow:0 30px 60px rgba(0,0,0,.4);
+    will-change:transform; }
+  .float::after { content:"FRAN 01"; position:absolute; bottom:8px; left:8px; font:700 9px var(--mono); letter-spacing:.2em; color:var(--bone); }
+
+  /* ---------- 3. cápsulas ---------- */
+  .grid { background:var(--red); padding:18vh 4vw 14vh; display:grid; grid-template-columns:repeat(3,1fr); row-gap:8vh; }
+  .grid__intro { grid-column:1/-1; font:900 clamp(26px,3.6vw,54px)/1 "Inter Tight",sans-serif; text-transform:uppercase; letter-spacing:-.03em; max-width:22ch; margin-bottom:6vh; }
+  .obj { position:relative; display:grid; justify-items:center; gap:10px; cursor:pointer; }
+  .obj__pill { position:absolute; left:50%; top:-12vh; bottom:-8vh; width:56%; transform:translateX(-50%) scaleY(0); transform-origin:50% 0;
+    border-radius:999px; background:var(--c); transition:transform .55s cubic-bezier(.2,.9,.2,1); z-index:0; }
+  .obj:hover .obj__pill { transform:translateX(-50%) scaleY(1); }
+  .obj__img { position:relative; z-index:1; width:min(22vw,240px); aspect-ratio:1; background:center/contain no-repeat; transition:transform .5s cubic-bezier(.2,1.4,.3,1);
+    filter:drop-shadow(0 18px 18px rgba(0,0,0,.35)); }
+  .obj:hover .obj__img { transform:translateY(-10px) scale(1.12) rotate(-4deg); }
+  .obj__cap { position:relative; z-index:1; display:flex; gap:12px; align-items:center; }
+  .obj__cap b { font-weight:700; }
+  @media (max-width:700px){ .grid{ grid-template-columns:1fr 1fr; } .obj__img{ width:38vw; } }
+
+  /* ---------- 4. booking ---------- */
+  .reach { position:relative; height:100vh; background:var(--ink); overflow:hidden; display:grid; align-items:end; cursor:none; }
+  .reach__top { position:absolute; inset:0 0 34% 0; background:var(--red); }
+  .reach__word { position:relative; z-index:3; font:900 clamp(70px,16vw,260px)/.8 "Inter Tight",sans-serif; letter-spacing:-.05em; color:var(--red); padding:0 3vw 5vh; pointer-events:none; }
+  .reach__mail { position:absolute; right:3vw; bottom:6vh; z-index:3; color:var(--bone); }
+  .spot { position:absolute; left:0; top:0; z-index:2; width:180px; height:62vh; transform:translate(-50%,0); pointer-events:none; transition:transform .25s cubic-bezier(.2,.9,.2,1); }
+  .spot__beam { position:absolute; inset:0; background:linear-gradient(180deg, transparent 0%, var(--ink) 30%, var(--ink) 100%);
+    clip-path:polygon(46% 0, 54% 0, 100% 62%, 100% 100%, 0 100%, 0 62%); }
+  .spot__pill { position:absolute; left:0; right:0; bottom:0; height:60%; border-radius:999px 999px 0 0; background:var(--bone); overflow:hidden; }
+  .spot__pill div { position:absolute; inset:8% -10% -6%; background:center bottom/cover; filter:grayscale(1) contrast(1.2); }
+
+  .note { position:fixed; bottom:10px; right:12px; z-index:30; background:var(--bone); padding:8px 10px; border-radius:6px; font-size:10px; max-width:260px; line-height:1.4; }
+</style>
+</head>
+<body>
+<header class="bar mono">
+  <img src="../assets/logo/logo-white.png" alt="Fran Mera">
+  <nav><a href="#">Música</a><a href="#">Bio</a><a href="#">Booking</a></nav>
+</header>
+
+<!-- 1. SEMITONO -->
+<section class="ht" id="ht">
+  <div class="ht__sticky">
+    <canvas id="htCanvas"></canvas>
+    <p class="ht__hint mono">SCROLL ↓</p>
+  </div>
+</section>
+
+<!-- 2. FRAN / MERA -->
+<section class="title" id="title">
+  <div class="title__sticky">
+    <div class="dots" id="dots"></div>
+    <div class="word">
+      <span class="word__fran">Fran</span>
+      <svg class="word__mera" viewBox="0 0 640 260" aria-label="Mera"><text id="mera" x="10" y="200">Mera</text></svg>
+      <span class="word__sub mono">Cantante · Compositor · Productor — Iquique, Chile</span>
+    </div>
+    <div class="float" id="float"></div>
+  </div>
+</section>
+
+<!-- 3. CÁPSULAS -->
+<section class="grid" id="grid">
+  <p class="grid__intro">Fran Mera es un artista urbano que hace del reggaetón su identidad desde los 14. Sonido fresco, melodías pegajosas, estilo propio.</p>
+</section>
+
+<!-- 4. BOOKING -->
+<section class="reach" id="reach">
+  <div class="reach__top"></div>
+  <div class="spot" id="spot"><div class="spot__beam"></div><div class="spot__pill"><div id="spotImg"></div></div></div>
+  <p class="reach__word">BOOKING</p>
+  <a class="reach__mail mono" href="mailto:booking@franmera.com">booking@franmera.com</a>
+</section>
+
+<p class="note mono">Lab 01 · Para que se vea idéntico: subir fotos de Fran y objetos recortados (PNG sin fondo) a assets/fotos/</p>
+
+<script>
+const PH = (label, tint="#ff1a0e") => { // placeholder si falta la foto
+  const c=document.createElement("canvas"); c.width=600; c.height=800; const x=c.getContext("2d");
+  const g=x.createLinearGradient(0,0,0,800); g.addColorStop(0,"#222"); g.addColorStop(1,tint); x.fillStyle=g; x.fillRect(0,0,600,800);
+  x.fillStyle="rgba(0,0,0,.7)"; x.beginPath(); x.ellipse(300,330,90,110,0,0,7); x.fill();
+  x.beginPath(); x.moveTo(90,800); x.quadraticCurveTo(110,470,300,450); x.quadraticCurveTo(490,470,510,800); x.fill();
+  x.fillStyle="#efe9df"; x.font="700 26px monospace"; x.fillText(label,30,770); return c.toDataURL();
+};
+const img = (src,label,tint) => new Promise(r=>{const i=new Image(); i.onload=()=>r(src); i.onerror=()=>r(PH(label,tint)); i.src=src;});
+const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+const prog = el => { const r=el.getBoundingClientRect(); return clamp(-r.top/(r.height-innerHeight)); };
+
+/* ================= 1. SEMITONO ================= */
+const cv=document.getElementById("htCanvas"), cx=cv.getContext("2d");
+function drawHT(p, t){
+  const dpr=Math.min(2,devicePixelRatio), W=cv.width=innerWidth*dpr, H=cv.height=innerHeight*dpr;
+  cx.fillStyle="#050505"; cx.fillRect(0,0,W,H);
+  const S=26*dpr, cxm=W/2, cym=H/2;
+  const grow = clamp((p-.15)/.75);                // 0 → zigzag, 1 → pantalla cubierta
+  const field = 0.18 + grow*1.6;                  // radio del campo visible
+  for(let y=S/2;y<H+S;y+=S) for(let x=S/2;x<W+S;x+=S){
+    const nx=(x-cxm)/H, ny=(y-cym)/H, d=Math.hypot(nx,ny);
+    // banda zigzag (triangular) como en Buttermax
+    const tri = Math.abs(((nx*3.2 + t*.25) % 2 + 2) % 2 - 1) - .5;
+    const band = Math.exp(-Math.pow((ny - tri*.22)/ (0.07+grow*.9),2));
+    const vis = clamp(1-(d-field)/.12);
+    let r = (1.2*dpr + band*S*.42) * vis + grow*grow*S*.75;
+    if(r<.4) continue;
+    if(band>.35 && grow<.95){ // separación RGB
+      const o=2.4*dpr*(1-grow);
+      cx.globalCompositeOperation="lighter";
+      cx.fillStyle="#00c8ff"; cx.beginPath(); cx.arc(x-o,y,r,0,7); cx.fill();
+      cx.fillStyle="#ff00aa"; cx.beginPath(); cx.arc(x+o,y,r,0,7); cx.fill();
+      cx.globalCompositeOperation="source-over";
+    }
+    cx.fillStyle = band>.35 || grow>.6 ? "#ff1a0e" : "rgba(239,233,223,.55)";
+    cx.beginPath(); cx.arc(x,y,r,0,7); cx.fill();
+  }
+}
+
+/* ================= 2. FRAN / MERA ================= */
+const dots=document.getElementById("dots");
+dots.innerHTML=Array.from({length:70},()=>`<i style="left:${Math.random()*100}%;top:${Math.random()*100}%;transform:scale(${.5+Math.random()})"></i>`).join("");
+const mera=document.getElementById("mera"); let meraLen=1400;
+mera.style.strokeDasharray=meraLen; mera.style.strokeDashoffset=meraLen;
+const flo=document.getElementById("float");
+img("../assets/fotos/fran-01.jpg","FRAN 01").then(u=>flo.style.backgroundImage=`url(${u})`);
+
+/* ================= 3. CÁPSULAS ================= */
+const OBJ=[
+  {src:"../assets/fotos/obj-mic.png", t:"Micrófono", s:"Estudio", c:"#c6ff3d"},
+  {src:"../assets/fotos/obj-vinilo.png", t:"Kelokera", s:"Single 2026", c:"#b7a6ff"},
+  {src:"../assets/fotos/obj-lentes.png", t:"Lentes", s:"Firma", c:"#7fe7ff"},
+  {src:"../assets/fotos/obj-cadena.png", t:"Cadena", s:"Drip", c:"#ffd23d"},
+  {src:"../assets/fotos/obj-mpc.png", t:"MPC", s:"Producción", c:"#efe9df"},
+  {src:"../assets/fotos/obj-cb.png", t:"Childhood Boys", s:"Sello", c:"#f5b92e"},
+];
+const grid=document.getElementById("grid");
+Promise.all(OBJ.map(o=>img(o.src,o.t.toUpperCase(),"#333"))).then(us=>{
+  grid.insertAdjacentHTML("beforeend",OBJ.map((o,i)=>`<div class="obj" style="--c:${o.c}"><span class="obj__pill"></span>
+    <div class="obj__img" style="background-image:url(${us[i]})"></div>
+    <p class="obj__cap mono"><b>${o.t}</b><span>${o.s}</span></p></div>`).join(""));
+});
+
+/* ================= 4. BOOKING ================= */
+const reach=document.getElementById("reach"), spot=document.getElementById("spot");
+img("../assets/fotos/fran-cutout.png","FRAN").then(u=>document.getElementById("spotImg").style.backgroundImage=`url(${u})`);
+let sx=innerWidth*.45;
+reach.addEventListener("pointermove",e=>{ sx=e.clientX; });
+function placeSpot(){ const r=reach.getBoundingClientRect(); const top=r.height - spot.offsetHeight - r.height*.06; spot.style.transform=`translate(${sx-90}px, ${top}px)`; }
+
+/* ================= loop ================= */
+function loop(t){
+  drawHT(prog(document.getElementById("ht")), t/1000);
+  const p=prog(document.getElementById("title"));
+  mera.style.strokeDashoffset = meraLen*(1-clamp(p/.55));
+  mera.style.fill = `rgba(5,5,5,${clamp((p-.45)/.2)})`;
+  flo.style.transform=`translate(-30%, ${(1-p)*70 - 60}vh) rotate(${(p-.5)*-14}deg)`;
+  placeSpot();
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

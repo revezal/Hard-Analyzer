@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 02 — Rueda de trayectoria</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@700&family=Inter+Tight:wght@500;800&family=Rubik+Mono+One&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* Inspirado en el "recap" circular: una rueda gigante con marcas y etiquetas
+     que gira con el scroll; los stickers viven en el arco y el del centro crece. */
+  :root { --ink:#000; --bone:#efe9df; --red:#ff1a0e; --gold:#f5b92e; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--ink); color:var(--bone); font-family:"Inter Tight",sans-serif; overflow-x:hidden; }
+  .top { position:fixed; top:14px; left:18px; right:18px; display:flex; justify-content:space-between; z-index:5; font:700 10px "Space Mono",monospace; letter-spacing:.18em; }
+  .top img { width:70px; }
+  .wheel { position:relative; height:520vh; }
+  .wheel__sticky { position:sticky; top:0; height:100vh; overflow:hidden; }
+  svg.rim { position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+  .rim line { stroke:rgba(239,233,223,.55); stroke-width:1.2; }
+  .rim text { fill:rgba(239,233,223,.75); font:500 11px "Inter Tight",sans-serif; letter-spacing:.06em; text-transform:uppercase; }
+  .it { position:absolute; left:0; top:0; will-change:transform,opacity; transform-origin:0 50%; }
+  .it__inner { transform:translateY(-50%); display:flex; align-items:center; gap:8px; }
+  .note { position:absolute; left:18px; bottom:16px; font:700 10px "Space Mono",monospace; letter-spacing:.15em; opacity:.5; max-width:46ch; }
+  .end { height:60vh; display:grid; place-items:center; font:400 clamp(40px,8vw,110px)/.9 "Anton",sans-serif; text-align:center; }
+
+  /* ---------- stickers ---------- */
+  .st-photo { width:64px; height:64px; border-radius:50%; background:#222 center/cover; box-shadow:0 0 0 3px var(--bone); }
+  .st-pill { border:2px solid var(--bone); border-radius:999px; padding:10px 22px; font:500 26px "Inter Tight",sans-serif; letter-spacing:.02em; }
+  .st-stamp { width:64px; height:64px; border-radius:50%; display:grid; place-items:center; font:900 18px "Rubik Mono One",sans-serif; color:var(--red); background:var(--bone); margin-left:-18px; box-shadow:0 2px 10px rgba(0,0,0,.5); }
+  .st-stamp:first-child { margin-left:0; }
+  .st-stamp.r { background:var(--red); color:var(--bone); }
+  .st-script { font:700 54px/1 "Caveat",cursive; position:relative; }
+  .st-script::after { content:""; position:absolute; left:2px; right:2px; bottom:-6px; height:8px;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='8'%3E%3Cpath d='M0 4 Q4 0 8 4 T16 4' fill='none' stroke='%23ff1a0e' stroke-width='2'/%3E%3C/svg%3E") repeat-x; }
+  .st-letter { width:64px; height:64px; border-radius:50%; background:var(--bone); color:var(--ink); display:grid; place-items:center; font:800 36px "Inter Tight",sans-serif; }
+  .st-text { font:500 9px/1.35 "Space Mono",monospace; max-width:150px; opacity:.85; }
+  .st-gold { font:400 26px/.9 "Rubik Mono One",sans-serif; background:linear-gradient(175deg,#fff1b8,#f5b92e 40%,#8a5a06 60%,#f5b92e); -webkit-background-clip:text; background-clip:text; color:transparent; filter:drop-shadow(0 3px 0 #4a2f02); }
+  .st-kelo { font:400 50px/.85 "Anton",sans-serif; color:var(--red); letter-spacing:-.02em; }
+  .st-logo { width:150px; }
+  .st-heart { color:var(--red); font-size:18px; }
+</style>
+</head>
+<body>
+<div class="top"><img src="../assets/logo/logo-white.png" alt="Fran Mera"><span>TRAYECTORIA · 01</span></div>
+
+<section class="wheel" id="wheel">
+  <div class="wheel__sticky" id="stage">
+    <svg class="rim" id="rim"><g id="rimG"></g></svg>
+    <p class="note">Lab 02 · Gira con el scroll. Etiquetas y stickers se editan en el array TL (reemplazar por años reales).</p>
+  </div>
+</section>
+<div class="end">DE IQUIQUE<br>PA'L MUNDO</div>
+
+<script>
+/* Cada hito: etiqueta del borde + sticker. Tipos: photo, pill, stamps, script, letter, text, gold, kelo, logo */
+const TL = [
+  { label:"Inicios",       html:`<div class="st-photo" data-img="../assets/fotos/fran-05.jpg"></div>` },
+  { label:"14 años",       html:`<div class="st-pill">reggaetón</div>` },
+  { label:"Iquique",       html:`<div class="st-stamp r">IQQ</div>` },
+  { label:"Radios",        html:`<div style="display:flex"><div class="st-stamp">FM</div><div class="st-stamp r">ON</div><div class="st-stamp">AIR!</div></div>` },
+  { label:"Televisión",    html:`<div class="st-script">en vivo</div>` },
+  { label:"MTV",           html:`<div style="display:flex"><div class="st-letter">M</div><div class="st-photo" style="margin-left:-14px" data-img="../assets/fotos/fran-04.jpg"></div></div>` },
+  { label:"Compositor",    html:`<p class="st-text">Canciones para artistas nacionales e internacionales. Topline, letra y melodía.</p>` },
+  { label:"Productor",     html:`<div class="st-photo" data-img="../assets/fotos/fran-03.jpg"></div>` },
+  { label:"Childhood Boys",html:`<div class="st-gold">CHILD<br>HOOD<br>BOYS</div>` },
+  { label:"Kelokera",      html:`<div class="st-kelo">KELOKERA</div>` },
+  { label:"Hoy",           html:`<span class="st-heart">♥</span><div class="st-script" style="font-size:40px">pa' la gente</div>` },
+];
+
+const stage=document.getElementById("stage"), rimG=document.getElementById("rimG"), wheel=document.getElementById("wheel");
+const N=TL.length, STEP=22*Math.PI/180;   // separación angular entre hitos
+const els = TL.map(t=>{ const d=document.createElement("div"); d.className="it"; d.innerHTML=`<div class="it__inner">${t.html}</div>`; stage.appendChild(d); return d; });
+
+// fotos con respaldo
+document.querySelectorAll("[data-img]").forEach(el=>{ const i=new Image(); i.onload=()=>el.style.backgroundImage=`url(${i.src})`; i.onerror=()=>el.style.background="radial-gradient(circle at 40% 35%, #ff1a0e, #300)"; i.src=el.dataset.img; });
+
+let G={};
+function layout(){
+  const W=innerWidth, H=innerHeight, mob=W<700;
+  const R=Math.max(H*1.05, 620);
+  const arcX = W*(mob?.2:.33);               // punto más a la izquierda del arco
+  G={W,H,R,cx:arcX+R,cy:H/2,mob};
+  // marcas: 4 por hito, todo el círculo
+  const ticks=[], labels=[];
+  const sub=STEP/4;
+  for(let a=-Math.PI; a<Math.PI; a+=sub){
+    const major=Math.abs((a/STEP)-Math.round(a/STEP))<1e-3;
+    const r1=R, r2=R-(major?26:18);
+    ticks.push(`<line x1="${-r1}" y1="0" x2="${-r2}" y2="0" transform="rotate(${-a*180/Math.PI})"/>`);
+  }
+  TL.forEach((t,i)=>labels.push(`<text x="${-R-14}" y="4" text-anchor="end" transform="rotate(${-i*STEP*180/Math.PI})">${t.label}</text>`));
+  rimG.innerHTML=ticks.join("")+labels.join("");
+}
+addEventListener("resize",layout); layout();
+
+function frame(){
+  const r=wheel.getBoundingClientRect();
+  const p=Math.max(0,Math.min(1,-r.top/(r.height-innerHeight)));
+  const rot=-p*(N-1)*STEP;                    // ángulo de giro
+  rimG.setAttribute("transform",`translate(${G.cx} ${G.cy}) rotate(${-rot*180/Math.PI})`);
+  // nota: en SVG las etiquetas giran con la rueda (ángulo = i*STEP + rot medido desde las 9 en punto, hacia abajo)
+  els.forEach((el,i)=>{
+    const phi=i*STEP+rot;                      // 0 = centro (9 en punto)
+    const ri=G.R-(G.mob?70:110);
+    const x=G.cx-ri*Math.cos(phi), y=G.cy+ri*Math.sin(phi);
+    const k=Math.max(0,1-Math.abs(phi)/STEP);  // cercanía al centro
+    const s=(G.mob?.75:1)*(1+.55*k);
+    el.style.transform=`translate(${x}px,${y}px) rotate(${-phi*180/Math.PI}deg) scale(${s})`;
+    el.style.opacity=Math.max(0,1-Math.abs(phi)/(STEP*4.2));
+  });
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

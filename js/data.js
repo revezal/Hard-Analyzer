@@ -14,7 +14,7 @@ window.FM = {
     key: "A MIN",
     cover: "assets/fotos/kelokera-cover.jpg", // si no existe, se usa placeholder
     audio: "",            // ej: "assets/audio/preview.mp3" (30s). Si está vacío, el karaoke corre en modo demo.
-    links: { spotify: "#", youtube: "#", apple: "#" },
+    links: { spotify: "https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw", youtube: "#", apple: "#" },
     // t = segundo en que empieza la línea. PLACEHOLDER: reemplazar por la letra real con sus tiempos.
     lyrics: [
       { t: 0.0,  text: "Letra de ejemplo para el karaoke" },
@@ -43,12 +43,13 @@ window.FM = {
   ],
 
   /* ---------- DISCOS: TEMAS MÁS ESCUCHADOS ---------- */
+  // Fuente: Spotify → Popular (orden y reproducciones al 09-10-2026)
   topTracks: [
-    { title: "KELOKERA", year: "2026", plays: "NUEVO", color: "#ff1a0e", cover: "", spotify: "#" },
-    { title: "TEMA 02", year: "2025", plays: "860K", color: "#c9b48a", cover: "", spotify: "#" },
-    { title: "TEMA 03", year: "2025", plays: "640K", color: "#8f2d1b", cover: "", spotify: "#" },
-    { title: "TEMA 04", year: "2024", plays: "410K", color: "#e8b13a", cover: "", spotify: "#" },
-    { title: "TEMA 05", year: "2024", plays: "300K", color: "#4a6b8a", cover: "", spotify: "#" }
+    { title: "OTRA COPA", time: "3:23", plays: "734.394", color: "#c8364a", cover: "", spotify: "https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw" },
+    { title: "NA CONMIGO NA CONTIGO", time: "4:02", plays: "1.499.347", color: "#d9c3a5", cover: "", spotify: "https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw" },
+    { title: "QUE RICO FUE", time: "2:38", plays: "211.715", color: "#2a5bd7", cover: "", spotify: "https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw" },
+    { title: "DIME QUE FUE", time: "3:28", plays: "387.223", color: "#e0b9a8", cover: "", spotify: "https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw" },
+    { title: "KELOKERA", time: "2:31", plays: "1.155", color: "#ff1a0e", cover: "", spotify: "https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw" }
   ],
 
   /* ---------- CHILDHOOD BOYS (discográfica) ---------- */
@@ -73,7 +74,7 @@ window.FM = {
   socials: {
     instagram: "#",
     tiktok: "#",
-    spotify: "#",
+    spotify: "https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw",
     youtube: "#",
     booking: "mailto:booking@franmera.com"
   }

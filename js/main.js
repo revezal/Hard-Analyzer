@@ -221,7 +221,7 @@
     const t = T[i];
     const label = t.cover ? `style="--c:${t.color};background-image:url(${t.cover})"` : `style="--c:${t.color}"`;
     return `<div class="vinyl"><span class="vinyl__rank">#${String(i + 1).padStart(2, "0")} MÁS ESCUCHADO</span>
-      <div class="vinyl__spin"><div class="vinyl__label" ${label}>${t.cover ? "" : `<b>${t.title}</b><small>FRAN MERA · ${t.year}</small>`}</div></div></div>`;
+      <div class="vinyl__spin"><div class="vinyl__label" ${label}>${t.cover ? "" : `<b>${t.title}</b><small>FRAN MERA · ${t.time}</small>`}</div></div></div>`;
   }
   const visibleA = a => Math.round(a / 180) % 2 === 0;
   const hiddenFace = a => visibleA(a) ? faceB : faceA;
@@ -232,7 +232,7 @@
   function caption(i) {
     const c = $("#discCaption");
     $("#capTitle").textContent = T[i].title;
-    $("#capMeta").textContent = `#${String(i + 1).padStart(2, "0")} · ${T[i].year} · ${T[i].plays} PLAYS`;
+    $("#capMeta").textContent = `#${String(i + 1).padStart(2, "0")} · ${T[i].time} · ${T[i].plays} REPRODUCCIONES`;
     $("#capLink").href = T[i].spotify;
     c.classList.remove("is-swap"); void c.offsetWidth; c.classList.add("is-swap");
     document.querySelectorAll("#tracklist button").forEach((b, j) => b.classList.toggle("is-active", j === i));
