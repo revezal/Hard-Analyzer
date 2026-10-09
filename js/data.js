@@ -13,7 +13,7 @@ window.FM = {
     bpm: 94,
     key: "A MIN",
     cover: "assets/fotos/kelokera-cover.jpg", // si no existe, se usa placeholder
-    audio: "assets/audio/kelokera-preview.mp3", // preview de 10s sacado del videoclip; reemplazar por uno de 30s del coro
+    audio: "",            // ej: "assets/audio/kelokera-preview.mp3" (30s del coro). Si está vacío, el karaoke corre en modo demo.
     links: { spotify: "https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw", youtube: "#", apple: "#" },
     // t = segundo en que empieza la línea. PLACEHOLDER: reemplazar por la letra real con sus tiempos.
     lyrics: [
