@@ -43,7 +43,6 @@
 
   /* ---------- contenido estático ---------- */
   const R = D.release;
-  $("#bpm").textContent = R.bpm; $("#key").textContent = R.key;
   $("#deckTitle").textContent = R.title;
   $("#heroWord").textContent = R.title; $("#heroWord").dataset.text = R.title;
   $("#deckLinks").innerHTML = Object.entries(R.links).map(([k, v]) => `<a href="${v}" target="_blank" rel="noopener">${k}</a>`).join("");
@@ -69,7 +68,6 @@
     clearInterval(tick); setLoad(100);
     setTimeout(() => $("#loader").classList.add("is-done"), 350);
     initStage(photos);
-    $("#deckCover").style.backgroundImage = `url(${cover})`;
     $("#bioPhoto").style.backgroundImage = `url(${photos[3 % photos.length]})`;
   });
 
@@ -166,7 +164,7 @@
 
   function setPlaying(v) {
     playing = v;
-    $("#deck").classList.toggle("is-playing", v);
+    $("#lyric").classList.toggle("is-playing", v);
     $("#playBtn").setAttribute("aria-label", v ? "Pausar" : "Reproducir");
     if (hasAudio) v ? audio.play().catch(() => setPlaying(false)) : audio.pause();
     last = performance.now();
@@ -175,13 +173,32 @@
   document.querySelectorAll("[data-play]").forEach(a => a.addEventListener("click", () => setTimeout(() => setPlaying(true), 400)));
   audio.addEventListener("ended", () => setPlaying(false));
 
-  const kPrev = $("#kPrev"), kNow = $("#kNow"), kNext = $("#kNext"), kar = $("#karaoke");
-  function renderLine(n) {
-    kPrev.textContent = lines[n - 1]?.text || "";
-    kNow.innerHTML = (lines[n]?.text || "").split(" ").map(w => `<span class="w">${w}</span>`).join(" ");
-    kNext.textContent = lines[n + 1]?.text || "";
-    kar.classList.remove("is-swap"); void kar.offsetWidth; kar.classList.add("is-swap");
+  /* afiche: cada palabra es una línea que se ajusta al ancho del afiche */
+  const poster = $("#poster"), stack = $("#stack");
+  let words = [];
+  function fitStack() {
+    const W = stack.clientWidth, H = poster.clientHeight * .9;
+    if (!W || !words.length) return;
+    const inner = words.map(w => w.firstChild);
+    // 1) tamaño que llena el ancho, con tope para que las palabras cortas no se coman el afiche
+    const cap = H / (words.length * .94) * 1.5;
+    let sizes = inner.map(i => { i.style.transform = "none"; i.parentNode.style.fontSize = "100px"; return Math.min(cap, 100 * W / Math.max(1, i.offsetWidth)); });
+    // 2) si el total no cabe en alto, se reduce todo parejo
+    const k = Math.min(1, H / sizes.reduce((a, b) => a + b * .94, 0));
+    sizes = sizes.map(v => v * k);
+    // 3) cada línea se estira a lo ancho hasta tocar los bordes (look afiche)
+    words.forEach((w, i) => { w.style.fontSize = sizes[i] + "px"; });
+    inner.forEach(i => { i.style.transform = `scaleX(${W / Math.max(1, i.offsetWidth)})`; });
   }
+  function renderLine(n) {
+    const txt = (lines[n]?.text || "").trim();
+    stack.innerHTML = txt ? txt.split(/\s+/).map(w => `<span class="pw"><i>${w}</i></span>`).join("") : "";
+    words = [...stack.children];
+    fitStack();
+    requestAnimationFrame(fitStack);
+  }
+  addEventListener("resize", fitStack);
+  document.fonts.ready.then(fitStack);
   renderLine(0);
 
   function updateKaraoke(t) {
@@ -189,27 +206,9 @@
     for (let i = 0; i < lines.length; i++) if (t >= lines[i].t) n = i;
     if (n !== curLine) { curLine = n; renderLine(n); }
     const start = lines[n].t, end = lines[n + 1]?.t ?? dur();
-    const p = Math.min(1, (t - start) / ((end - start) * .85));
-    const ws = kNow.querySelectorAll(".w");
-    ws.forEach((w, i) => {
-      const on = p >= i / ws.length;
-      w.classList.toggle("on", on);
-      w.classList.toggle("hit", on && p < (i + 1) / ws.length);
-    });
-  }
-
-  /* waveform */
-  const cv = $("#wave"), cx = cv.getContext("2d");
-  const bars = Array.from({ length: 72 }, (_, i) => .25 + .75 * Math.abs(Math.sin(i * 1.7) * Math.cos(i * .37)));
-  function drawWave(t, p) {
-    const w = cv.width = cv.clientWidth * devicePixelRatio, h = cv.height = 56 * devicePixelRatio;
-    const bw = w / bars.length;
-    bars.forEach((b, i) => {
-      const live = playing ? .7 + .3 * Math.sin(t * 9 + i * .8) : 1;
-      const bh = b * live * h * .9;
-      cx.fillStyle = i / bars.length < p ? "#ff1a0e" : "rgba(239,233,223,.22)";
-      cx.fillRect(i * bw + 1, (h - bh) / 2, Math.max(1, bw - 2 * devicePixelRatio), bh);
-    });
+    const p = Math.min(1, (t - start) / ((end - start) * .8));
+    // las palabras aparecen a medida que se cantan (solo mientras suena)
+    words.forEach((w, i) => w.classList.toggle("on", playing && p >= i / words.length));
   }
 
   function loop(ts) {
@@ -217,7 +216,6 @@
     if (playing && !hasAudio) { demoT += dt; if (demoT >= demoDur) { demoT = 0; setPlaying(false); } }
     const t = now();
     updateKaraoke(t);
-    drawWave(ts / 1000, t / dur());
     $("#tCur").textContent = fmt(t);
     if (playing) {
       // cambio de foto cada 4 beats (1 compás)

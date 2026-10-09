@@ -22,6 +22,11 @@
       <feTurbulence id="liquidNoise" type="fractalNoise" baseFrequency="0.012 0.03" numOctaves="2" seed="3"/>
       <feDisplacementMap in="SourceGraphic" scale="14"/>
     </filter>
+    <filter id="grungeLite">
+      <feTurbulence type="fractalNoise" baseFrequency="0.11" numOctaves="3" seed="2" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -16 13" result="m"/>
+      <feComposite in="SourceGraphic" in2="m" operator="in"/>
+    </filter>
     <filter id="grunge">
       <feTurbulence type="fractalNoise" baseFrequency="0.07" numOctaves="4" seed="8" result="n"/>
       <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -11 7.6" result="m"/>
@@ -73,36 +78,18 @@
         <span class="hero__word grunge" id="heroWord" data-text="KELOKERA">KELOKERA</span>
       </h1>
 
-      <!-- consola de lanzamiento / karaoke -->
-      <aside class="deck" id="deck">
-        <div class="deck__top mono">
-          <span>NUEVO SINGLE</span>
-          <span><span id="bpm">94</span> BPM · <span id="key">A MIN</span></span>
-        </div>
-
-        <div class="deck__head">
-          <div class="deck__vinyl" id="deckVinyl"><div class="deck__label" id="deckCover"></div></div>
-          <div>
-            <p class="deck__artist mono">FRAN MERA</p>
-            <p class="deck__song" id="deckTitle">KELOKERA</p>
-            <p class="deck__rec mono">A CHILDHOOD BOYS RECORD</p>
-          </div>
-        </div>
-
-        <canvas class="deck__wave" id="wave" height="56"></canvas>
-
-        <div class="karaoke" id="karaoke" aria-live="polite">
-          <p class="karaoke__line karaoke__line--prev" id="kPrev"></p>
-          <p class="karaoke__line karaoke__line--now" id="kNow"></p>
-          <p class="karaoke__line karaoke__line--next" id="kNext"></p>
-        </div>
-
-        <div class="deck__ctrl">
+      <!-- letra tipo afiche: aparece palabra por palabra mientras suena -->
+      <div class="lyric" id="lyric">
+        <div class="poster" id="poster" aria-live="polite"><div class="poster__stack" id="stack"></div></div>
+        <div class="lyric__ctrl">
           <button class="play" id="playBtn" aria-label="Reproducir"><span class="play__icon"></span></button>
-          <div class="deck__time mono"><span id="tCur">0:00</span> / <span id="tDur">0:30</span></div>
+          <div class="lyric__meta mono">
+            <span class="lyric__song" id="deckTitle">KELOKERA</span>
+            <span class="muted"><span id="tCur">0:00</span> / <span id="tDur">0:30</span></span>
+          </div>
           <div class="deck__links mono" id="deckLinks"></div>
         </div>
-      </aside>
+      </div>
 
       <div class="hero__scroll mono">SCROLL ↓</div>
     </section>
