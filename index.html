@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fran Mera — Kelokera</title>
+  <meta name="description" content="Fran Mera — cantante, compositor y productor chileno de Iquique. Nuevo single KELOKERA ya disponible. Un sello Childhood Boys.">
+  <meta property="og:title" content="FRAN MERA — KELOKERA">
+  <meta property="og:description" content="Nuevo single disponible ahora. A Childhood Boys record.">
+  <meta name="theme-color" content="#050505">
+  <link rel="icon" href="assets/logo/logo-white.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Rubik+Mono+One&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- filtros SVG: logo líquido + textura grunge -->
+  <svg class="defs" aria-hidden="true">
+    <filter id="liquid">
+      <feTurbulence id="liquidNoise" type="fractalNoise" baseFrequency="0.012 0.03" numOctaves="2" seed="3"/>
+      <feDisplacementMap in="SourceGraphic" scale="14"/>
+    </filter>
+    <filter id="grunge">
+      <feTurbulence type="fractalNoise" baseFrequency="0.07" numOctaves="4" seed="8" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -11 7.6" result="m"/>
+      <feComposite in="SourceGraphic" in2="m" operator="in"/>
+    </filter>
+  </svg>
+
+  <div class="grain" aria-hidden="true"></div>
+  <div class="cursor" aria-hidden="true">✦</div>
+
+  <!-- LOADER -->
+  <div class="loader" id="loader">
+    <img src="assets/logo/logo-white.png" alt="" class="loader__logo">
+    <div class="loader__bar"><span></span></div>
+    <p class="mono loader__txt">CARGANDO <span id="loadPct">0</span>%</p>
+  </div>
+
+  <!-- NAV -->
+  <header class="nav">
+    <a href="#top" class="nav__logo"><img src="assets/logo/logo-white.png" alt="Fran Mera"></a>
+    <nav class="nav__links mono">
+      <a href="#discos">Discos</a>
+      <a href="#bio">Bio</a>
+      <a href="#childhood" class="gold-link">Childhood Boys</a>
+      <a href="#contacto">Booking</a>
+    </nav>
+    <a class="nav__cta mono" href="#top" data-play>▶ KELOKERA</a>
+  </header>
+
+  <main id="top">
+
+    <!-- ================= HERO ================= -->
+    <section class="hero">
+      <!-- mix de fotos -->
+      <div class="stage" id="stage">
+        <div class="stage__base" id="stageBase"></div>
+        <div class="stage__flash" id="stageFlash"></div>
+        <div class="stage__scan"></div>
+        <div class="stage__vignette"></div>
+        <div class="stage__meta mono">
+          <span>● REC</span>
+          <span id="stageLabel">FRAN 01</span>
+          <span id="stageClock">00:00:00</span>
+        </div>
+      </div>
+
+      <h1 class="hero__title" aria-label="Kelokera">
+        <span class="hero__kicker mono">DISPONIBLE AHORA</span>
+        <span class="hero__word grunge" id="heroWord" data-text="KELOKERA">KELOKERA</span>
+      </h1>
+
+      <!-- consola de lanzamiento / karaoke -->
+      <aside class="deck" id="deck">
+        <div class="deck__top mono">
+          <span>NUEVO SINGLE</span>
+          <span><span id="bpm">94</span> BPM · <span id="key">A MIN</span></span>
+        </div>
+
+        <div class="deck__head">
+          <div class="deck__vinyl" id="deckVinyl"><div class="deck__label" id="deckCover"></div></div>
+          <div>
+            <p class="deck__artist mono">FRAN MERA</p>
+            <p class="deck__song" id="deckTitle">KELOKERA</p>
+            <p class="deck__rec mono">A CHILDHOOD BOYS RECORD</p>
+          </div>
+        </div>
+
+        <canvas class="deck__wave" id="wave" height="56"></canvas>
+
+        <div class="karaoke" id="karaoke" aria-live="polite">
+          <p class="karaoke__line karaoke__line--prev" id="kPrev"></p>
+          <p class="karaoke__line karaoke__line--now" id="kNow"></p>
+          <p class="karaoke__line karaoke__line--next" id="kNext"></p>
+        </div>
+
+        <div class="deck__ctrl">
+          <button class="play" id="playBtn" aria-label="Reproducir"><span class="play__icon"></span></button>
+          <div class="deck__time mono"><span id="tCur">0:00</span> / <span id="tDur">0:30</span></div>
+          <div class="deck__links mono" id="deckLinks"></div>
+        </div>
+      </aside>
+
+      <div class="hero__scroll mono">SCROLL ↓</div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee mono" aria-hidden="true">
+      <div class="marquee__track" id="marquee"></div>
+    </div>
+
+    <!-- ================= DISCOS ================= -->
+    <section class="discos" id="discos">
+      <div class="section-head">
+        <span class="mono">02 / LO MÁS ESCUCHADO</span>
+        <h2 class="display">VOLTEA<br>EL DISCO</h2>
+        <p class="mono muted">Arrastra el disco o usa las flechas. Cada lado es un tema.</p>
+      </div>
+
+      <div class="crate">
+        <button class="crate__arrow mono" id="prevDisc" aria-label="Tema anterior">←</button>
+
+        <div class="disc-scene" id="discScene">
+          <div class="disc" id="disc">
+            <div class="disc__face disc__face--front" id="faceA"></div>
+            <div class="disc__face disc__face--back" id="faceB"></div>
+          </div>
+          <div class="disc-shadow"></div>
+        </div>
+
+        <button class="crate__arrow mono" id="nextDisc" aria-label="Tema siguiente">→</button>
+      </div>
+
+      <div class="disc-caption" id="discCaption">
+        <p class="mono disc-caption__meta" id="capMeta"></p>
+        <p class="disc-caption__title" id="capTitle"></p>
+        <a class="mono" id="capLink" href="#" target="_blank" rel="noopener">▶ ESCUCHAR</a>
+      </div>
+      <ol class="tracklist mono" id="tracklist"></ol>
+    </section>
+
+    <!-- ================= BIO ================= -->
+    <section class="bio" id="bio">
+      <div class="bio__photo reveal" id="bioPhoto"></div>
+      <div class="bio__text">
+        <span class="mono">03 / BIO</span>
+        <h2 class="display reveal">DE IQUIQUE<br><em>PA'L MUNDO</em></h2>
+        <p class="big reveal">Cantante, compositor y productor. Hizo del reggaetón su identidad desde los <b>14 años</b>.</p>
+        <p class="reveal">Con un sonido fresco, melodías pegajosas y un estilo propio, ha llegado a las principales radios nacionales, medios, televisión y plataformas internacionales como <b>MTV</b>.</p>
+        <p class="reveal">En paralelo, ha desarrollado una destacada faceta como compositor y productor, participando en proyectos de artistas nacionales e internacionales. Hoy sigue lanzando música, explorando sonidos y consolidando su identidad tanto detrás del micrófono como desde la producción.</p>
+        <div class="stats reveal">
+          <div><b data-count="14">0</b><span class="mono">AÑOS EN EL<br>REGGAETÓN</span></div>
+          <div><b>MTV</b><span class="mono">PLATAFORMAS<br>INTERNACIONALES</span></div>
+          <div><b>3</b><span class="mono">ROLES: ARTISTA ·<br>COMPOSITOR · PRODUCTOR</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CHILDHOOD BOYS ================= -->
+    <section class="cb" id="childhood">
+      <div class="cb__sparkles" id="sparkles" aria-hidden="true"></div>
+      <div class="cb__inner">
+        <span class="mono cb__eyebrow">04 / LA DISCOGRÁFICA</span>
+        <div class="cb__logo" id="cbLogo">
+          <span class="cb__type">CHILD<br>HOOD<br>BOYS</span>
+        </div>
+        <p class="cb__tagline" id="cbTagline"></p>
+        <p class="cb__lead">Fundado por <b>Fran Mera</b> y su hermano <b>Dímelo Yepo</b>. Sello y estudio donde nace cada canción: de la idea al master.</p>
+
+        <div class="cb__founders" id="cbFounders"></div>
+
+        <div class="cb__services" id="cbServices"></div>
+
+        <a class="cb__cta mono" id="cbContact" href="#">¿ERES ARTISTA? TRABAJA CON CHILDHOOD BOYS →</a>
+      </div>
+    </section>
+
+    <!-- ================= CONTACTO ================= -->
+    <section class="contact" id="contacto">
+      <img src="assets/logo/logo-white.png" alt="Fran Mera" class="contact__logo liquid">
+      <a class="contact__mail display" id="bookingLink" href="#">BOOKING</a>
+      <nav class="socials mono" id="socials"></nav>
+      <p class="mono muted small">© <span id="year"></span> FRAN MERA · CHILDHOOD BOYS · HECHO EN CHILE</p>
+    </section>
+  </main>
+
+  <audio id="audio" preload="metadata"></audio>
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
