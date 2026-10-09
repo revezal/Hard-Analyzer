@@ -13,7 +13,7 @@ window.FM = {
     bpm: 94,
     key: "A MIN",
     cover: "assets/fotos/kelokera-cover.jpg", // si no existe, se usa placeholder
-    audio: "",            // ej: "assets/audio/preview.mp3" (30s). Si está vacío, el karaoke corre en modo demo.
+    audio: "assets/audio/kelokera-preview.mp3", // preview de 10s sacado del videoclip; reemplazar por uno de 30s del coro
     links: { spotify: "https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw", youtube: "#", apple: "#" },
     // t = segundo en que empieza la línea. PLACEHOLDER: reemplazar por la letra real con sus tiempos.
     lyrics: [
@@ -40,9 +40,9 @@ window.FM = {
     { src: "assets/fotos/fran-04.jpg", label: "FRAN 04" },
     { src: "assets/fotos/fran-05.jpg", label: "FRAN 05" },
     { src: "assets/fotos/live-01.jpg", label: "LIVE 01" },
-    { video: "assets/video/clip-rojo.mp4", poster: "assets/video/clip-rojo.jpg", label: "CLIP 01" },
+    { video: "assets/video/kiki.mp4", poster: "assets/video/kiki.jpg", label: "KIKI" },
     { src: "assets/fotos/live-02.jpg", label: "LIVE 02" },
-    { video: "assets/video/clip-calle.mp4", poster: "assets/video/clip-calle.jpg", label: "CLIP 02" }
+    { video: "assets/video/kelokera.mp4", poster: "assets/video/kelokera.jpg", label: "KELOKERA" }
   ],
 
   /* ---------- DISCOS: TEMAS MÁS ESCUCHADOS ---------- */
