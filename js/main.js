@@ -54,7 +54,7 @@
   $("#year").textContent = new Date().getFullYear();
 
   /* ---------- loader ---------- */
-  const photosP = Promise.all(D.livePhotos.map((p, i) => resolveImg(p.src, p.label, i % 2 ? "#5a1a10" : "#ff1a0e")));
+  const photosP = Promise.all(D.livePhotos.map((p, i) => resolveImg(p.poster || p.src, p.label, i % 2 ? "#5a1a10" : "#ff1a0e")));
   const coverP = resolveImg(R.cover, R.title, "#ff1a0e");
   let pct = 0;
   const tick = setInterval(() => { pct = Math.min(pct + Math.random() * 18, 92); setLoad(pct); }, 120);
@@ -83,6 +83,25 @@
     base.style.backgroundImage = `url(${photos[0]})`;
     label.textContent = D.livePhotos[0].label;
 
+    // clips de video dentro del mix: un <video> por clip, debajo de la foto base
+    const vids = D.livePhotos.map(p => {
+      if (!p.video) return null;
+      const v = document.createElement("video");
+      Object.assign(v, { muted: true, loop: true, playsInline: true, preload: "metadata", poster: p.poster || "" });
+      v.innerHTML = `<source src="${p.video.replace(/\.mp4$/, ".webm")}" type="video/webm"><source src="${p.video}" type="video/mp4">`;
+      v.className = "stage__video";
+      v.style.visibility = "hidden";
+      stage.insertBefore(v, base);
+      return v;
+    });
+    const showSlide = n => {
+      const v = vids[n];
+      vids.forEach(x => { if (x && x !== v) { x.pause(); x.style.visibility = "hidden"; } });
+      if (v) v.style.visibility = "visible";
+      base.style.opacity = v ? 0 : 1;
+      if (v) { v.currentTime = 0; v.play().catch(() => (base.style.opacity = 1)); }
+    };
+
     stageNext = () => {
       i = (i + 1) % photos.length;
       const url = photos[i];
@@ -106,7 +125,7 @@
       }
       flash.classList.remove("is-on"); void flash.offsetWidth; flash.classList.add("is-on");
       glitchWord();
-      setTimeout(() => { base.style.backgroundImage = `url(${url})`; label.textContent = D.livePhotos[i].label; slices.forEach(s => s.remove()); }, 900);
+      setTimeout(() => { base.style.backgroundImage = `url(${url})`; label.textContent = D.livePhotos[i].label; showSlide(i); slices.forEach(s => s.remove()); }, 900);
     };
 
     // auto-mix cuando no está sonando (cuando suena, va al beat)

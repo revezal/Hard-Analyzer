@@ -47,6 +47,7 @@
 <script>
 /* ======== CONFIG ======== */
 const YOUTUBE_ID = "";   // ID del videoclip de Kelokera en YouTube (ej: "dQw4w9WgXcQ")
+const VIDEO_SRC = "../assets/video/clip-calle.mp4"; // se usa si no hay ID de YouTube
 
 /* ======== mini motor 3D ======== */
 const V={ add:(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]], sub:(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]],
@@ -198,13 +199,13 @@ requestAnimationFrame(frame);
 /* ======== video ======== */
 const modal=document.getElementById("modal"), box=document.getElementById("box");
 document.getElementById("play").addEventListener("click",()=>{
-  box.querySelector("iframe,p")?.remove();
+  box.querySelector("iframe,video")?.remove();
   box.insertAdjacentHTML("beforeend", YOUTUBE_ID
     ? `<iframe src="https://www.youtube.com/embed/${YOUTUBE_ID}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>`
-    : `<p style="font-size:12px;letter-spacing:.2em;opacity:.7">VIDEOCLIP KELOKERA — AGREGAR ID DE YOUTUBE</p>`);
+    : `<video controls autoplay playsinline style="width:100%;height:100%;background:#000"><source src="${VIDEO_SRC.replace(/\.mp4$/,".webm")}" type="video/webm"><source src="${VIDEO_SRC}" type="video/mp4"></video>`);
   modal.classList.add("is-open");
 });
-document.getElementById("close").addEventListener("click",()=>{ modal.classList.remove("is-open"); box.querySelector("iframe")?.remove(); });
+document.getElementById("close").addEventListener("click",()=>{ modal.classList.remove("is-open"); box.querySelector("iframe,video")?.remove(); });
 </script>
 </body>
 </html>

@@ -50,12 +50,12 @@ const CARDS = [
   { c:"#efe9df", img:"../assets/fotos/fran-02.jpg", tag:"FRAN 02" },
   { c:"#ff1a0e", img:"../assets/fotos/fran-03.jpg", tag:"FRAN 03" },
   { c:"#f5c400", img:"../assets/fotos/fran-04.jpg", tag:"FRAN 04" },
-  { c:"#5a1610", img:"../assets/fotos/kelokera-cover.jpg", tag:"KELOKERA" },
+  { c:"#5a1610", video:"../assets/video/clip-rojo.mp4", tag:"CLIP 01" },
   { c:"#6f7a4c", img:"../assets/fotos/fran-05.jpg", tag:"FRAN 05" },
   { c:"#d9c3a5", img:"../assets/fotos/live-01.jpg", tag:"LIVE 01" },
   { c:"#2a5bd7", img:"../assets/fotos/live-02.jpg", tag:"LIVE 02" },
   { c:"#c8364a", img:"../assets/fotos/otra-copa.jpg", tag:"OTRA COPA" },
-  { c:"#8a8a80", img:"../assets/fotos/fran-06.jpg", tag:"FRAN 06" },
+  { c:"#8a8a80", video:"../assets/video/clip-calle.mp4", tag:"CLIP 02" },
   { c:"#8fb6c9", img:"../assets/fotos/fran-07.jpg", tag:"FRAN 07" },
   { c:"#f5b92e", img:"../assets/logo/childhood-boys-gold.png", tag:"CHILDHOOD BOYS" },
 ];
@@ -63,7 +63,8 @@ const stage=document.getElementById("stage"), tunnel=document.getElementById("tu
 const els=CARDS.map((k,i)=>{
   const d=document.createElement("div"); d.className="card"; d.style.setProperty("--c",k.c);
   d.innerHTML=`<div class="card__img"></div><span class="card__tag">${k.tag}</span>`;
-  const im=new Image(); im.onload=()=>d.firstChild.style.backgroundImage=`url(${k.img})`; im.src=k.img;
+  if(k.video){ d.firstChild.innerHTML=`<video muted loop autoplay playsinline style="width:100%;height:100%;object-fit:cover"><source src="${k.video.replace(/\.mp4$/,".webm")}" type="video/webm"><source src="${k.video}" type="video/mp4"></video>`; }
+  else { const im=new Image(); im.onload=()=>d.firstChild.style.backgroundImage=`url(${k.img})`; im.src=k.img; }
   stage.appendChild(d); return d;
 });
 const N=CARDS.length;

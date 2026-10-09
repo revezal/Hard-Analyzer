@@ -32,6 +32,7 @@ window.FM = {
 
   /* ---------- FOTOS DEL ÚLTIMO CONCIERTO (mix del hero) ---------- */
   // Sube las fotos con estos nombres a assets/fotos/. Si un archivo no existe, aparece un placeholder.
+  // Los ítems con "video" se reproducen en el mix (mudos, en loop) y usan "poster" para la transición glitch.
   livePhotos: [
     { src: "assets/fotos/fran-01.jpg", label: "FRAN 01" },
     { src: "assets/fotos/fran-02.jpg", label: "FRAN 02" },
@@ -39,7 +40,9 @@ window.FM = {
     { src: "assets/fotos/fran-04.jpg", label: "FRAN 04" },
     { src: "assets/fotos/fran-05.jpg", label: "FRAN 05" },
     { src: "assets/fotos/live-01.jpg", label: "LIVE 01" },
-    { src: "assets/fotos/live-02.jpg", label: "LIVE 02" }
+    { video: "assets/video/clip-rojo.mp4", poster: "assets/video/clip-rojo.jpg", label: "CLIP 01" },
+    { src: "assets/fotos/live-02.jpg", label: "LIVE 02" },
+    { video: "assets/video/clip-calle.mp4", poster: "assets/video/clip-calle.jpg", label: "CLIP 02" }
   ],
 
   /* ---------- DISCOS: TEMAS MÁS ESCUCHADOS ---------- */
