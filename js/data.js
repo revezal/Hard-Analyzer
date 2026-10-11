@@ -73,17 +73,25 @@ window.FM = {
     { type: "song", title: "E.S.A", feat: "Schuster x Fran Mera", year: "", plays: "", color: "#7fd6f0", cover: "assets/covers/esa.jpg", small: true }
   ],
 
-  /* ---------- EN VIVO: fotos que se abren en gigante hacia abajo con la historia de cada momento ---------- */
-  // PLACEHOLDERS: completar día, fecha, lugar y el texto de cómo lo vivió Fran.
+  /* ---------- EN VIVO: cascada diagonal de tarjetas que avanza al deslizar ---------- */
+  // type: "photo" (img), "text" (líneas grandes), "color" (bloque de color con texto), "empty" (espacio para foto pendiente).
+  // Para agregar fotos: reemplazar cualquier { type: "empty" } por { type: "photo", img: "assets/fotos/....jpg" }.
   moments: [
-    { img: "assets/fotos/live-01.jpg", title: "Abriendo para Beéle", day: "[día]", date: "[fecha]", place: "[lugar] · Chile",
-      what: "Telonero del show de Beéle frente a un recinto lleno.", how: "[Cómo lo vivió Fran: completar con sus palabras]" },
-    { img: "assets/fotos/live-02.jpg", title: "Antes del show", day: "[día]", date: "[fecha]", place: "[lugar] · Chile",
-      what: "Prueba de sonido con el recinto todavía vacío.", how: "[Completar]" },
-    { img: "assets/fotos/live-04.jpg", title: "La gente", day: "[día]", date: "[fecha]", place: "[lugar] · Chile",
-      what: "Show en vivo con su nombre en todas las pantallas.", how: "[Completar]" },
-    { img: "assets/fotos/live-03.jpg", title: "@franmera", day: "[día]", date: "[fecha]", place: "[lugar] · Chile",
-      what: "En vivo, de frente al público.", how: "[Completar]" }
+    { type: "text", lines: ["EN", "VIVO", "2026", "IQQ"], tone: "grey" },
+    { type: "photo", img: "assets/fotos/live-04.jpg" },
+    { type: "text", lines: ["Beéle", "Eladio Carrión", "Feid", "Telonero", "Chile", "Público", "Escenario", "Backstage"], tone: "black", small: true },
+    { type: "photo", img: "assets/fotos/fran-cb.jpg" },
+    { type: "empty" },
+    { type: "color", label: "Kelo", tone: "red" },
+    { type: "photo", img: "assets/fotos/live-01.jpg" },
+    { type: "color", label: "Childhood", tone: "gold", tilt: true },
+    { type: "empty" },
+    { type: "photo", img: "assets/fotos/live-03.jpg" },
+    { type: "color", label: "@franmera", tone: "blue" },
+    { type: "photo", img: "assets/fotos/live-02.jpg" },
+    { type: "empty" },
+    { type: "photo", img: "assets/fotos/yepo-01.jpg" },
+    { type: "empty" }
   ],
 
   /* ---------- INSTAGRAM: publicaciones que van pasando en el teléfono (contenido de ejemplo) ---------- */

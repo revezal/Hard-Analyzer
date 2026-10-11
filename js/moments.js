@@ -1,48 +1,39 @@
 /* =========================================================
-   FRAN MERA — "En vivo": cada foto parte como un círculo arriba
-   y se abre en gigante hacia abajo; al abrirse aparece la historia
-   del momento (día, fecha, lugar, qué hizo y cómo lo vivió).
+   FRAN MERA — "En vivo": tarjetas cuadradas en diagonal que
+   avanzan en bucle mientras deslizas (de arriba-izquierda a abajo-derecha).
    ========================================================= */
 (() => {
   const M = (window.FM && window.FM.moments) || [];
-  const list = document.getElementById("liveList");
-  if (!list || !M.length) return;
+  const sec = document.getElementById("envivo"), deck = document.getElementById("casDeck");
+  if (!sec || !deck || !M.length) return;
 
-  list.innerHTML = M.map((m, i) => `
-    <article class="mo">
-      <div class="mo__s">
-        <div class="mo__img" style="background-image:url(${m.img})"></div>
-        <p class="mo__num mono">${String(i + 1).padStart(2, "0")} / ${String(M.length).padStart(2, "0")}</p>
-        <div class="mo__card">
-          <p class="mono mo__when">${m.day} · ${m.date}</p>
-          <h3 class="display mo__title">${m.title}.</h3>
-          <dl class="mo__facts">
-            <div><dt class="mono">Lugar</dt><dd>${m.place}</dd></div>
-            <div><dt class="mono">Qué hizo</dt><dd>${m.what}</dd></div>
-            <div><dt class="mono">Cómo lo vivió</dt><dd>${m.how}</dd></div>
-          </dl>
-        </div>
-      </div>
-    </article>`).join("");
+  deck.innerHTML = M.map(m => {
+    if (m.type === "photo") return `<div class="cc cc--photo" style="background-image:url(${m.img})"></div>`;
+    if (m.type === "text") return `<div class="cc cc--text cc--${m.tone}${m.small ? " cc--small" : ""}">${m.lines.map(l => `<span>${l}</span>`).join("")}</div>`;
+    if (m.type === "color") return `<div class="cc cc--color cc--${m.tone}${m.tilt ? " cc--tilt" : ""}"><b>${m.label}</b></div>`;
+    return `<div class="cc cc--empty"><span class="mono">✕ ◷</span><em class="mono">Foto</em></div>`;
+  }).join("");
+  const cards = [...deck.children], N = cards.length;
 
-  const items = [...list.querySelectorAll(".mo")].map(el => ({ el, img: el.querySelector(".mo__img"), card: el.querySelector(".mo__card") }));
   const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
-  const ease = t => 1 - Math.pow(1 - t, 3);
-  const lerp = (a, b, t) => a + (b - a) * t;
-
-  function frame() {
-    const W = innerWidth, H = innerHeight;
-    items.forEach(({ el, img, card }) => {
-      const r = el.getBoundingClientRect();
-      if (r.bottom < 0 || r.top > H) return;
-      const p = clamp(-r.top / (r.height - H));
-      const o = ease(clamp(p / .55));                         // se abre
-      const d = Math.min(W, H) * .26, top0 = H * .16;         // círculo inicial arriba al centro
-      const t = lerp(top0, 0, o), side = lerp((W - d) / 2, 0, o), bottom = lerp(H - top0 - d, 0, o);
-      img.style.clipPath = `inset(${t}px ${side}px ${bottom}px ${side}px round ${lerp(d / 2, 0, o)}px)`;
-      img.style.transform = `scale(${lerp(1.15, 1, o)})`;
-      card.classList.toggle("is-on", o > .82);
-    });
+  function frame(t) {
+    const r = sec.getBoundingClientRect();
+    if (r.bottom > 0 && r.top < innerHeight) {
+      const p = clamp(-r.top / (r.height - innerHeight));
+      const W = innerWidth, H = innerHeight, mob = W < 700;
+      const size = mob ? W * .42 : Math.min(H * .3, W * .16);
+      const step = size * .62;                               // separación entre tarjetas en la diagonal
+      const dx = step * (mob ? .55 : 1.1), dy = step * (mob ? 1.05 : .55);
+      const shift = (p * 1.3 * N + t / 9000) % N;            // avanza con el scroll y un poco solo (bucle)
+      cards.forEach((c, i) => {
+        let k = ((i - shift) % N + N) % N - N / 2;           // posición en la diagonal (-N/2 .. N/2)
+        const x = W / 2 + k * dx - size / 2, y = H * .56 + k * dy - size / 2;
+        c.style.width = c.style.height = size + "px";
+        c.style.transform = `translate(${x}px, ${y}px)`;
+        c.style.zIndex = Math.round(100 + k * 10);
+        c.style.opacity = Math.abs(k) > N / 2 - .8 ? 0 : 1;
+      });
+    }
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);

@@ -131,14 +131,13 @@
       </div>
     </section>
 
-    <!-- ================= EN VIVO: cada foto se abre en gigante hacia abajo ================= -->
-    <section class="live" id="envivo">
-      <header class="live__head">
-        <p class="mono">En vivo</p>
-        <h2 class="display">momentos.</h2>
-        <span class="note">desliza ↓ ©</span>
-      </header>
-      <div id="liveList"></div>
+    <!-- ================= EN VIVO: cascada diagonal de tarjetas ================= -->
+    <section class="cas" id="envivo">
+      <div class="cas__s" id="casStage">
+        <header class="cas__head"><p class="mono">En vivo</p><h2 class="display">momentos.</h2></header>
+        <div class="cas__deck" id="casDeck"></div>
+        <p class="cas__hint mono">Desliza ↓ · espacios en blanco = fotos por subir</p>
+      </div>
     </section>
 
     <!-- ================= HERO ================= -->

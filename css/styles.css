@@ -516,55 +516,31 @@ img { display: block; max-width: 100%; }
 .kv__vinfo span { font: 700 10px var(--mono); letter-spacing: .14em; text-transform: uppercase; }
 .kv__vinfo em { font-style: normal; color: var(--red); }
 
-/* ---------- en vivo: fotos que se abren en gigante hacia abajo ---------- */
-.live { background: #050505; }
-.live__head { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 6px 20px; text-align: center; padding: 18vh var(--gutter) 0; }
-.live__head .mono { width: 100%; color: var(--muted); }
-.live__head .display { font-size: clamp(56px, 10vw, 150px); color: var(--bone); }
-.mo { position: relative; height: 210vh; }
-.mo__s { position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden; }
-.mo__img { position: absolute; inset: 0; background: #111 center/cover; will-change: clip-path, transform; }
-.mo__img::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,.85)); }
-.mo__num { position: absolute; top: 84px; right: var(--gutter); color: var(--bone); z-index: 2; }
-.mo__card { position: absolute; left: var(--gutter); right: var(--gutter); bottom: 7vh; z-index: 2; display: grid; gap: 14px; max-width: 1100px; color: var(--bone);
-  opacity: 0; transform: translateY(30px); transition: opacity .5s, transform .6s cubic-bezier(.2, .8, .2, 1); }
-.mo__card.is-on { opacity: 1; transform: none; }
-.mo__when { color: var(--red); }
-.mo__title { font-size: clamp(44px, 7vw, 110px); }
-.mo__facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; border-top: 1px solid rgba(239,233,223,.3); padding-top: 16px; }
-.mo__facts dt { color: var(--muted); margin-bottom: 6px; }
-.mo__facts dd { font-size: 15px; line-height: 1.5; margin: 0; }
-@media (max-width: 700px) { .mo__facts { grid-template-columns: 1fr; gap: 10px; } .mo__facts dd { font-size: 13px; } }
-
-/* ---------- menú con la letra del cierre del show, que parpadea tipo neón roto ---------- */
-.nav__links { gap: 22px; align-items: center; }
-.nav__links a {
-  font-family: "Archivo", "Helvetica Neue", Arial, sans-serif; font-weight: 900; font-stretch: 78%;
-  font-size: 17px; letter-spacing: -.01em; text-transform: uppercase; color: #f4f1ea; text-shadow: 0 2px 12px rgba(0,0,0,.6);
-  filter: url(#grungeLite); animation: flick 5s steps(1) infinite;
-}
-.nav__links a:nth-child(2) { animation-delay: -1.3s; animation-duration: 6.2s; }
-.nav__links a:nth-child(3) { animation-delay: -2.7s; animation-duration: 4.4s; }
-.nav__links a:nth-child(4) { animation-delay: -.6s;  animation-duration: 7.1s; }
-.nav__links a:nth-child(5) { animation-delay: -3.9s; animation-duration: 5.6s; }
-.nav__links a:nth-child(6) { animation-delay: -2.1s; animation-duration: 6.8s; }
-.nav__links a:nth-child(7) { animation-delay: -4.4s; animation-duration: 4.9s; }
-.nav__links a.gold-link { color: var(--gold); }
-.nav__links a:hover { animation: none; color: var(--red); }
-@keyframes flick {
-  0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; }
-  20%, 24%, 55% { opacity: .12; }
-}
-@media (prefers-reduced-motion: reduce) { .nav__links a { animation: none; } }
-
-/* ---------- emojis que aparecen al deslizar ---------- */
-.emo { position: fixed; z-index: 60; pointer-events: none; font-size: var(--s, 34px); line-height: 1;
-  animation: emo 1.6s cubic-bezier(.2, .8, .2, 1) forwards; filter: drop-shadow(0 6px 14px rgba(0,0,0,.5)); }
-@keyframes emo {
-  0% { opacity: 0; transform: translateY(30px) scale(.3) rotate(var(--r0)); }
-  25% { opacity: 1; transform: translateY(0) scale(1.15) rotate(var(--r1)); }
-  100% { opacity: 0; transform: translateY(-140px) scale(.9) rotate(var(--r2)); }
-}
+/* ---------- en vivo: cascada diagonal de tarjetas ---------- */
+.cas { position: relative; height: 420vh; }
+.cas__s { position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden; background: linear-gradient(180deg, #e6e6e4 0%, #e1e1df 55%, #f4f4f2 100%); color: #0b0b0b; }
+.cas__head { position: absolute; top: 96px; left: var(--gutter); z-index: 5; mix-blend-mode: difference; color: #fff; display: grid; gap: 6px; }
+.cas__head .mono { color: #fff; }
+.cas__head .display { font-size: clamp(48px, 7vw, 110px); color: #fff; }
+.cas__hint { position: absolute; bottom: 22px; left: var(--gutter); z-index: 5; background: #e6e6e4; padding: 4px 8px; color: #666; }
+.cas__deck { position: absolute; inset: 0; z-index: 1; }
+.cc { position: absolute; left: 0; top: 0; border-radius: 4px; overflow: hidden; will-change: transform; box-shadow: 0 10px 30px rgba(0,0,0,.12); }
+.cc--photo { background: #ccc center/cover; }
+.cc--text { padding: .9em 1em; display: flex; flex-direction: column; font-family: "Archivo", "Helvetica Neue", Arial, sans-serif; font-weight: 900; font-stretch: 85%; line-height: .9; letter-spacing: -.02em; text-transform: uppercase; }
+.cc--text span { font-size: 2.3em; }
+.cc--small span { font-size: 1.1em; text-transform: none; font-weight: 700; font-stretch: 95%; }
+.cc--grey { background: #b9b9b7; color: #0b0b0b; font-size: clamp(10px, 1.6vh, 18px); }
+.cc--black { background: #0b0b0b; color: #f4f1ea; font-size: clamp(12px, 2vh, 22px); }
+.cc--color { display: grid; place-items: center; }
+.cc--color b { font-family: "Archivo", sans-serif; font-weight: 900; font-stretch: 80%; font-size: 2.6vh; letter-spacing: -.02em; transform: rotate(-35deg); white-space: nowrap; }
+.cc--red { background: #d8141b; color: #fff; }
+.cc--red b { font-size: 9vh; transform: none; letter-spacing: -.06em; }
+.cc--gold { background: #d8d8d6; }
+.cc--gold b { background: #f5c400; color: #0b0b0b; padding: .4em 1.2em; font-size: 3vh; box-shadow: 0 6px 14px rgba(0,0,0,.15); }
+.cc--blue { background: #1f3fe0; color: #7fe7ff; }
+.cc--empty { background: #f1f1ef; border: 1.5px dashed #b5b5b2; display: grid; place-items: center; box-shadow: none; }
+.cc--empty span { position: absolute; top: 10px; left: 12px; color: #999; }
+.cc--empty em { font-style: normal; color: #aaa; }
 
 /* ---------- Instagram: nombre gigante detrás de un teléfono ---------- */
 .ig { position: relative; height: 520vh; background: #7fb24a; }
