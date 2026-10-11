@@ -53,7 +53,7 @@ window.FM = {
     { video: "assets/video/kiki.mp4", poster: "assets/video/kiki.jpg", label: "KIKI" },
     { src: "assets/fotos/kelokera-2.jpg", label: "KELOKERA" },
     { src: "assets/fotos/live-02.jpg", label: "LIVE 02" },
-    { video: "assets/video/kelokera.mp4", poster: "assets/video/kelokera.jpg", label: "KELOKERA" },
+    { video: "assets/video/kelokera-videoclip.mp4", poster: "assets/video/kelokera-videoclip.jpg", label: "KELOKERA" },
     { src: "assets/fotos/kelokera-6.jpg", label: "KELOKERA" }
   ],
 
@@ -65,6 +65,26 @@ window.FM = {
     { title: "QUE RICO FUE", time: "2:38", plays: "211.715", color: "#2a5bd7", cover: "", spotify: "https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw" },
     { title: "DIME QUE FUE", time: "3:28", plays: "387.223", color: "#e0b9a8", cover: "", spotify: "https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw" },
     { title: "KELOKERA", time: "2:31", plays: "1.155", color: "#ff1a0e", cover: "assets/fotos/kelokera-cover.jpg", spotify: "https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw" }
+  ],
+
+  /* ---------- CANCIONES: círculos que aparecen cuando el videoclip se cierra ---------- */
+  // type "song": al hacer click muestra año y reproducciones. year: "" hasta tener el dato (lo pondrá Marcelo).
+  // type "moment": fotos de shows y momentos que acompañan la fila.
+  songs: [
+    { type: "moment", img: "assets/fotos/live-01.jpg" },
+    { type: "song", title: "OTRA COPA", year: "", plays: "734.394", color: "#c8364a", cover: "" },
+    { type: "moment", img: "assets/fotos/kelokera-1.jpg", small: true },
+    { type: "moment", img: "assets/fotos/live-03.jpg", small: true },
+    { type: "song", title: "NA CONMIGO NA CONTIGO", year: "", plays: "1.499.347", color: "#d9c3a5", cover: "", big: true },
+    { type: "song", title: "KELOKERA", year: "2026", plays: "Nuevo", color: "#ff1a0e", cover: "assets/fotos/kelokera-cover.jpg", video: true, big: true },
+    { type: "moment", img: "assets/fotos/live-04.jpg", small: true },
+    { type: "song", title: "QUE RICO FUE", year: "", plays: "211.715", color: "#2a5bd7", cover: "", small: true },
+    { type: "song", title: "DIME QUE FUE", year: "", plays: "387.223", color: "#e0b9a8", cover: "" },
+    { type: "moment", img: "assets/fotos/kelokera-3.jpg", small: true },
+    { type: "song", title: "KIKI", year: "", plays: "", color: "#8f0a04", cover: "assets/fotos/kiki-2.jpg", small: true },
+    { type: "moment", img: "assets/fotos/live-02.jpg", big: true },
+    { type: "moment", img: "assets/fotos/kelokera-5.jpg", small: true },
+    { type: "moment", img: "assets/fotos/kelokera-6.jpg", small: true }
   ],
 
   /* ---------- CHILDHOOD BOYS (discográfica) ---------- */

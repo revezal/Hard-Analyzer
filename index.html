@@ -58,6 +58,7 @@
     <a href="#top" class="nav__logo"><img src="assets/logo/logo-white.png" alt="Fran Mera"></a>
     <nav class="nav__links mono">
       <a href="#show">Show</a>
+      <a href="#video">Canciones</a>
       <a href="#discos">Discos</a>
       <a href="#bio">Bio</a>
       <a href="#childhood" class="gold-link">Childhood Boys</a>
@@ -90,6 +91,27 @@
 
         <p class="show__hint mono" id="showHint">Desliza o arrastra ↓</p>
         <div class="show__bar"><i id="showBar"></i></div>
+      </div>
+    </section>
+
+    <!-- ================= VIDEOCLIP KELOKERA → se cierra en un círculo y aparece la fila de canciones ================= -->
+    <section class="kv" id="video">
+      <div class="kv__s" id="kvStage">
+        <header class="kv__head">
+          <p class="mono kv__eyebrow">Discografía</p>
+          <h2 class="display kv__title">canciones.</h2>
+          <span class="note">toca un círculo ©</span>
+        </header>
+        <div class="kv__band"><div class="kv__track" id="kvTrack"></div></div>
+        <div class="kv__line"><i id="kvLine"></i></div>
+        <div class="kv__video" id="kvVideo">
+          <video src="assets/video/kelokera-videoclip.mp4" poster="assets/video/kelokera-videoclip.jpg" muted loop autoplay playsinline></video>
+        </div>
+        <div class="kv__intro" id="kvIntro">
+          <p class="mono">Videoclip oficial</p>
+          <h2 class="kv__name">KELOKERA</h2>
+          <a class="kv__yt mono" href="https://youtu.be/RKv2vyqATI0" target="_blank" rel="noopener">Ver en YouTube ↗</a>
+        </div>
       </div>
     </section>
 
@@ -216,5 +238,6 @@
   <script src="js/show-frames.js"></script>
   <script src="js/show.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/videoloop.js"></script>
 </body>
 </html>
