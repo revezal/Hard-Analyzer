@@ -49,7 +49,7 @@
   const sec = $("#show"), stage = $("#showStage"), cv = $("#showCv"), cx = cv.getContext("2d");
   const shade = $("#showShade"), bar = $("#showBar"), frameEl = $("#showFrame"), hint = $("#showHint");
   const calls = [...document.querySelectorAll(".call")];
-  const pxItems = [...document.querySelectorAll(".px__row span, .px__label")];
+  const inkEl = $("#ink"), pxItems = [...document.querySelectorAll(".ink__line, .ink__small")];
   const FIRST = Math.min(3, N - 1), // arranca en el letrero "Fran Mera" del camarín
         LAST = Math.max(FIRST, N - 13), CROWD = Math.min(N - 1, 103);
   let W = 0, H = 0, cur = FIRST, lastKey = "";
@@ -87,6 +87,7 @@
     calls.forEach(c => c.classList.toggle("is-on", p >= +c.dataset.from && p < +c.dataset.to));
     const end = clamp((p - .8) / .14);                         // cierre con tipografía pixel
     shade.style.setProperty("--dark", (end * .5).toFixed(3));
+    inkEl.style.setProperty("--end", clamp(end * 1.6).toFixed(3));   // aparece el papel y las líneas se estampan
     pxItems.forEach((el, i) => el.classList.toggle("on", end > 0 && end >= i / pxItems.length));
     hint.style.opacity = p > .02 ? 0 : 1;
     bar.style.width = p * 100 + "%";

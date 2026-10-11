@@ -11,7 +11,7 @@
   <link rel="icon" href="assets/logo/logo-white.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@500;800;900&family=Permanent+Marker&family=Rubik+Mono+One&family=Silkscreen:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@500;800;900&family=Permanent+Marker&family=Rubik+Mono+One&family=Archivo:wdth,wght@62..125,700..900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <!-- la pantalla de carga solo se muestra si el navegador ejecuta JavaScript (las vistas previas no lo hacen) -->
   <script>document.documentElement.className += " js";</script>
@@ -27,6 +27,15 @@
     <filter id="jelly" x="-20%" y="-20%" width="140%" height="140%">
       <feTurbulence id="jellyNoise" type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="2" seed="7"/>
       <feDisplacementMap in="SourceGraphic" scale="18" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="inkbleed" x="-5%" y="-10%" width="110%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="11" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="4" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="1.6" result="b"/>
+      <feComponentTransfer in="b" result="t"><feFuncA type="table" tableValues="0 0 .2 1 1"/></feComponentTransfer>
+      <feTurbulence type="fractalNoise" baseFrequency="0.35" numOctaves="3" seed="4" result="spk"/>
+      <feColorMatrix in="spk" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -7 5.4" result="mask"/>
+      <feComposite in="t" in2="mask" operator="in"/>
     </filter>
     <filter id="grungeLite">
       <feTurbulence type="fractalNoise" baseFrequency="0.11" numOctaves="3" seed="2" result="n"/>
@@ -82,12 +91,17 @@
         <div class="call" data-from=".4" data-to=".56" style="--x:40%;--y:58%"><i></i><div><span class="mono">03 / El público</span><b>Iquique, Chile — reggaetón desde los 14</b></div></div>
         <div class="call call--r" data-from=".58" data-to=".74" style="--x:52%;--y:44%"><i></i><div><span class="mono">04 / La trayectoria</span><b>Radios · Televisión · MTV</b></div></div>
 
-        <div class="px" id="px" aria-label="Fran Mera en vivo, telonero de Beéle. También abrió para Eladio Carrión y Feid.">
-          <p class="px__row"><span>FRAN</span><span>MERA</span><span>(LIVE)</span></p>
-          <p class="px__row"><span>OPENING</span><span>@</span><span>BEÉLE</span></p>
-          <p class="px__label">TAMBIÉN ABRIÓ PARA</p>
-          <p class="px__row"><span>ELADIO</span><span>*</span><span>CARRIÓN</span></p>
-          <p class="px__row"><span>FEID</span><span>*</span><span>BEÉLE</span></p>
+        <!-- cierre: tipografía "ink bleed" (tinta corrida sobre papel) -->
+        <div class="ink" id="ink" aria-label="Fran Mera en vivo, abriendo para Beéle. También abrió para Eladio Carrión y Feid.">
+          <div class="ink__sheet">
+            <p class="ink__line">Fran Mera</p>
+            <p class="ink__line ink__line--r">En vivo</p>
+            <p class="ink__line">Abriendo para</p>
+            <p class="ink__line ink__line--r ink__line--big">Beéle</p>
+            </div><p class="ink__small">También abrió para</p><div class="ink__sheet">
+            <p class="ink__line ink__line--c">Eladio Carrión</p>
+            <p class="ink__line ink__line--r">y Feid</p>
+          </div>
         </div>
 
         <p class="show__hint mono" id="showHint">Desliza o arrastra ↓</p>
