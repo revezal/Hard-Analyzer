@@ -48,9 +48,7 @@
   $("#deckLinks").innerHTML = Object.entries(R.links).map(([k, v]) => `<a href="${v}" target="_blank" rel="noopener">${k}</a>`).join("");
   const mq = Array(2).fill([`${R.title} — DISPONIBLE AHORA`, "✦", "FRAN MERA", "✦", "A CHILDHOOD BOYS RECORD", "✦", "IQUIQUE · CHILE", "✦"].map(t => `<span>${t}</span>`).join("")).join("");
   $("#marquee").innerHTML = mq;
-  $("#socials").innerHTML = Object.entries(D.socials).filter(([k]) => k !== "booking").map(([k, v]) => `<a href="${v}" target="_blank" rel="noopener">${k}</a>`).join("");
-  $("#bookingLink").href = D.socials.booking;
-  $("#year").textContent = new Date().getFullYear();
+
 
   /* ---------- loader ---------- */
   const photosP = Promise.all(D.livePhotos.map((p, i) => resolveImg(p.poster || p.src, p.label, i % 2 ? "#5a1a10" : "#ff1a0e")));

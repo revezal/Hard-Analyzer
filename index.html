@@ -69,10 +69,10 @@
       <a href="#show">Show</a>
       <a href="#video">Canciones</a>
       <a href="#envivo">En vivo</a>
-      <a href="#bio">Bio</a>
       <a href="#instagram">Instagram</a>
+      <a href="#bio">Bio</a>
       <a href="#childhood" class="gold-link">Childhood Boys</a>
-      <a href="#contacto">Booking</a>
+      <a href="#kelokera">Booking</a>
     </nav>
     <a class="nav__cta mono" href="#kelokera" data-play>▶ KELOKERA</a>
   </header>
@@ -139,8 +139,88 @@
       </div>
     </section>
 
+
+
+
+
+
+
+
+    <!-- ================= INSTAGRAM: nombre gigante detrás, el teléfono cambia de contenido al deslizar ================= -->
+    <section class="ig" id="instagram">
+      <div class="ig__s" id="igStage">
+        <div class="ig__corner ig__corner--tl mono">Instagram<br>Fran Mera</div>
+        <div class="ig__corner ig__corner--tc mono">@franmera</div>
+        <div class="ig__corner ig__corner--tr mono">Shows, estudio<br>y lanzamientos<br>en tiempo real</div>
+        <div class="ig__word" id="igWord" aria-hidden="true">FRAN&nbsp;MERA&nbsp;FRAN&nbsp;MERA</div>
+        <div class="phone">
+          <div class="phone__screen" id="igScreen"></div>
+          <div class="phone__notch"></div>
+        </div>
+        <div class="ig__corner ig__corner--bl mono">(IG)</div>
+        <a class="ig__corner ig__corner--br mono ig__follow" href="https://www.instagram.com/franmera/" target="_blank" rel="noopener">Seguir @franmera ↗</a>
+        <div class="ig__bar"><i id="igBar"></i></div>
+      </div>
+    </section>
+
+    <!-- ================= BIO ================= -->
+    <section class="bio" id="bio">
+      <div class="bio__photo reveal" id="bioPhoto"></div>
+      <div class="bio__text">
+        <span class="mono">03 / BIO</span>
+        <div class="head-row reveal"><h2 class="display">de iquique<br><em>pa'l mundo.</em></h2><span class="note">Iquique, Chile ©</span></div>
+        <p class="big reveal">Cantante, compositor y productor. Hizo del reggaetón su identidad desde los <b>14 años</b>.</p>
+        <p class="reveal">Con un sonido fresco, melodías pegajosas y un estilo propio, ha llegado a las principales radios nacionales, medios, televisión y plataformas internacionales como <b>MTV</b>.</p>
+        <p class="reveal">En paralelo, ha desarrollado una destacada faceta como compositor y productor, participando en proyectos de artistas nacionales e internacionales. Hoy sigue lanzando música, explorando sonidos y consolidando su identidad tanto detrás del micrófono como desde la producción.</p>
+        <div class="stats reveal">
+          <div><b data-count="14">0</b><span class="mono">AÑOS EN EL<br>REGGAETÓN</span></div>
+          <div><b>MTV</b><span class="mono">PLATAFORMAS<br>INTERNACIONALES</span></div>
+          <div><b>3</b><span class="mono">ROLES: ARTISTA ·<br>COMPOSITOR · PRODUCTOR</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= LOS HERMANOS: las letras de CHILDHOOD BOYS se separan y aparece la historia ================= -->
+    <section class="bros" id="hermanos">
+      <div class="bros__s" id="brosStage">
+        <div class="bros__photo" id="brosPhoto"><img src="assets/fotos/hermanos.jpg" alt="Fran Mera y Dímelo Yepo"></div>
+        <div class="bros__story" id="brosStory">
+          <p class="mono bros__eyebrow">La historia</p>
+          <h2 class="display">dos hermanos.<br>un sueño.</h2>
+          <p>Childhood Boys nace de los sueños de infancia de dos hermanos de Iquique: <b>Fran Mera</b> y <b>Dímelo Yepo</b>.</p>
+          <p>Compositores y productores, convirtieron ese sueño en un sello y un estudio propio, donde hoy nacen sus canciones y las de otros artistas.</p>
+        </div>
+        <div class="bros__word" id="brosWord" aria-label="Childhood Boys"></div>
+      </div>
+    </section>
+
+    <!-- ================= CHILDHOOD BOYS ================= -->
+    <section class="cb" id="childhood">
+      <div class="cb__sparkles" id="sparkles" aria-hidden="true"></div>
+      <div class="cb__inner">
+        <span class="mono cb__eyebrow">04 / LA DISCOGRÁFICA</span>
+        <div class="cb__logo" id="cbLogo">
+          <span class="cb__type">CHILD<br>HOOD<br>BOYS</span>
+        </div>
+        <p class="cb__tagline" id="cbTagline"></p>
+        <p class="cb__lead">Fundado por <b>Fran Mera</b> y su hermano <b>Dímelo Yepo</b>. Sello y estudio donde nace cada canción: de la idea al master.</p>
+
+        <div class="cb__founders" id="cbFounders"></div>
+
+        <div class="cb__services" id="cbServices"></div>
+
+        <a class="cb__cta mono" id="cbContact" href="#">¿ERES ARTISTA? TRABAJA CON CHILDHOOD BOYS →</a>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee mono" aria-hidden="true">
+      <div class="marquee__track" id="marquee"></div>
+    </div>
+
     <!-- ================= HERO ================= -->
-    <section class="hero" id="kelokera">
+    <section class="fin" id="kelokera">
+    <div class="hero" id="finHero">
       <!-- mix de fotos -->
       <div class="stage" id="stage">
         <div class="stage__base" id="stageBase"></div>
@@ -172,77 +252,23 @@
         </div>
       </div>
 
-      <div class="hero__scroll mono">SCROLL ↓</div>
-    </section>
-
-    <!-- MARQUEE -->
-    <div class="marquee mono" aria-hidden="true">
-      <div class="marquee__track" id="marquee"></div>
+      <!-- al seguir deslizando: redes sociales y manager -->
+      <div class="fin__end" id="finEnd">
+        <img src="assets/logo/logo-white.png" alt="Fran Mera" class="fin__logo">
+        <nav class="fin__social" aria-label="Redes sociales">
+          <a href="https://www.instagram.com/franmera/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" class="f"/></svg><span class="mono">Instagram</span></a>
+          <a href="#" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 3c.4 2.6 2.2 4.4 5 4.6"/></svg><span class="mono">TikTok</span></a>
+          <a href="https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw" target="_blank" rel="noopener" aria-label="Spotify"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M7.5 9.5c3-1 6.5-.7 9 .8M8 12.6c2.5-.7 5.2-.4 7.3.8M8.6 15.4c2-.5 3.9-.3 5.6.6"/></svg><span class="mono">Spotify</span></a>
+          <a href="https://youtu.be/RKv2vyqATI0" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10 9.2v5.6l4.8-2.8z" class="f"/></svg><span class="mono">YouTube</span></a>
+        </nav>
+        <div class="fin__mgr">
+          <p class="mono">Manager · Booking</p>
+          <b>[Nombre del manager]</b>
+          <span class="mono">booking@franmera.com · +56 9 0000 0000</span>
+        </div>
+        <p class="mono fin__copy">© 2026 Fran Mera · Childhood Boys · Hecho en Chile</p>
+      </div>
     </div>
-
-
-
-    <!-- ================= BIO ================= -->
-    <section class="bio" id="bio">
-      <div class="bio__photo reveal" id="bioPhoto"></div>
-      <div class="bio__text">
-        <span class="mono">03 / BIO</span>
-        <div class="head-row reveal"><h2 class="display">de iquique<br><em>pa'l mundo.</em></h2><span class="note">Iquique, Chile ©</span></div>
-        <p class="big reveal">Cantante, compositor y productor. Hizo del reggaetón su identidad desde los <b>14 años</b>.</p>
-        <p class="reveal">Con un sonido fresco, melodías pegajosas y un estilo propio, ha llegado a las principales radios nacionales, medios, televisión y plataformas internacionales como <b>MTV</b>.</p>
-        <p class="reveal">En paralelo, ha desarrollado una destacada faceta como compositor y productor, participando en proyectos de artistas nacionales e internacionales. Hoy sigue lanzando música, explorando sonidos y consolidando su identidad tanto detrás del micrófono como desde la producción.</p>
-        <div class="stats reveal">
-          <div><b data-count="14">0</b><span class="mono">AÑOS EN EL<br>REGGAETÓN</span></div>
-          <div><b>MTV</b><span class="mono">PLATAFORMAS<br>INTERNACIONALES</span></div>
-          <div><b>3</b><span class="mono">ROLES: ARTISTA ·<br>COMPOSITOR · PRODUCTOR</span></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ================= INSTAGRAM: nombre gigante detrás, el teléfono cambia de contenido al deslizar ================= -->
-    <section class="ig" id="instagram">
-      <div class="ig__s" id="igStage">
-        <div class="ig__corner ig__corner--tl mono">Instagram<br>Fran Mera</div>
-        <div class="ig__corner ig__corner--tc mono">@franmera</div>
-        <div class="ig__corner ig__corner--tr mono">Shows, estudio<br>y lanzamientos<br>en tiempo real</div>
-        <div class="ig__word" id="igWord" aria-hidden="true">FRAN&nbsp;MERA&nbsp;FRAN&nbsp;MERA</div>
-        <div class="phone">
-          <div class="phone__screen" id="igScreen"></div>
-          <div class="phone__notch"></div>
-        </div>
-        <div class="ig__corner ig__corner--bl mono">(IG)</div>
-        <a class="ig__corner ig__corner--br mono ig__follow" href="https://www.instagram.com/franmera/" target="_blank" rel="noopener">Seguir @franmera ↗</a>
-        <div class="ig__bar"><i id="igBar"></i></div>
-      </div>
-    </section>
-
-    <!-- ================= CHILDHOOD BOYS ================= -->
-    <section class="cb" id="childhood">
-      <div class="cb__sparkles" id="sparkles" aria-hidden="true"></div>
-      <div class="cb__inner">
-        <span class="mono cb__eyebrow">04 / LA DISCOGRÁFICA</span>
-        <span class="note" style="color:var(--gold)">hecho en casa ©</span>
-        <div class="cb__logo" id="cbLogo">
-          <span class="cb__type">CHILD<br>HOOD<br>BOYS</span>
-        </div>
-        <p class="cb__tagline" id="cbTagline"></p>
-        <p class="cb__lead">Fundado por <b>Fran Mera</b> y su hermano <b>Dímelo Yepo</b>. Sello y estudio donde nace cada canción: de la idea al master.</p>
-
-        <div class="cb__founders" id="cbFounders"></div>
-
-        <div class="cb__services" id="cbServices"></div>
-
-        <a class="cb__cta mono" id="cbContact" href="#">¿ERES ARTISTA? TRABAJA CON CHILDHOOD BOYS →</a>
-      </div>
-    </section>
-
-    <!-- ================= CONTACTO ================= -->
-    <section class="contact" id="contacto">
-      <img src="assets/logo/logo-white.png" alt="Fran Mera" class="contact__logo liquid">
-      <span class="note">¿hacemos un show? ©</span>
-      <a class="contact__mail display" id="bookingLink" href="#">booking.</a>
-      <nav class="socials mono" id="socials"></nav>
-      <p class="mono muted small">© <span id="year"></span> FRAN MERA · CHILDHOOD BOYS · HECHO EN CHILE</p>
     </section>
   </main>
 
@@ -254,5 +280,6 @@
   <script src="js/videoloop.js"></script>
   <script src="js/moments.js"></script>
   <script src="js/instagram.js"></script>
+  <script src="js/finale.js"></script>
 </body>
 </html>
