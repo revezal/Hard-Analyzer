@@ -606,23 +606,37 @@ img { display: block; max-width: 100%; }
 .ig__follow { background: var(--bone); color: #111; }
 .ig__bar { background: rgba(255,255,255,.12); } .ig__bar i { background: var(--bone); }
 
-/* ---------- los hermanos ---------- */
-.bros { position: relative; height: 340vh; background: #060504; }
-.bros__s { position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden; display: grid; place-items: center; }
-.bros__word { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; z-index: 3; pointer-events: none; }
-.bros__row { display: flex; justify-content: center; }
-.bros__row span { display: inline-block; font-family: var(--chunky); font-size: clamp(54px, 12vw, 200px); line-height: .95; letter-spacing: -.04em;
-  background: linear-gradient(175deg, var(--gold-hi), var(--gold) 35%, var(--gold-lo) 60%, var(--gold)); -webkit-background-clip: text; background-clip: text; color: transparent; will-change: transform; }
-.bros__photo { position: absolute; left: 50%; top: 50%; width: min(78vw, 560px); margin: calc(min(78vw, 560px) * -.51) 0 0 calc(min(78vw, 560px) * -.5); z-index: 1; opacity: 0; }
-.bros__photo img { width: 100%; aspect-ratio: 1179 / 1200; object-fit: cover; border-radius: 6px; box-shadow: 0 40px 90px rgba(0,0,0,.6); }
-.bros__story { position: absolute; z-index: 2; left: var(--gutter); bottom: 7vh; max-width: 520px; display: grid; gap: 12px; color: var(--bone);
-  background: rgba(6,5,4,.78); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 22px 24px; border: 1px solid rgba(245,185,46,.25);
-  opacity: 0; transform: translateY(30px); transition: opacity .6s, transform .7s cubic-bezier(.2, .8, .2, 1); }
-.bros__story.is-on { opacity: 1; transform: none; }
-.bros__story .display { font-size: clamp(34px, 4.6vw, 64px); color: var(--gold); }
-.bros__story p:not(.mono) { font-size: 15px; line-height: 1.6; color: #d8d1c4; }
-.bros__story b { color: var(--bone); }
-.bros__eyebrow { color: var(--gold); }
+/* ---------- Childhood Boys: el logo se desarma y aparece la historia ---------- */
+.cbx { position: relative; height: 320vh; background: #060504; }
+.cbx__s { position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden; display: grid; place-items: center; }
+.cbx__logo { position: relative; z-index: 3; width: min(72vmin, 640px); aspect-ratio: 900 / 882; pointer-events: none; }
+.cbx__logo { filter: url(#jelly); animation: balloon 2.2s ease-in-out infinite; transform-origin: 50% 60%; }
+.cbx__logo.is-open { animation: none; }
+.cbx__logo img { position: absolute; display: block; will-change: transform; filter: drop-shadow(0 0 22px rgba(245,185,46,.3)); }
+.cbx__info { position: absolute; inset: 0; z-index: 2; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: clamp(20px, 4vw, 60px);
+  padding: 90px var(--gutter) 40px; opacity: 0; }
+.cbx__photo img { width: 100%; max-height: 72vh; object-fit: cover; border-radius: 6px; box-shadow: 0 40px 90px rgba(0,0,0,.6); }
+.cbx__story { display: grid; gap: 14px; color: var(--bone); max-width: 520px; }
+.cbx__story .display { font-size: clamp(40px, 5.4vw, 84px); color: var(--gold); }
+.cbx__story p:not(.mono) { font-size: 16px; line-height: 1.65; color: #d8d1c4; }
+.cbx__story b { color: var(--bone); }
+.cbx__eyebrow { color: var(--gold); }
+@media (max-width: 760px) {
+  .cbx__info { grid-template-columns: 1fr; align-content: center; gap: 18px; padding-top: 80px; }
+  .cbx__photo img { max-height: 38vh; }
+  .cbx__story p:not(.mono) { font-size: 14px; }
+}
+
+/* ---------- burbuja: Childhood Boys se cierra en un círculo y se abre KELOKERA ---------- */
+.burb { position: relative; height: 260vh; background: #000; }
+.bub__s { position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden; }
+.bub__hit, .bub__cb { position: absolute; inset: 0; will-change: clip-path; }
+.bub__hit { clip-path: circle(0 at 50% 50%); background: #000 center/cover; }
+.bub__hit video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: contrast(1.15) brightness(.75); }
+.bub__name { position: absolute; z-index: 2; left: 50%; top: 50%; transform: translate(-50%, -50%); font-family: var(--display); font-size: clamp(64px, 14vw, 230px); color: var(--red); filter: url(#grunge); white-space: nowrap; }
+.bub__cb { background: #060504; display: grid; place-content: center; justify-items: center; gap: 18px; text-align: center; }
+.bub__logo { width: min(46vmin, 380px); filter: url(#jelly) drop-shadow(0 0 30px rgba(245,185,46,.3)); animation: balloon 2.4s ease-in-out infinite; }
+.bub__line { font-family: var(--marker); color: var(--gold); font-size: clamp(18px, 2.4vw, 32px); transform: rotate(-5deg); }
 
 /* ---------- final: KELOKERA a pantalla completa + redes y manager ---------- */
 .fin { position: relative; height: 300vh; }

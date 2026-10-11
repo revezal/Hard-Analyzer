@@ -8,40 +8,52 @@
   const ease = t => t * t * (3 - 2 * t);
   const prog = el => { const r = el.getBoundingClientRect(); return { p: clamp(-r.top / (r.height - innerHeight)), vis: r.bottom > 0 && r.top < innerHeight }; };
 
-  /* ---- 1. letras que se separan ---- */
-  const bros = document.getElementById("hermanos"), word = document.getElementById("brosWord");
-  const photo = document.getElementById("brosPhoto"), story = document.getElementById("brosStory");
-  const letters = [];
-  if (word) {
-    "CHILDHOOD BOYS".split(" ").forEach((w, wi) => {
-      const row = document.createElement("div"); row.className = "bros__row";
-      [...w].forEach(ch => {
-        const s = document.createElement("span"); s.textContent = ch;
-        const a = Math.random() * Math.PI * 2, d = 0.6 + Math.random() * 0.7;
-        s._v = { x: Math.cos(a) * d, y: Math.sin(a) * d, r: (Math.random() - .5) * 220 };
-        row.appendChild(s); letters.push(s);
-      });
-      word.appendChild(row);
-    });
-  }
+  /* ---- 1. el logo Childhood Boys (letras reales) se desarma y aparece la historia ---- */
+  const cbx = document.getElementById("childhood"), logo = document.getElementById("cbxLogo"), info = document.getElementById("cbxInfo");
+  const letters = (window.CB_LETTERS || []).map((L, i) => {
+    const img = document.createElement("img");
+    img.src = L.src; img.alt = "";
+    Object.assign(img.style, { left: L.x + "%", top: L.y + "%", width: L.w + "%", height: L.h + "%", animationDelay: (-i * .17) + "s" });
+    logo && logo.appendChild(img);
+    const cx = L.x + L.w / 2 - 50, cy = L.y + L.h / 2 - 50, a = Math.atan2(cy, cx) + (Math.random() - .5) * .9;
+    img._v = { x: Math.cos(a), y: Math.sin(a), r: (Math.random() - .5) * 160, d: .8 + Math.random() * .6 };
+    return img;
+  });
+
+  /* ---- burbuja: la info de Childhood Boys se cierra en un círculo y se abre el hit ---- */
+  const bub = document.getElementById("burbuja"), bubCb = document.getElementById("bubCb"), bubHit = document.getElementById("bubHit");
 
   /* ---- 2. final ---- */
   const fin = document.getElementById("kelokera"), end = document.getElementById("finEnd"), hero = document.getElementById("finHero");
   let started = false;
 
   function frame() {
-    if (bros) {
-      const { p, vis } = prog(bros);
+    if (cbx) {
+      const { p, vis } = prog(cbx);
       if (vis) {
-        const t = ease(clamp((p - .08) / .5));
-        letters.forEach(s => {
-          const v = s._v;
-          s.style.transform = `translate(${v.x * t * innerWidth * .6}px, ${v.y * t * innerHeight * .7}px) rotate(${v.r * t}deg)`;
-          s.style.opacity = 1 - clamp((t - .55) / .45);
+        const t = ease(clamp((p - .1) / .5));
+        const R = Math.hypot(innerWidth, innerHeight) * .6;
+        logo.classList.toggle("is-open", t > 0);
+        letters.forEach(img => {
+          const v = img._v;
+          img.style.transform = `translate(${v.x * t * R * v.d}px, ${v.y * t * R * v.d}px) rotate(${v.r * t}deg) scale(${1 + t * .5})`;
+          img.style.opacity = 1 - clamp((t - .6) / .4);
         });
-        const q = ease(clamp((p - .25) / .4));
-        photo.style.transform = `scale(${.55 + q * .45})`; photo.style.opacity = q;
-        story.classList.toggle("is-on", p > .55);
+        const q = ease(clamp((p - .3) / .35));
+        info.style.opacity = q; info.style.transform = `scale(${.9 + q * .1})`;
+        info.style.pointerEvents = q > .5 ? "auto" : "none";
+      }
+    }
+    if (bub) {
+      const { p, vis } = prog(bub);
+      if (vis) {
+        const W = innerWidth, H = innerHeight, full = Math.hypot(W, H) / 2, small = Math.min(W, H) * .14;
+        const close = ease(clamp(p / .4)), open = ease(clamp((p - .5) / .45));
+        const rCb = full - (full - small) * close;
+        bubCb.style.clipPath = `circle(${rCb}px at 50% 50%)`;
+        bubCb.style.opacity = 1 - clamp((p - .4) / .1);
+        const rHit = p < .4 ? 0 : small + (full - small) * open;
+        bubHit.style.clipPath = `circle(${rHit}px at 50% 50%)`;
       }
     }
     if (fin) {

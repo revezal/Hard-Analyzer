@@ -47,7 +47,7 @@
   $("#heroWord").textContent = R.title; $("#heroWord").dataset.text = R.title;
   $("#deckLinks").innerHTML = Object.entries(R.links).map(([k, v]) => `<a href="${v}" target="_blank" rel="noopener">${k}</a>`).join("");
   const mq = Array(2).fill([`${R.title} — DISPONIBLE AHORA`, "✦", "FRAN MERA", "✦", "A CHILDHOOD BOYS RECORD", "✦", "IQUIQUE · CHILE", "✦"].map(t => `<span>${t}</span>`).join("")).join("");
-  $("#marquee").innerHTML = mq;
+  if ($("#marquee")) $("#marquee").innerHTML = mq;
 
 
   /* ---------- loader ---------- */
@@ -352,11 +352,6 @@
   const L = D.label;
   $("#cbTagline").textContent = L.tagline;
   $("#cbContact").href = L.contact;
-  if (L.logo) {
-    const i = new Image();
-    i.onload = () => { $("#cbLogo").innerHTML = ""; i.alt = L.name; $("#cbLogo").appendChild(i); };
-    i.src = L.logo;
-  }
   Promise.all(L.founders.map(f => resolveImg(f.photo, f.name, "#f5b92e"))).then(urls => {
     $("#cbFounders").innerHTML = L.founders.map((f, i) => `
       <article class="founder reveal"><div class="founder__img" style="background-image:url(${urls[i]})"></div>

@@ -180,28 +180,28 @@
       </div>
     </section>
 
-    <!-- ================= LOS HERMANOS: las letras de CHILDHOOD BOYS se separan y aparece la historia ================= -->
-    <section class="bros" id="hermanos">
-      <div class="bros__s" id="brosStage">
-        <div class="bros__photo" id="brosPhoto"><img src="assets/fotos/hermanos.jpg" alt="Fran Mera y Dímelo Yepo"></div>
-        <div class="bros__story" id="brosStory">
-          <p class="mono bros__eyebrow">La historia</p>
-          <h2 class="display">dos hermanos.<br>un sueño.</h2>
-          <p>Childhood Boys nace de los sueños de infancia de dos hermanos de Iquique: <b>Fran Mera</b> y <b>Dímelo Yepo</b>.</p>
-          <p>Compositores y productores, convirtieron ese sueño en un sello y un estudio propio, donde hoy nacen sus canciones y las de otros artistas.</p>
+    <!-- ================= CHILDHOOD BOYS: las letras del logo se van y se abre la historia ================= -->
+    <section class="cbx" id="childhood">
+      <div class="cbx__s" id="cbxStage">
+        <div class="cbx__info" id="cbxInfo">
+          <div class="cbx__photo"><img src="assets/fotos/hermanos.jpg" alt="Fran Mera y Dímelo Yepo"></div>
+          <div class="cbx__story">
+            <p class="mono cbx__eyebrow">Childhood Boys · la historia</p>
+            <h2 class="display">dos hermanos.<br>un sueño.</h2>
+            <p>Childhood Boys nace de los sueños de infancia de dos hermanos de Iquique: <b>Fran Mera</b> y <b>Dímelo Yepo</b>.</p>
+            <p>Compositores y productores, convirtieron ese sueño en un sello y un estudio propio, donde hoy nacen sus canciones y las de otros artistas.</p>
+          </div>
         </div>
-        <div class="bros__word" id="brosWord" aria-label="Childhood Boys"></div>
+        <div class="cbx__logo" id="cbxLogo" aria-label="Childhood Boys"></div>
       </div>
     </section>
 
+
     <!-- ================= CHILDHOOD BOYS ================= -->
-    <section class="cb" id="childhood">
+    <section class="cb" id="sello">
       <div class="cb__sparkles" id="sparkles" aria-hidden="true"></div>
       <div class="cb__inner">
-        <span class="mono cb__eyebrow">04 / LA DISCOGRÁFICA</span>
-        <div class="cb__logo" id="cbLogo">
-          <span class="cb__type">CHILD<br>HOOD<br>BOYS</span>
-        </div>
+        <span class="mono cb__eyebrow">El sello</span>
         <p class="cb__tagline" id="cbTagline"></p>
         <p class="cb__lead">Fundado por <b>Fran Mera</b> y su hermano <b>Dímelo Yepo</b>. Sello y estudio donde nace cada canción: de la idea al master.</p>
 
@@ -213,10 +213,19 @@
       </div>
     </section>
 
-    <!-- MARQUEE -->
-    <div class="marquee mono" aria-hidden="true">
-      <div class="marquee__track" id="marquee"></div>
-    </div>
+    <!-- ================= BURBUJA: la info se cierra en un círculo y se abre el hit ================= -->
+    <section class="burb" id="burbuja">
+      <div class="bub__s" id="bubStage">
+        <div class="bub__hit" id="bubHit" style="background-image:url(assets/video/kelokera-videoclip.jpg)">
+          <video src="assets/video/kelokera-videoclip.mp4" poster="assets/video/kelokera-videoclip.jpg" muted loop autoplay playsinline></video>
+          <p class="bub__name">KELOKERA</p>
+        </div>
+        <div class="bub__cb" id="bubCb">
+          <img src="assets/logo/childhood-boys-gold.webp" alt="" class="bub__logo">
+          <p class="bub__line">presenta el nuevo hit.</p>
+        </div>
+      </div>
+    </section>
 
     <!-- ================= HERO ================= -->
     <section class="fin" id="kelokera">
@@ -280,6 +289,7 @@
   <script src="js/videoloop.js"></script>
   <script src="js/moments.js"></script>
   <script src="js/instagram.js"></script>
+  <script src="js/cb-letters.js"></script>
   <script src="js/finale.js"></script>
 </body>
 </html>
