@@ -11,7 +11,7 @@
   <link rel="icon" href="assets/logo/logo-white.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@500;800;900&family=Rock+Salt&family=Rubik+Mono+One&family=Archivo:wdth,wght@62..125,700..900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@500;800;900&family=Rock+Salt&family=Rubik+Mono+One&family=Bungee&family=Archivo:wdth,wght@62..125,700..900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <!-- la pantalla de carga solo se muestra si el navegador ejecuta JavaScript (las vistas previas no lo hacen) -->
   <script>document.documentElement.className += " js";</script>
@@ -71,6 +71,7 @@
       <a href="#envivo">En vivo</a>
       <a href="#discos">Discos</a>
       <a href="#bio">Bio</a>
+      <a href="#instagram">Instagram</a>
       <a href="#childhood" class="gold-link">Childhood Boys</a>
       <a href="#contacto">Booking</a>
     </nav>
@@ -228,6 +229,23 @@
       </div>
     </section>
 
+    <!-- ================= INSTAGRAM: nombre gigante detrás, el teléfono cambia de contenido al deslizar ================= -->
+    <section class="ig" id="instagram">
+      <div class="ig__s" id="igStage">
+        <div class="ig__corner ig__corner--tl mono">Instagram<br>Fran Mera</div>
+        <div class="ig__corner ig__corner--tc mono">@franmera</div>
+        <div class="ig__corner ig__corner--tr mono">Shows, estudio<br>y lanzamientos<br>en tiempo real</div>
+        <div class="ig__word" id="igWord" aria-hidden="true">FRAN&nbsp;MERA&nbsp;FRAN&nbsp;MERA</div>
+        <div class="phone">
+          <div class="phone__screen" id="igScreen"></div>
+          <div class="phone__notch"></div>
+        </div>
+        <div class="ig__corner ig__corner--bl mono">(IG)</div>
+        <a class="ig__corner ig__corner--br mono ig__follow" href="https://www.instagram.com/franmera/" target="_blank" rel="noopener">Seguir @franmera ↗</a>
+        <div class="ig__bar"><i id="igBar"></i></div>
+      </div>
+    </section>
+
     <!-- ================= CHILDHOOD BOYS ================= -->
     <section class="cb" id="childhood">
       <div class="cb__sparkles" id="sparkles" aria-hidden="true"></div>
@@ -265,6 +283,6 @@
   <script src="js/main.js"></script>
   <script src="js/videoloop.js"></script>
   <script src="js/moments.js"></script>
-  <script src="js/emojis.js"></script>
+  <script src="js/instagram.js"></script>
 </body>
 </html>

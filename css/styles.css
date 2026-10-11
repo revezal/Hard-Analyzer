@@ -565,3 +565,46 @@ img { display: block; max-width: 100%; }
   25% { opacity: 1; transform: translateY(0) scale(1.15) rotate(var(--r1)); }
   100% { opacity: 0; transform: translateY(-140px) scale(.9) rotate(var(--r2)); }
 }
+
+/* ---------- Instagram: nombre gigante detrás de un teléfono ---------- */
+.ig { position: relative; height: 520vh; background: #7fb24a; }
+.ig__s { position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden;
+  background: linear-gradient(180deg, #8cc152 0%, #6fa53a 60%, #3f7a24 100%); color: #0b0b0b; }
+.ig__word { position: absolute; left: 0; top: 52%; white-space: nowrap; will-change: transform;
+  font-family: "Bungee", var(--chunky); font-size: max(min(70vh, 60vw), 46vh); line-height: .8; letter-spacing: -.02em; color: #0b0b0b; }
+.ig__corner { position: absolute; z-index: 3; color: #0b0b0b; line-height: 1.25; font-weight: 700; }
+.ig__corner--tl { top: 92px; left: var(--gutter); }
+.ig__corner--tc { top: 92px; left: 50%; transform: translateX(-50%); }
+.ig__corner--tr { top: 92px; right: var(--gutter); text-align: right; }
+.ig__corner--bl { bottom: 26px; left: var(--gutter); }
+.ig__corner--br { bottom: 22px; right: var(--gutter); }
+.ig__follow { background: #0b0b0b; color: #8cc152; padding: 10px 16px; border-radius: 99px; }
+.ig__follow:hover { background: var(--red); color: #0b0b0b; }
+.ig__bar { position: absolute; left: var(--gutter); right: var(--gutter); bottom: 72px; height: 2px; background: rgba(0,0,0,.18); z-index: 3; }
+.ig__bar i { display: block; height: 100%; width: 0; background: #0b0b0b; }
+
+.phone { position: absolute; left: 50%; top: 53%; transform: translate(-50%, -50%); z-index: 2;
+  height: min(72vh, 640px); aspect-ratio: 9 / 19.3; border-radius: 46px; background: #0b0b0b; padding: 10px;
+  box-shadow: 0 40px 80px rgba(0,0,0,.35), inset 0 0 0 2px #2a2a2a; }
+.phone__screen { position: relative; width: 100%; height: 100%; border-radius: 38px; overflow: hidden; background: #000; }
+.phone__notch { position: absolute; top: 18px; left: 50%; transform: translateX(-50%); width: 32%; height: 24px; border-radius: 20px; background: #0b0b0b; z-index: 3; }
+.post { position: absolute; inset: 0; display: flex; flex-direction: column; color: #f2f2f2; font: 12px/1.35 -apple-system, "Helvetica Neue", Arial, sans-serif;
+  opacity: 0; transform: translateY(24px) scale(.98); transition: opacity .45s, transform .5s cubic-bezier(.2, .8, .2, 1); }
+.post.is-on { opacity: 1; transform: none; }
+.post__top { display: flex; align-items: center; gap: 8px; padding: 52px 12px 10px; }
+.post__top img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px #000, 0 0 0 4px #d6249f; }
+.post__top span { margin-left: auto; opacity: .7; }
+.post__media { position: relative; flex: 1; min-height: 0; background: #111; }
+.post__media > div, .post__media video { position: absolute; inset: 0; width: 100%; height: 100%; background: center/cover; object-fit: cover; }
+.post__actions { padding: 10px 12px 4px; font-size: 18px; display: flex; gap: 4px; }
+.post__actions span { margin-left: auto; }
+.post__likes { padding: 0 12px; font-weight: 700; }
+.post__cap { padding: 2px 12px 8px; }
+.post__dots { display: flex; justify-content: center; gap: 4px; padding-bottom: 20px; }
+.post__dots i { width: 5px; height: 5px; border-radius: 50%; background: #555; }
+.post__dots i.on { background: #3897f0; }
+@media (max-width: 700px) {
+  .ig__corner--tc { display: none; }
+  .ig__corner--tr { font-size: 10px; }
+  .phone { height: min(62vh, 520px); }
+}

@@ -86,6 +86,16 @@ window.FM = {
       what: "En vivo, de frente al público.", how: "[Completar]" }
   ],
 
+  /* ---------- INSTAGRAM: publicaciones que van pasando en el teléfono (contenido de ejemplo) ---------- */
+  instagram: [
+    { img: "assets/fotos/live-04.jpg", caption: "Gracias por tanto 🖤 abriendo para Beéle", likes: "—" },
+    { video: "assets/video/kelokera-videoclip.mp4", poster: "assets/video/kelokera-videoclip.jpg", caption: "KELOKERA ya disponible 🔴 link en la bio", likes: "—" },
+    { img: "assets/fotos/fran-cb.jpg", caption: "Backstage", likes: "—" },
+    { img: "assets/covers/kelokera.jpg", caption: "Nuevo single. Childhood Boys", likes: "—" },
+    { img: "assets/fotos/live-01.jpg", caption: "Esto recién empieza", likes: "—" },
+    { img: "assets/fotos/kelokera-2.jpg", caption: "Rodaje del videoclip", likes: "—" }
+  ],
+
   /* ---------- CHILDHOOD BOYS (discográfica) ---------- */
   label: {
     name: "CHILDHOOD BOYS",
