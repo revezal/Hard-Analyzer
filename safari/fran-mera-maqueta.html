@@ -680,6 +680,21 @@ img { display: block; max-width: 100%; }
 .op__a figcaption { font-family: "Archivo", "Helvetica Neue", Arial, sans-serif; font-weight: 900; font-stretch: 80%; text-transform: uppercase; font-size: clamp(20px, 2.6vw, 38px); letter-spacing: -.02em; color: var(--bone); }
 @media (max-width: 600px) { .op__row { gap: 14px 18px; } .op__img { width: 34vw; } .op__a:last-child { flex-basis: 100%; } }
 
+/* ---------- fondo grafito difuminado en toda la página ---------- */
+:root {
+  --graphite:
+    radial-gradient(40% 35% at 20% 25%, rgba(120,120,128,.32), transparent 70%),
+    radial-gradient(45% 40% at 80% 70%, rgba(90,90,98,.32), transparent 70%),
+    radial-gradient(30% 30% at 60% 20%, rgba(255,40,30,.05), transparent 70%),
+    linear-gradient(180deg, #1d1d20 0%, #26262a 55%, #18181a 100%);
+}
+body { background: #1d1d20; }
+body::after { content: ""; position: fixed; inset: 0; z-index: -1; background: var(--graphite); pointer-events: none; }
+.kv, .cbx, .cb, .bio, .fin, .cas, .ig { background: transparent; }
+.cas__s, .ig__s, .fin .hero { background: var(--graphite); }
+.fin__black, .fin__cb { background: var(--graphite); }
+.cas__s::before, .ig__s::before { display: none; }
+
 </style>
   <!-- la pantalla de carga solo se muestra si el navegador ejecuta JavaScript (las vistas previas no lo hacen) -->
   <script>document.documentElement.className += " js";</script>
@@ -1793,7 +1808,8 @@ window.SHOW_FRAMES = [
       // posición de la fila: primero KELOKERA al centro, después avanza hasta el final
       const tw = track.scrollWidth;
       const sc = slot ? slot.offsetLeft + slot.offsetParent.offsetLeft + slot.offsetWidth / 2 : tw / 2;
-      const x0 = W / 2 - sc, x1 = Math.min(x0, W - tw);
+      const pad = W / 2;                                        // el track tiene 50vw de relleno a cada lado
+      const x0 = W / 2 - sc, x1 = Math.min(x0, W - (tw - pad) - Math.max(16, W * .04)); // termina con el último Hit pegado al borde derecho
       track.style.transform = `translateX(${lerp(x0, x1, slide)}px)`;
 
       // el video se recorta hacia el rectángulo del círculo de KELOKERA

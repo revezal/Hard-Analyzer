@@ -58,7 +58,8 @@
       // posición de la fila: primero KELOKERA al centro, después avanza hasta el final
       const tw = track.scrollWidth;
       const sc = slot ? slot.offsetLeft + slot.offsetParent.offsetLeft + slot.offsetWidth / 2 : tw / 2;
-      const x0 = W / 2 - sc, x1 = Math.min(x0, W - tw);
+      const pad = W / 2;                                        // el track tiene 50vw de relleno a cada lado
+      const x0 = W / 2 - sc, x1 = Math.min(x0, W - (tw - pad) - Math.max(16, W * .04)); // termina con el último Hit pegado al borde derecho
       track.style.transform = `translateX(${lerp(x0, x1, slide)}px)`;
 
       // el video se recorta hacia el rectángulo del círculo de KELOKERA
