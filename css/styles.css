@@ -55,17 +55,78 @@ img { display: block; max-width: 100%; }
 }
 .cursor.is-hot { font-size: 46px; color: var(--red); mix-blend-mode: normal; }
 
-/* ---------- loader ---------- */
+/* ---------- loader: logo Childhood Boys ---------- */
 .loader {
-  position: fixed; inset: 0; z-index: 200; background: var(--ink);
-  display: grid; place-items: center; align-content: center; gap: 28px;
-  transition: clip-path 1s cubic-bezier(.8, 0, .2, 1);
-  clip-path: inset(0 0 0 0);
+  position: fixed; inset: 0; z-index: 200; background: #000;
+  display: grid; place-items: center; align-content: center; gap: 22px;
+  transition: opacity .6s .35s, visibility 0s 1s;
 }
-.loader.is-done { clip-path: inset(0 0 100% 0); }
-.loader__logo { width: min(70vw, 520px); filter: url(#liquid); }
-.loader__bar { width: min(60vw, 320px); height: 2px; background: #222; }
-.loader__bar span { display: block; height: 100%; width: 0; background: var(--red); transition: width .2s; }
+.loader.is-done { opacity: 0; visibility: hidden; }
+.cbload { position: relative; width: min(62vw, 380px); aspect-ratio: 900 / 882; }
+.cbload__logo {
+  width: 100%; height: 100%; object-fit: contain; filter: url(#jelly) drop-shadow(0 0 30px rgba(245,185,46,.35));
+  animation: balloon 1.8s ease-in-out infinite; transform-origin: 50% 60%;
+}
+/* las letras se inflan y se aplastan como globos, igual que el estilo del logo */
+@keyframes balloon {
+  0%, 100% { transform: scale(1, 1) rotate(0deg); }
+  25% { transform: scale(1.05, .95) rotate(-1.5deg); }
+  50% { transform: scale(.96, 1.05) rotate(1deg); }
+  75% { transform: scale(1.03, .98) rotate(-.5deg); }
+}
+.loader.is-leaving .cbload__logo { animation: pop .75s cubic-bezier(.3, 0, .2, 1) forwards; }
+@keyframes pop {
+  0% { transform: scale(1); }
+  35% { transform: scale(.88, .92); }
+  100% { transform: scale(1.9); opacity: 0; filter: url(#jelly) blur(10px); }
+}
+.cbload__spark { position: absolute; width: 22px; height: 22px; animation: twinkle 2s ease-in-out infinite; color: #fff1b8; }
+.cbload__spark::before, .cbload__spark::after { content: ""; position: absolute; left: 50%; top: 50%; background: currentColor; transform: translate(-50%, -50%); box-shadow: 0 0 10px #f5b92e, 0 0 20px #f5b92e; }
+.cbload__spark::before { width: 2px; height: 100%; } .cbload__spark::after { width: 100%; height: 2px; }
+.loader__txt { color: #f5b92e; opacity: .8; }
+
+/* ---------- show: banner a pantalla completa ---------- */
+.show { position: relative; height: 640vh; background: #000; }
+.show__s { position: sticky; top: 0; height: 100vh; height: 100dvh; width: 100%; overflow: hidden; touch-action: pan-y; cursor: grab; }
+.show__s.is-drag { cursor: grabbing; }
+.show__cv { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.show__shade { position: absolute; inset: 0; background:
+  radial-gradient(120% 90% at 50% 50%, transparent 40%, rgba(0,0,0,.75) 100%), rgba(0,0,0,var(--dark, 0)); pointer-events: none; }
+.show__meta { position: absolute; top: 84px; left: var(--gutter); right: var(--gutter); display: flex; justify-content: space-between; color: var(--bone); opacity: .8; z-index: 3; }
+.show__meta span:first-child::first-letter { color: var(--red); }
+.show__hint { position: absolute; bottom: 30px; left: 0; right: 0; text-align: center; color: var(--bone); z-index: 3; transition: opacity .4s; animation: hint 1.6s ease-in-out infinite; }
+@keyframes hint { 50% { transform: translateY(6px); } }
+.show__bar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(255,255,255,.12); z-index: 3; }
+.show__bar i { display: block; height: 100%; width: 0; background: var(--red); }
+
+/* callouts tipo "ficha de producto" */
+.call { position: absolute; left: var(--x); top: var(--y); z-index: 3; display: flex; align-items: center; gap: 0; pointer-events: none;
+  opacity: 0; transform: translateY(14px); transition: opacity .45s, transform .45s cubic-bezier(.2, .8, .2, 1); }
+.call.is-on { opacity: 1; transform: none; }
+.call i { position: relative; flex: none; width: 14px; height: 14px; border-radius: 50%; background: var(--bone); box-shadow: 0 0 0 6px rgba(239,233,223,.18); }
+.call i::after { content: ""; position: absolute; left: 100%; top: 50%; width: clamp(40px, 8vw, 120px); height: 1px; background: var(--bone); transform-origin: left; transform: scaleX(0); transition: transform .6s .15s; }
+.call.is-on i::after { transform: scaleX(1); }
+.call div { margin-left: calc(clamp(40px, 8vw, 120px) + 14px); display: grid; gap: 6px; color: var(--bone); max-width: 30ch; text-shadow: 0 2px 20px rgba(0,0,0,.6); }
+.call b { font-family: var(--display); font-weight: 400; font-size: clamp(26px, 3.6vw, 52px); line-height: .92; text-transform: uppercase; }
+.call--r { flex-direction: row-reverse; transform: translate(-100%, 14px); }
+.call--r.is-on { transform: translateX(-100%); }
+.call--r i::after { left: auto; right: 100%; transform-origin: right; }
+.call--r div { margin-left: 0; margin-right: calc(clamp(40px, 8vw, 120px) + 14px); text-align: right; }
+@media (max-width: 700px) {
+  .call { left: 8% !important; top: auto !important; bottom: 18%; }
+  .call--r { transform: translateY(14px); flex-direction: row; } .call--r.is-on { transform: none; }
+  .call--r i::after { left: 100%; right: auto; transform-origin: left; }
+  .call--r div { margin-right: 0; margin-left: calc(clamp(40px, 8vw, 120px) + 14px); text-align: left; }
+  .show__meta { top: 70px; font-size: 10px; }
+}
+
+/* cierre: tipografía pixel */
+.px { position: absolute; inset: 0; z-index: 4; display: flex; flex-direction: column; justify-content: center; gap: clamp(4px, 1vw, 12px);
+  padding: 0 clamp(16px, 4vw, 60px); color: #f4f1ea; font-family: "Silkscreen", var(--mono); pointer-events: none; }
+.px__row { display: flex; justify-content: space-between; align-items: baseline; font-size: clamp(30px, 8.2vw, 140px); line-height: .95; letter-spacing: .01em; }
+.px__row span, .px__label { opacity: 0; transform: translateY(.15em); transition: opacity .25s, transform .3s; }
+.px__label { font-size: clamp(11px, 1.3vw, 18px); letter-spacing: .25em; color: var(--red); margin: clamp(10px, 2.4vw, 36px) 0 clamp(2px, .6vw, 8px); font-family: var(--mono); font-weight: 700; }
+.px .on { opacity: 1; transform: none; }
 
 /* ---------- nav ---------- */
 .nav {

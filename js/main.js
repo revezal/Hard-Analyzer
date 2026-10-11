@@ -55,9 +55,6 @@
   /* ---------- loader ---------- */
   const photosP = Promise.all(D.livePhotos.map((p, i) => resolveImg(p.poster || p.src, p.label, i % 2 ? "#5a1a10" : "#ff1a0e")));
   const coverP = resolveImg(R.cover, R.title, "#ff1a0e");
-  let pct = 0;
-  const tick = setInterval(() => { pct = Math.min(pct + Math.random() * 18, 92); setLoad(pct); }, 120);
-  function setLoad(v) { $("#loadPct").textContent = Math.round(v); $(".loader__bar span").style.width = v + "%"; }
 
   // logo líquido animado
   const noise = $("#liquidNoise");
@@ -65,10 +62,11 @@
   (function liquid() { lt += .006; noise.setAttribute("baseFrequency", `${.012 + Math.sin(lt) * .004} ${.03 + Math.cos(lt * 1.3) * .01}`); if (!reduce) requestAnimationFrame(liquid); })();
 
   Promise.all([photosP, coverP, document.fonts.ready]).then(([photos, cover]) => {
-    clearInterval(tick); setLoad(100);
-    setTimeout(() => $("#loader").classList.add("is-done"), 350);
+    // el loader (logo Childhood Boys) lo cierra js/show.js cuando también cargan los cuadros del show
+    window.__fmMainReady = true;
+    dispatchEvent(new Event("fm:main-ready"));
     initStage(photos);
-    $("#bioPhoto").style.backgroundImage = `url(${photos[3 % photos.length]})`;
+    $("#bioPhoto").style.backgroundImage = "url(assets/fotos/live-04.jpg)";
   });
 
   /* =========================================================

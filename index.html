@@ -11,7 +11,7 @@
   <link rel="icon" href="assets/logo/logo-white.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Rubik+Mono+One&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Rubik+Mono+One&family=Silkscreen:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -21,6 +21,10 @@
     <filter id="liquid">
       <feTurbulence id="liquidNoise" type="fractalNoise" baseFrequency="0.012 0.03" numOctaves="2" seed="3"/>
       <feDisplacementMap in="SourceGraphic" scale="14"/>
+    </filter>
+    <filter id="jelly" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence id="jellyNoise" type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="2" seed="7"/>
+      <feDisplacementMap in="SourceGraphic" scale="18" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
     <filter id="grungeLite">
       <feTurbulence type="fractalNoise" baseFrequency="0.11" numOctaves="3" seed="2" result="n"/>
@@ -37,17 +41,21 @@
   <div class="grain" aria-hidden="true"></div>
   <div class="cursor" aria-hidden="true">✦</div>
 
-  <!-- LOADER -->
+  <!-- LOADER: logo Childhood Boys con efecto "globo" -->
   <div class="loader" id="loader">
-    <img src="assets/logo/logo-white.png" alt="" class="loader__logo">
-    <div class="loader__bar"><span></span></div>
-    <p class="mono loader__txt">CARGANDO <span id="loadPct">0</span>%</p>
+    <div class="cbload">
+      <img src="assets/logo/childhood-boys-gold.webp" alt="Childhood Boys" class="cbload__logo">
+      <i class="cbload__spark" style="left:6%;top:12%"></i><i class="cbload__spark" style="right:4%;top:30%;animation-delay:.5s"></i>
+      <i class="cbload__spark" style="left:18%;bottom:6%;animation-delay:1s"></i><i class="cbload__spark" style="right:16%;bottom:10%;animation-delay:1.4s"></i>
+    </div>
+    <p class="mono loader__txt"><span id="loadPct">0</span>%</p>
   </div>
 
   <!-- NAV -->
   <header class="nav">
     <a href="#top" class="nav__logo"><img src="assets/logo/logo-white.png" alt="Fran Mera"></a>
     <nav class="nav__links mono">
+      <a href="#show">Show</a>
       <a href="#discos">Discos</a>
       <a href="#bio">Bio</a>
       <a href="#childhood" class="gold-link">Childhood Boys</a>
@@ -57,6 +65,31 @@
   </header>
 
   <main id="top">
+
+    <!-- ================= SHOW: banner a pantalla completa que avanza al deslizar ================= -->
+    <section class="show" id="show">
+      <div class="show__s" id="showStage">
+        <canvas class="show__cv" id="showCv"></canvas>
+        <div class="show__shade" id="showShade"></div>
+        <div class="show__meta mono"><span>● FRAN MERA — EN VIVO</span><span id="showFrame">001 / 158</span></div>
+
+        <div class="call" data-from="0" data-to=".2" style="--x:8%;--y:74%"><i></i><div><span class="mono">01 / Camarín</span><b>Su nombre en la puerta</b></div></div>
+        <div class="call call--r" data-from=".22" data-to=".38" style="--x:58%;--y:38%"><i></i><div><span class="mono">02 / La voz</span><b>Cantante · Compositor · Productor</b></div></div>
+        <div class="call" data-from=".4" data-to=".56" style="--x:40%;--y:58%"><i></i><div><span class="mono">03 / El público</span><b>Iquique, Chile — reggaetón desde los 14</b></div></div>
+        <div class="call call--r" data-from=".58" data-to=".74" style="--x:52%;--y:44%"><i></i><div><span class="mono">04 / La trayectoria</span><b>Radios · Televisión · MTV</b></div></div>
+
+        <div class="px" id="px" aria-label="Fran Mera en vivo, telonero de Beéle. También abrió para Eladio Carrión y Feid.">
+          <p class="px__row"><span>FRAN</span><span>MERA</span><span>(LIVE)</span></p>
+          <p class="px__row"><span>OPENING</span><span>@</span><span>BEÉLE</span></p>
+          <p class="px__label">TAMBIÉN ABRIÓ PARA</p>
+          <p class="px__row"><span>ELADIO</span><span>*</span><span>CARRIÓN</span></p>
+          <p class="px__row"><span>FEID</span><span>*</span><span>BEÉLE</span></p>
+        </div>
+
+        <p class="show__hint mono" id="showHint">Desliza o arrastra ↓</p>
+        <div class="show__bar"><i id="showBar"></i></div>
+      </div>
+    </section>
 
     <!-- ================= HERO ================= -->
     <section class="hero">
@@ -176,6 +209,8 @@
 
   <audio id="audio" preload="metadata"></audio>
   <script src="js/data.js"></script>
+  <script src="js/show-frames.js"></script>
+  <script src="js/show.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

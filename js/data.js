@@ -56,7 +56,7 @@ window.FM = {
   /* ---------- CHILDHOOD BOYS (discográfica) ---------- */
   label: {
     name: "CHILDHOOD BOYS",
-    logo: "assets/logo/childhood-boys-gold.png", // logo dorado (subir archivo). Si no existe, se usa versión tipográfica.
+    logo: "assets/logo/childhood-boys-gold.webp", // logo dorado (subir archivo). Si no existe, se usa versión tipográfica.
     tagline: "Sello y estudio nacido de sueños de infancia.",
     founders: [
       { name: "FRAN MERA", role: "Artista · Compositor · Productor", photo: "assets/fotos/kelokera-3.jpg" },
