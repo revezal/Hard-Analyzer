@@ -16,8 +16,7 @@
   const t0 = performance.now();
   addEventListener("fm:main-ready", () => { mainReady = true; check(); });
 
-  (function wobble(t) { // las letras "respiran" como globos
-    if (done) return;
+  (function wobble(t) { // las letras "respiran" como globos (loader y logo del menú)
     const k = t / 1000;
     jelly.setAttribute("baseFrequency", `${.008 + Math.sin(k * 1.7) * .003} ${.012 + Math.cos(k * 1.3) * .004}`);
     requestAnimationFrame(wobble);

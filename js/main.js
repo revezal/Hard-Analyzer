@@ -154,21 +154,53 @@
   const demoDur = lines[lines.length - 1].t + 1.2;
   let playing = false, demoT = 0, last = 0, curLine = -1, lastBeat = -1;
 
-  const dur = () => (hasAudio && audio.duration) || demoDur;
-  const now = () => hasAudio ? audio.currentTime : demoT;
+  /* ---- coro desde YouTube (mini reproductor) ---- */
+  const YTC = R.youtube || null;
+  const ytUrl = YTC ? `https://youtu.be/${YTC.id}${YTC.chorusStart ? "?t=" + YTC.chorusStart : ""}` : "#";
+  let yt = null, ytReady = false;
+  const card = document.createElement("aside");
+  card.className = "ytcard"; card.setAttribute("aria-label", "Reproductor del coro de Kelokera");
+  card.innerHTML = `<div class="ytcard__media"><div id="ytPlayer"></div><img class="ytcard__poster" src="assets/video/kelokera.jpg" alt=""></div>
+    <div class="ytcard__info"><span class="mono">● Sonando · coro</span><b>${R.title}</b><span class="mono muted">Fran Mera</span>
+    <a class="ytcard__cta mono" href="${ytUrl}" target="_blank" rel="noopener">Ver video completo ↗</a></div>
+    <button class="ytcard__close" aria-label="Cerrar">✕</button>`;
+  document.body.appendChild(card);
+  card.querySelector(".ytcard__close").addEventListener("click", () => { setPlaying(false); card.classList.remove("is-open"); });
+  if (YTC) {
+    // el reproductor se prepara al cargar la página, para que el click pueda darle play con sonido
+    window.onYouTubeIframeAPIReady = () => {
+      yt = new YT.Player("ytPlayer", {
+        width: "100%", height: "100%", videoId: YTC.id,
+        playerVars: { start: YTC.chorusStart, playsinline: 1, rel: 0, controls: 0, modestbranding: 1 },
+        events: { onReady: () => { ytReady = true; card.classList.add("has-video"); } }
+      });
+    };
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+  }
+  const useYT = () => ytReady && yt && yt.getCurrentTime;
+
+  const dur = () => useYT() ? YTC.chorusLength : (hasAudio && audio.duration) || demoDur;
+  const now = () => useYT() ? Math.max(0, yt.getCurrentTime() - YTC.chorusStart) : hasAudio ? audio.currentTime : demoT;
   const fmt = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
   audio.addEventListener("loadedmetadata", () => $("#tDur").textContent = fmt(dur()));
-  $("#tDur").textContent = fmt(demoDur);
+  $("#tDur").textContent = fmt(YTC ? YTC.chorusLength : demoDur);
 
   function setPlaying(v) {
     playing = v;
     $("#lyric").classList.toggle("is-playing", v);
     $("#playBtn").setAttribute("aria-label", v ? "Pausar" : "Reproducir");
-    if (hasAudio) v ? audio.play().catch(() => setPlaying(false)) : audio.pause();
+    if (v) card.classList.add("is-open"), card.classList.remove("is-end");
+    if (useYT()) {
+      if (v) { if (now() >= YTC.chorusLength - .5) yt.seekTo(YTC.chorusStart, true); yt.unMute(); yt.playVideo(); }
+      else yt.pauseVideo();
+    } else if (hasAudio) v ? audio.play().catch(() => setPlaying(false)) : audio.pause();
     last = performance.now();
   }
+  function chorusEnd() { setPlaying(false); demoT = 0; card.classList.add("is-end"); } // termina el coro → invita al video
   $("#playBtn").addEventListener("click", () => setPlaying(!playing));
-  document.querySelectorAll("[data-play]").forEach(a => a.addEventListener("click", () => setTimeout(() => setPlaying(true), 400)));
+  document.querySelectorAll("[data-play]").forEach(a => a.addEventListener("click", () => setPlaying(true)));
   audio.addEventListener("ended", () => setPlaying(false));
 
   /* afiche: cada palabra es una línea que se ajusta al ancho del afiche */
@@ -211,8 +243,9 @@
 
   function loop(ts) {
     const dt = (ts - last) / 1000; last = ts;
-    if (playing && !hasAudio) { demoT += dt; if (demoT >= demoDur) { demoT = 0; setPlaying(false); } }
+    if (playing && !useYT() && !hasAudio) { demoT += dt; if (demoT >= demoDur) chorusEnd(); }
     const t = now();
+    if (playing && useYT() && t >= YTC.chorusLength) { yt.pauseVideo(); chorusEnd(); }
     updateKaraoke(t);
     $("#tCur").textContent = fmt(t);
     if (playing) {

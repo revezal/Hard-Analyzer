@@ -14,19 +14,32 @@ window.FM = {
     key: "A MIN",
     cover: "assets/fotos/kelokera-cover.jpg", // si no existe, se usa placeholder
     audio: "",            // ej: "assets/audio/kelokera-preview.mp3" (30s del coro). Si está vacío, el karaoke corre en modo demo.
-    links: { spotify: "https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw", youtube: "#", apple: "#" },
-    // t = segundo en que empieza la línea. PLACEHOLDER: reemplazar por la letra real con sus tiempos.
+    links: { spotify: "https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw", youtube: "https://youtu.be/RKv2vyqATI0", apple: "#" },
+    // Videoclip oficial: al tocar KELOKERA suena el coro desde YouTube (mini reproductor) y la letra cae en el afiche.
+    // chorusStart = segundo del video donde empieza el coro principal → AJUSTAR con el minuto exacto.
+    youtube: { id: "RKv2vyqATI0", chorusStart: 0, chorusLength: 42 },
+    // Coro principal. t = segundo dentro del coro en que entra cada línea (aprox.; ajustar escuchando el tema).
     lyrics: [
-      { t: 0.0,  text: "Letra de ejemplo para el karaoke" },
-      { t: 3.2,  text: "Cada palabra se ilumina al ritmo" },
-      { t: 6.4,  text: "Desde Iquique pa' todo el planeta" },
-      { t: 9.6,  text: "Childhood Boys en la casa" },
-      { t: 12.8, text: "Reemplaza estas líneas con la letra real" },
-      { t: 16.0, text: "y ajusta el tiempo de cada una" },
-      { t: 19.2, text: "el sitio hace el resto solo" },
-      { t: 22.4, text: "Fran Mera — nuevo single" },
-      { t: 25.6, text: "ya disponible en todas las plataformas" },
-      { t: 28.8, text: "" }
+      { t:   0.0, text: "Kelokera" },
+      { t:   1.6, text: "Que una nena como tú" },
+      { t:   4.0, text: "Sume con esa actitud" },
+      { t:   6.4, text: "Tan putera" },
+      { t:   8.0, text: "Si nos vieran" },
+      { t:  10.4, text: "Lo que hicimos a poca luz" },
+      { t:  12.8, text: "Cuando estuvimos desnu'" },
+      { t:  15.2, text: "En la arena" },
+      { t:  17.6, text: "Nos perdemos" },
+      { t:  19.2, text: "De la fase" },
+      { t:  21.6, text: "Que tu ta' fuera" },
+      { t:  24.0, text: "De clase" },
+      { t:  25.6, text: "Quiero que bien" },
+      { t:  28.0, text: "Tu la pases" },
+      { t:  30.4, text: "Y que revivamos este calentón" },
+      { t:  32.8, text: "Bailando reggaeton" },
+      { t:  34.4, text: "Perreando eres salvaje" },
+      { t:  36.8, text: "Como Julio Voltio" },
+      { t:  39.2, text: "Tremendo voltaje" },
+      { t:  40.8, text: "" }
     ]
   },
 
@@ -76,7 +89,7 @@ window.FM = {
     instagram: "#",
     tiktok: "#",
     spotify: "https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw",
-    youtube: "#",
+    youtube: "https://youtu.be/RKv2vyqATI0",
     booking: "mailto:booking@franmera.com"
   }
 };

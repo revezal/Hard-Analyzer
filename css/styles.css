@@ -136,7 +136,8 @@ img { display: block; max-width: 100%; }
   padding: 14px var(--gutter);
   mix-blend-mode: difference;
 }
-.nav__logo img { width: 120px; }
+.nav__logo img { width: 120px; filter: url(#jelly); animation: balloon 2.4s ease-in-out infinite; transform-origin: 50% 70%; }
+.nav__logo:hover img { animation-duration: .9s; }
 .nav__links { display: flex; gap: 28px; }
 .nav__links a, .nav__cta { position: relative; }
 .nav__links a::after {
@@ -439,3 +440,30 @@ img { display: block; max-width: 100%; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .reveal { opacity: 1; transform: none; }
 }
+
+/* ---------- mini reproductor del coro (YouTube) ---------- */
+.ytcard {
+  position: fixed; left: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 120;
+  width: min(480px, calc(100vw - 32px)); display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); align-items: center; background: #0d0b0b;
+  border: 1px solid rgba(239,233,223,.16); box-shadow: 0 30px 60px rgba(0,0,0,.6);
+  transform: translateY(calc(100% + 40px)); transition: transform .6s cubic-bezier(.2, .9, .2, 1);
+}
+.ytcard.is-open { transform: none; }
+.ytcard__media { position: relative; aspect-ratio: 16 / 9; background: #000; overflow: hidden; }
+.ytcard__media iframe, .ytcard__media #ytPlayer { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.ytcard__poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ytcard.has-video .ytcard__poster { display: none; }
+.ytcard__info { display: grid; gap: 6px; padding: 14px 44px 14px 16px; color: var(--bone); min-width: 0; }
+.ytcard__info span:first-child { color: var(--red); }
+.ytcard__info b { font-family: var(--display); font-weight: 400; font-size: 28px; line-height: .9; }
+@media (max-width: 600px) {
+  .ytcard { grid-template-columns: minmax(0, 132px) minmax(0, 1fr); }
+  .ytcard__info { padding: 10px 12px; gap: 4px; }
+  .ytcard__info b { font-size: 22px; }
+  .ytcard__cta { padding: 8px 10px; font-size: 9px; letter-spacing: .08em; }
+  .ytcard__info .muted { display: none; }
+}
+.ytcard__cta { margin-top: 8px; justify-self: start; white-space: nowrap; padding: 10px 14px; border: 1px solid var(--bone); border-radius: 99px; font-weight: 700; transition: background .2s, color .2s; }
+.ytcard__cta:hover, .ytcard.is-end .ytcard__cta { background: var(--red); border-color: var(--red); color: var(--ink); }
+.ytcard.is-end .ytcard__info span:first-child::after { content: " · terminó el coro"; }
+.ytcard__close { position: absolute; top: 8px; right: 8px; width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,.6); color: var(--bone); }
