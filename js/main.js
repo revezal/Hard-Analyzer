@@ -160,9 +160,9 @@
   let yt = null, ytReady = false;
   const card = document.createElement("aside");
   card.className = "ytcard"; card.setAttribute("aria-label", "Reproductor del coro de Kelokera");
-  card.innerHTML = `<div class="ytcard__media"><div id="ytPlayer"></div><img class="ytcard__poster" src="assets/video/kelokera.jpg" alt=""></div>
-    <div class="ytcard__info"><span class="mono">● Sonando · coro</span><b>${R.title}</b><span class="mono muted">Fran Mera</span>
-    <a class="ytcard__cta mono" href="${ytUrl}" target="_blank" rel="noopener">Ver video completo ↗</a></div>
+  card.innerHTML = `<div class="ytcard__media"><div id="ytPlayer"></div><img class="ytcard__poster" src="assets/fotos/kelokera-cover.jpg" alt=""></div>
+    <div class="ytcard__info"><span class="mono ytcard__state" id="ytState">Letra del coro</span><b>${R.title}</b><span class="mono muted">Fran Mera</span>
+    <a class="ytcard__cta mono" href="${ytUrl}" target="_blank" rel="noopener"><span id="ytCtaTxt">Escuchar en YouTube</span> ↗</a></div>
     <button class="ytcard__close" aria-label="Cerrar">✕</button>`;
   document.body.appendChild(card);
   card.querySelector(".ytcard__close").addEventListener("click", () => { setPlaying(false); card.classList.remove("is-open"); });
@@ -191,14 +191,20 @@
     playing = v;
     $("#lyric").classList.toggle("is-playing", v);
     $("#playBtn").setAttribute("aria-label", v ? "Pausar" : "Reproducir");
-    if (v) card.classList.add("is-open"), card.classList.remove("is-end");
+    if (v) { card.classList.add("is-open"); card.classList.remove("is-end"); cardState(false); }
     if (useYT()) {
       if (v) { if (now() >= YTC.chorusLength - .5) yt.seekTo(YTC.chorusStart, true); yt.unMute(); yt.playVideo(); }
       else yt.pauseVideo();
     } else if (hasAudio) v ? audio.play().catch(() => setPlaying(false)) : audio.pause();
     last = performance.now();
   }
-  function chorusEnd() { setPlaying(false); demoT = 0; card.classList.add("is-end"); } // termina el coro → invita al video
+  // el estado dice la verdad: "Sonando" solo cuando hay audio real (YouTube o archivo)
+  function cardState(ended) {
+    const audible = useYT() || hasAudio;
+    $("#ytState").textContent = ended ? "Terminó el coro" : audible ? "● Sonando · coro" : "Letra del coro · sin audio en esta vista";
+    $("#ytCtaTxt").textContent = audible || ended ? "Ver video completo" : "Escuchar en YouTube";
+  }
+  function chorusEnd() { setPlaying(false); demoT = 0; card.classList.add("is-end"); cardState(true); } // termina el coro → invita al video
   $("#playBtn").addEventListener("click", () => setPlaying(!playing));
   document.querySelectorAll("[data-play]").forEach(a => a.addEventListener("click", () => setPlaying(true)));
   audio.addEventListener("ended", () => setPlaying(false));

@@ -47,6 +47,7 @@ window.FM = {
   // Sube las fotos con estos nombres a assets/fotos/. Si un archivo no existe, aparece un placeholder.
   // Los ítems con "video" se reproducen en el mix (mudos, en loop) y usan "poster" para la transición glitch.
   livePhotos: [
+    { src: "assets/fotos/kelokera-cover.jpg", label: "KELOKERA" },
     { src: "assets/fotos/kelokera-4.jpg", label: "KELOKERA" },
     { src: "assets/fotos/live-01.jpg", label: "LIVE 01" },
     { video: "assets/video/kiki.mp4", poster: "assets/video/kiki.jpg", label: "KIKI" },
@@ -63,7 +64,7 @@ window.FM = {
     { title: "NA CONMIGO NA CONTIGO", time: "4:02", plays: "1.499.347", color: "#d9c3a5", cover: "", spotify: "https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw" },
     { title: "QUE RICO FUE", time: "2:38", plays: "211.715", color: "#2a5bd7", cover: "", spotify: "https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw" },
     { title: "DIME QUE FUE", time: "3:28", plays: "387.223", color: "#e0b9a8", cover: "", spotify: "https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw" },
-    { title: "KELOKERA", time: "2:31", plays: "1.155", color: "#ff1a0e", cover: "", spotify: "https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw" }
+    { title: "KELOKERA", time: "2:31", plays: "1.155", color: "#ff1a0e", cover: "assets/fotos/kelokera-cover.jpg", spotify: "https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw" }
   ],
 
   /* ---------- CHILDHOOD BOYS (discográfica) ---------- */
