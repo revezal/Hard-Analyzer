@@ -67,24 +67,29 @@ window.FM = {
     { title: "KELOKERA", time: "2:31", plays: "1.155", color: "#ff1a0e", cover: "assets/fotos/kelokera-cover.jpg", spotify: "https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw" }
   ],
 
-  /* ---------- CANCIONES: círculos que aparecen cuando el videoclip se cierra ---------- */
-  // type "song": al hacer click muestra año y reproducciones. year: "" hasta tener el dato (lo pondrá Marcelo).
-  // type "moment": fotos de shows y momentos que acompañan la fila.
+  /* ---------- CANCIONES: portadas que aparecen cuando el videoclip se cierra en círculo ---------- */
+  // Click en una portada → año y reproducciones. year: "" hasta tener el dato.
+  // Dime Que Fue usa la misma portada que Na Conmigo Na Contigo (así aparece en Spotify).
   songs: [
-    { type: "moment", img: "assets/fotos/live-01.jpg" },
-    { type: "song", title: "OTRA COPA", year: "", plays: "734.394", color: "#c8364a", cover: "" },
-    { type: "moment", img: "assets/fotos/kelokera-1.jpg", small: true },
-    { type: "moment", img: "assets/fotos/live-03.jpg", small: true },
-    { type: "song", title: "NA CONMIGO NA CONTIGO", year: "", plays: "1.499.347", color: "#d9c3a5", cover: "", big: true },
-    { type: "song", title: "KELOKERA", year: "2026", plays: "Nuevo", color: "#ff1a0e", cover: "assets/fotos/kelokera-cover.jpg", video: true, big: true },
-    { type: "moment", img: "assets/fotos/live-04.jpg", small: true },
-    { type: "song", title: "QUE RICO FUE", year: "", plays: "211.715", color: "#2a5bd7", cover: "", small: true },
-    { type: "song", title: "DIME QUE FUE", year: "", plays: "387.223", color: "#e0b9a8", cover: "" },
-    { type: "moment", img: "assets/fotos/kelokera-3.jpg", small: true },
-    { type: "song", title: "KIKI", year: "", plays: "", color: "#8f0a04", cover: "assets/fotos/kiki-2.jpg", small: true },
-    { type: "moment", img: "assets/fotos/live-02.jpg", big: true },
-    { type: "moment", img: "assets/fotos/kelokera-5.jpg", small: true },
-    { type: "moment", img: "assets/fotos/kelokera-6.jpg", small: true }
+    { type: "song", title: "OTRA COPA", feat: "con Baby Jey", year: "", plays: "734.394", color: "#c8364a", cover: "assets/covers/otra-copa.jpg" },
+    { type: "song", title: "NA CONMIGO NA CONTIGO", year: "", plays: "1.499.347", color: "#d9c3a5", cover: "assets/covers/na-conmigo-na-contigo.jpg", big: true },
+    { type: "song", title: "KELOKERA", year: "2026", plays: "Nuevo", color: "#ff1a0e", cover: "assets/covers/kelokera.jpg", video: true, big: true },
+    { type: "song", title: "QUE RICO FUE", year: "", plays: "211.715", color: "#2a5bd7", cover: "assets/covers/que-rico-fue.jpg" },
+    { type: "song", title: "DIME QUE FUE", year: "", plays: "387.223", color: "#e0b9a8", cover: "assets/covers/na-conmigo-na-contigo.jpg", small: true },
+    { type: "song", title: "E.S.A", feat: "Schuster x Fran Mera", year: "", plays: "", color: "#7fd6f0", cover: "assets/covers/esa.jpg", small: true }
+  ],
+
+  /* ---------- EN VIVO: fotos que se abren en gigante hacia abajo con la historia de cada momento ---------- */
+  // PLACEHOLDERS: completar día, fecha, lugar y el texto de cómo lo vivió Fran.
+  moments: [
+    { img: "assets/fotos/live-01.jpg", title: "Abriendo para Beéle", day: "[día]", date: "[fecha]", place: "[lugar] · Chile",
+      what: "Telonero del show de Beéle frente a un recinto lleno.", how: "[Cómo lo vivió Fran: completar con sus palabras]" },
+    { img: "assets/fotos/live-02.jpg", title: "Antes del show", day: "[día]", date: "[fecha]", place: "[lugar] · Chile",
+      what: "Prueba de sonido con el recinto todavía vacío.", how: "[Completar]" },
+    { img: "assets/fotos/live-04.jpg", title: "La gente", day: "[día]", date: "[fecha]", place: "[lugar] · Chile",
+      what: "Show en vivo con su nombre en todas las pantallas.", how: "[Completar]" },
+    { img: "assets/fotos/live-03.jpg", title: "@franmera", day: "[día]", date: "[fecha]", place: "[lugar] · Chile",
+      what: "En vivo, de frente al público.", how: "[Completar]" }
   ],
 
   /* ---------- CHILDHOOD BOYS (discográfica) ---------- */

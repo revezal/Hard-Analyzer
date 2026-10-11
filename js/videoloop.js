@@ -16,7 +16,7 @@
     const song = it.type === "song";
     const bg = it.img || it.cover;
     const info = song
-      ? `<b>${it.title}</b><span>Año <em>${it.year || "—"}</em></span><span>${it.plays ? (/^\d/.test(it.plays) ? it.plays + " reproducciones" : it.plays) : "Videoclip"}</span>`
+      ? `<b>${it.title}</b>${it.feat ? `<span>${it.feat}</span>` : ""}<span>Año <em>${it.year || "—"}</em></span><span>${it.plays ? (/^\d/.test(it.plays) ? it.plays + " reproducciones" : it.plays) : "Reproducciones —"}</span>`
       : `<b>en vivo</b><span>Fran Mera</span>`;
     return `<button class="bub bub--${size(it)} ${song ? "bub--song" : "bub--moment"}" ${it.video ? 'data-video' : ""}
       style="--c:${it.color || "#222"};${bg ? `background-image:url(${bg})` : ""}" aria-label="${song ? it.title : "Foto en vivo"}">

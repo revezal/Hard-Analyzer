@@ -515,3 +515,23 @@ img { display: block; max-width: 100%; }
 .kv__vinfo b { font-family: var(--round); font-weight: 900; letter-spacing: -.04em; font-size: clamp(18px, 2.6vh, 28px); line-height: .9; text-transform: lowercase; }
 .kv__vinfo span { font: 700 10px var(--mono); letter-spacing: .14em; text-transform: uppercase; }
 .kv__vinfo em { font-style: normal; color: var(--red); }
+
+/* ---------- en vivo: fotos que se abren en gigante hacia abajo ---------- */
+.live { background: #050505; }
+.live__head { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 6px 20px; text-align: center; padding: 18vh var(--gutter) 0; }
+.live__head .mono { width: 100%; color: var(--muted); }
+.live__head .display { font-size: clamp(56px, 10vw, 150px); color: var(--bone); }
+.mo { position: relative; height: 210vh; }
+.mo__s { position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden; }
+.mo__img { position: absolute; inset: 0; background: #111 center/cover; will-change: clip-path, transform; }
+.mo__img::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,.85)); }
+.mo__num { position: absolute; top: 84px; right: var(--gutter); color: var(--bone); z-index: 2; }
+.mo__card { position: absolute; left: var(--gutter); right: var(--gutter); bottom: 7vh; z-index: 2; display: grid; gap: 14px; max-width: 1100px; color: var(--bone);
+  opacity: 0; transform: translateY(30px); transition: opacity .5s, transform .6s cubic-bezier(.2, .8, .2, 1); }
+.mo__card.is-on { opacity: 1; transform: none; }
+.mo__when { color: var(--red); }
+.mo__title { font-size: clamp(44px, 7vw, 110px); }
+.mo__facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; border-top: 1px solid rgba(239,233,223,.3); padding-top: 16px; }
+.mo__facts dt { color: var(--muted); margin-bottom: 6px; }
+.mo__facts dd { font-size: 15px; line-height: 1.5; margin: 0; }
+@media (max-width: 700px) { .mo__facts { grid-template-columns: 1fr; gap: 10px; } .mo__facts dd { font-size: 13px; } }
