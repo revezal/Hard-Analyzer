@@ -49,7 +49,7 @@
   $("#heroWord").textContent = R.title; $("#heroWord").dataset.text = R.title;
   }
   if ($("#deckLinks")) $("#deckLinks").innerHTML = Object.entries(R.links).map(([k, v]) => `<a href="${v}" target="_blank" rel="noopener">${k}</a>`).join("");
-  const mq = Array(2).fill([`${R.title} — DISPONIBLE AHORA`, "✦", "FRAN MERA", "✦", "A CHILDHOOD BOYS RECORD", "✦", "IQUIQUE · CHILE", "✦"].map(t => `<span>${t}</span>`).join("")).join("");
+  const mq = Array(2).fill([`${R.title} — DISPONIBLE AHORA`, "✦", "FRAN MERA", "✦", "A CHILDHOOD BOYS RECORD", "✦", "SANTIAGO · CHILE", "✦"].map(t => `<span>${t}</span>`).join("")).join("");
   if ($("#marquee")) $("#marquee").innerHTML = mq;
 
 

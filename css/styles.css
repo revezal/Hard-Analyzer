@@ -348,7 +348,7 @@ img { display: block; max-width: 100%; }
   filter: grayscale(1) contrast(1.2);
   clip-path: polygon(0 0, 100% 3%, 97% 100%, 2% 97%);
 }
-.bio__photo::after { content: "IQQ · CL"; position: absolute; bottom: 14px; left: 14px; font: 700 11px var(--mono); letter-spacing: .2em; color: var(--red); }
+.bio__photo::after { content: "STGO · CL"; position: absolute; bottom: 14px; left: 14px; font: 700 11px var(--mono); letter-spacing: .2em; color: var(--red); }
 .bio__text { display: grid; gap: 22px; }
 .bio__text .display { font-size: clamp(52px, 8vw, 128px); }
 .bio__text em { font-style: normal; color: var(--red); }
@@ -679,3 +679,4 @@ body::after { content: ""; position: fixed; inset: 0; z-index: -1; background: v
 .cas__s, .ig__s, .fin .hero { background: var(--graphite); }
 .fin__black, .fin__cb { background: var(--graphite); }
 .cas__s::before, .ig__s::before { display: none; }
+.cc--text span.long { font-size: 1.45em; }

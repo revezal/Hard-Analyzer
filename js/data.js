@@ -81,7 +81,7 @@ window.FM = {
   // type: "photo" (img), "text" (líneas grandes), "color" (bloque de color con texto), "empty" (espacio para foto pendiente).
   // Para agregar fotos: reemplazar cualquier { type: "empty" } por { type: "photo", img: "assets/fotos/....jpg" }.
   moments: [
-    { type: "text", lines: ["EN", "VIVO", "2026", "IQQ"], tone: "grey" },
+    { type: "text", lines: ["EN", "VIVO", "2026", "SANTIAGO"], tone: "grey" },
     { type: "photo", img: "assets/fotos/live-04.jpg" },
     { type: "text", lines: ["Beéle", "Eladio Carrión", "Feid", "Telonero", "Chile", "Público", "Escenario", "Backstage"], tone: "black", small: true },
     { type: "photo", img: "assets/fotos/fran-cb.jpg" },

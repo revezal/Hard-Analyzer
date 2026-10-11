@@ -9,7 +9,7 @@
 
   deck.innerHTML = M.map(m => {
     if (m.type === "photo") return `<div class="cc cc--photo" style="background-image:url(${m.img})"></div>`;
-    if (m.type === "text") return `<div class="cc cc--text cc--${m.tone}${m.small ? " cc--small" : ""}">${m.lines.map(l => `<span>${l}</span>`).join("")}</div>`;
+    if (m.type === "text") return `<div class="cc cc--text cc--${m.tone}${m.small ? " cc--small" : ""}">${m.lines.map(l => `<span${!m.small && l.length > 5 ? ' class="long"' : ""}>${l}</span>`).join("")}</div>`;
     if (m.type === "color") return `<div class="cc cc--color cc--${m.tone}${m.tilt ? " cc--tilt" : ""}"><b>${m.label}</b></div>`;
     return `<div class="cc cc--empty"><span class="mono">✕ ◷</span><em class="mono">Foto</em></div>`;
   }).join("");
