@@ -71,7 +71,7 @@
     const p = progress();
     // el video (sin el fundido a negro del inicio y del final) ocupa el 82% del recorrido;
     // en el cierre queda de fondo el cuadro del público con las manos arriba
-    const target = p < .82 ? FIRST + clamp(p / .82) * (LAST - FIRST) : CROWD;
+    const target = FIRST + clamp(p / .97) * (LAST - FIRST); // el video sigue corriendo detrás del texto final
     cur = reduce || force || Math.abs(target - cur) > 20 ? target : cur + (target - cur) * .22;
     const idx = Math.round(cur);
     const zoom = 1 + .32 * ease(clamp(p / .82));               // la cámara se acerca mientras avanzas
@@ -86,7 +86,7 @@
 
     calls.forEach(c => c.classList.toggle("is-on", p >= +c.dataset.from && p < +c.dataset.to));
     const end = clamp((p - .8) / .14);                         // cierre con tipografía pixel
-    shade.style.setProperty("--dark", (end * .5).toFixed(3));
+    shade.style.setProperty("--dark", (end * .45).toFixed(3));
     inkEl.style.setProperty("--end", clamp(end * 1.6).toFixed(3));   // aparece el papel y las líneas se estampan
     pxItems.forEach((el, i) => el.classList.toggle("on", end > 0 && end >= i / pxItems.length));
     hint.style.opacity = p > .02 ? 0 : 1;

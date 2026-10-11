@@ -140,17 +140,15 @@ img { display: block; max-width: 100%; }
 }
 
 /* cierre: tipografía "ink bleed" — tinta negra corrida sobre papel */
-.ink { position: absolute; inset: 0; z-index: 4; display: flex; flex-direction: column; justify-content: center; align-items: center; pointer-events: none; opacity: var(--end, 0);
-  background-color: #e9e6df;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .28 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E"); }
+.ink { position: absolute; inset: 0; z-index: 4; display: flex; flex-direction: column; justify-content: center; align-items: center; pointer-events: none; opacity: var(--end, 0); }
 .ink__sheet { width: min(92vw, 1100px); display: grid; transform: scale(calc(.9 + var(--end, 0) * .14)); transform-origin: 50% 50%; filter: url(#inkbleed); }
 .ink__line { font-family: "Archivo", "Helvetica Neue", Arial, sans-serif; font-weight: 900; font-stretch: 78%; text-transform: uppercase;
-  font-size: clamp(38px, min(7vw, 10.5vh), 118px); line-height: .95; letter-spacing: -.035em; color: #121110;
+  font-size: clamp(38px, min(7vw, 10.5vh), 118px); line-height: .95; letter-spacing: -.035em; color: #f4f1ea; text-shadow: 0 4px 30px rgba(0,0,0,.45);
   opacity: 0; transform: translateY(.12em) scale(1.04); transition: opacity .2s, transform .35s cubic-bezier(.2, .8, .2, 1); }
 .ink__line--r { justify-self: end; }
 .ink__line--c { justify-self: center; }
 .ink__line--big { font-size: clamp(60px, min(11.5vw, 17vh), 200px); margin-top: .12em; }
-.ink__small { width: min(92vw, 1100px);  font: 800 clamp(13px, 1.5vw, 20px) var(--mono); letter-spacing: .25em; text-transform: uppercase; color: #121110; margin: clamp(14px, 2.4vw, 34px) 0 clamp(4px, .8vw, 10px);
+.ink__small { width: min(92vw, 1100px);  font: 800 clamp(13px, 1.5vw, 20px) var(--mono); letter-spacing: .25em; text-transform: uppercase; color: var(--red); margin: clamp(14px, 2.4vw, 34px) 0 clamp(4px, .8vw, 10px);
   opacity: 0; transition: opacity .3s; }
 .ink .on { opacity: 1; transform: none; }
 @media (max-width: 700px) { .ink__sheet { width: calc(100vw - 32px); } }
@@ -1168,7 +1166,7 @@ window.SHOW_FRAMES = [
     const p = progress();
     // el video (sin el fundido a negro del inicio y del final) ocupa el 82% del recorrido;
     // en el cierre queda de fondo el cuadro del público con las manos arriba
-    const target = p < .82 ? FIRST + clamp(p / .82) * (LAST - FIRST) : CROWD;
+    const target = FIRST + clamp(p / .97) * (LAST - FIRST); // el video sigue corriendo detrás del texto final
     cur = reduce || force || Math.abs(target - cur) > 20 ? target : cur + (target - cur) * .22;
     const idx = Math.round(cur);
     const zoom = 1 + .32 * ease(clamp(p / .82));               // la cámara se acerca mientras avanzas
@@ -1183,7 +1181,7 @@ window.SHOW_FRAMES = [
 
     calls.forEach(c => c.classList.toggle("is-on", p >= +c.dataset.from && p < +c.dataset.to));
     const end = clamp((p - .8) / .14);                         // cierre con tipografía pixel
-    shade.style.setProperty("--dark", (end * .5).toFixed(3));
+    shade.style.setProperty("--dark", (end * .45).toFixed(3));
     inkEl.style.setProperty("--end", clamp(end * 1.6).toFixed(3));   // aparece el papel y las líneas se estampan
     pxItems.forEach((el, i) => el.classList.toggle("on", end > 0 && end >= i / pxItems.length));
     hint.style.opacity = p > .02 ? 0 : 1;
