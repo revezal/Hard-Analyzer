@@ -26,14 +26,17 @@
   const imgs = FR.map(src => {
     const i = new Image();
     i.decoding = "async";
-    i.onload = i.onerror = () => { loaded++; pctEl.textContent = Math.round(loaded / N * 100); check(); };
+    i.onload = i.onerror = () => { loaded++; pctEl.textContent = Math.min(100, Math.round(loaded / NEED * 100)); check(); };
     i.src = src;
     return i;
   });
   if (!N) pctEl.textContent = 100;
 
+  // basta con los primeros cuadros para entrar; el resto sigue cargando mientras miras
+  const NEED = Math.min(N, 24);
+  setTimeout(() => { mainReady = true; loaded = Math.max(loaded, NEED); check(); }, 6000); // nunca quedarse pegado
   function check() {
-    if (done || loaded < N || !mainReady) return;
+    if (done || loaded < NEED || !mainReady) return;
     done = true;
     const wait = Math.max(0, 1600 - (performance.now() - t0)); // que el logo alcance a verse
     setTimeout(() => {

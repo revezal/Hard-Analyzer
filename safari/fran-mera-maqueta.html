@@ -71,12 +71,13 @@ img { display: block; max-width: 100%; }
 .cursor.is-hot { font-size: 46px; color: var(--red); mix-blend-mode: normal; }
 
 /* ---------- loader: logo Childhood Boys ---------- */
-.loader {
+.loader { display: none; }
+.js .loader {
   position: fixed; inset: 0; z-index: 200; background: #000;
   display: grid; place-items: center; align-content: center; gap: 22px;
   transition: opacity .6s .35s, visibility 0s 1s;
 }
-.loader.is-done { opacity: 0; visibility: hidden; }
+.js .loader.is-done { opacity: 0; visibility: hidden; }
 .cbload { position: relative; width: min(62vw, 380px); aspect-ratio: 900 / 882; }
 .cbload__logo {
   width: 100%; height: 100%; object-fit: contain; filter: url(#jelly) drop-shadow(0 0 30px rgba(245,185,46,.35));
@@ -455,6 +456,8 @@ img { display: block; max-width: 100%; }
 }
 
 </style>
+  <!-- la pantalla de carga solo se muestra si el navegador ejecuta JavaScript (las vistas previas no lo hacen) -->
+  <script>document.documentElement.className += " js";</script>
 </head>
 <body>
 
@@ -928,14 +931,17 @@ window.SHOW_FRAMES = [
   const imgs = FR.map(src => {
     const i = new Image();
     i.decoding = "async";
-    i.onload = i.onerror = () => { loaded++; pctEl.textContent = Math.round(loaded / N * 100); check(); };
+    i.onload = i.onerror = () => { loaded++; pctEl.textContent = Math.min(100, Math.round(loaded / NEED * 100)); check(); };
     i.src = src;
     return i;
   });
   if (!N) pctEl.textContent = 100;
 
+  // basta con los primeros cuadros para entrar; el resto sigue cargando mientras miras
+  const NEED = Math.min(N, 24);
+  setTimeout(() => { mainReady = true; loaded = Math.max(loaded, NEED); check(); }, 6000); // nunca quedarse pegado
   function check() {
-    if (done || loaded < N || !mainReady) return;
+    if (done || loaded < NEED || !mainReady) return;
     done = true;
     const wait = Math.max(0, 1600 - (performance.now() - t0)); // que el logo alcance a verse
     setTimeout(() => {
@@ -1078,7 +1084,7 @@ window.SHOW_FRAMES = [
   let lt = 0;
   (function liquid() { lt += .006; noise.setAttribute("baseFrequency", `${.012 + Math.sin(lt) * .004} ${.03 + Math.cos(lt * 1.3) * .01}`); if (!reduce) requestAnimationFrame(liquid); })();
 
-  Promise.all([photosP, coverP, document.fonts.ready]).then(([photos, cover]) => {
+  Promise.all([photosP, coverP, Promise.race([document.fonts ? document.fonts.ready : null, new Promise(r => setTimeout(r, 2500))])]).then(([photos, cover]) => {
     // el loader (logo Childhood Boys) lo cierra js/show.js cuando también cargan los cuadros del show
     window.__fmMainReady = true;
     dispatchEvent(new Event("fm:main-ready"));
