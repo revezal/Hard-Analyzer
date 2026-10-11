@@ -24,8 +24,8 @@
   const finCb = document.getElementById("finCb"), finBlack = document.getElementById("finBlack");
 
   /* ---- 2. final ---- */
-  const fin = document.getElementById("kelokera"), end = document.getElementById("finEnd"), hero = document.getElementById("finHero");
-  let started = false;
+  const fin = document.getElementById("booking"), end = document.getElementById("finEnd"), hero = document.getElementById("finHero");
+  const ops = [...document.querySelectorAll(".op__a")];
 
   function frame() {
     if (cbx) {
@@ -54,7 +54,7 @@
         finCb.style.opacity = 1 - clamp((p - .14) / .04);
         const hole = p < .14 ? 0 : small + (full - small) * open;
         finBlack.style.webkitMaskImage = finBlack.style.maskImage = `radial-gradient(circle at 50% 50%, transparent ${hole}px, #000 ${hole + 1}px)`;
-        if (!started && p > .3) { started = true; const b = document.getElementById("playBtn"); if (b && !document.getElementById("lyric").classList.contains("is-playing")) { b.click(); const c = document.querySelector(".ytcard"); if (c) c.classList.remove("is-open"); } }
+        ops.forEach((o, i) => o.classList.toggle("is-on", p > .3 + i * .06));   // los artistas aparecen uno por uno
         const e = ease(clamp((p - .72) / .18));                  // aparecen redes y manager
         end.style.opacity = e; end.style.pointerEvents = e > .5 ? "auto" : "none";
         hero.style.setProperty("--fade", e.toFixed(3));

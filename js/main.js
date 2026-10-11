@@ -43,9 +43,12 @@
 
   /* ---------- contenido estático ---------- */
   const R = D.release;
+  const HERO = !!$("#lyric");   // la sección KELOKERA con karaoke es opcional
+  if (HERO) {
   $("#deckTitle").textContent = R.title;
   $("#heroWord").textContent = R.title; $("#heroWord").dataset.text = R.title;
-  $("#deckLinks").innerHTML = Object.entries(R.links).map(([k, v]) => `<a href="${v}" target="_blank" rel="noopener">${k}</a>`).join("");
+  }
+  if ($("#deckLinks")) $("#deckLinks").innerHTML = Object.entries(R.links).map(([k, v]) => `<a href="${v}" target="_blank" rel="noopener">${k}</a>`).join("");
   const mq = Array(2).fill([`${R.title} — DISPONIBLE AHORA`, "✦", "FRAN MERA", "✦", "A CHILDHOOD BOYS RECORD", "✦", "IQUIQUE · CHILE", "✦"].map(t => `<span>${t}</span>`).join("")).join("");
   if ($("#marquee")) $("#marquee").innerHTML = mq;
 
@@ -63,10 +66,11 @@
     // el loader (logo Childhood Boys) lo cierra js/show.js cuando también cargan los cuadros del show
     window.__fmMainReady = true;
     dispatchEvent(new Event("fm:main-ready"));
-    initStage(photos);
+    if (HERO) initStage(photos);
     $("#bioPhoto").style.backgroundImage = "url(assets/fotos/live-04.jpg)";
   });
 
+  if (HERO) {
   /* =========================================================
      STAGE: mix glitch de fotos del concierto
      ========================================================= */
@@ -262,6 +266,8 @@
     requestAnimationFrame(loop);
   }
   requestAnimationFrame(t => { last = t; loop(t); });
+
+  }
 
   /* =========================================================
      DISCOS: voltear para cambiar de tema
