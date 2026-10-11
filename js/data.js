@@ -98,7 +98,7 @@ window.FM = {
     logo: "assets/logo/childhood-boys-gold.webp", // logo dorado (subir archivo). Si no existe, se usa versión tipográfica.
     tagline: "Sello y estudio nacido de sueños de infancia.",
     founders: [
-      { name: "FRAN MERA", role: "Artista · Compositor · Productor", photo: "assets/fotos/kelokera-3.jpg" },
+      { name: "FRAN MERA", role: "Artista · Compositor · Productor", photo: "assets/fotos/fran-cb.jpg" },
       { name: "DÍMELO YEPO", role: "Compositor · Productor", photo: "assets/fotos/yepo-01.jpg" }
     ],
     services: [
