@@ -20,8 +20,8 @@
     return img;
   });
 
-  /* ---- burbuja: la info de Childhood Boys se cierra en un círculo y se abre el hit ---- */
-  const bub = document.getElementById("burbuja"), bubCb = document.getElementById("bubCb"), bubHit = document.getElementById("bubHit");
+  /* ---- burbuja de entrada al final ---- */
+  const finCb = document.getElementById("finCb"), finBlack = document.getElementById("finBlack");
 
   /* ---- 2. final ---- */
   const fin = document.getElementById("kelokera"), end = document.getElementById("finEnd"), hero = document.getElementById("finHero");
@@ -44,23 +44,18 @@
         info.style.pointerEvents = q > .5 ? "auto" : "none";
       }
     }
-    if (bub) {
-      const { p, vis } = prog(bub);
-      if (vis) {
-        const W = innerWidth, H = innerHeight, full = Math.hypot(W, H) / 2, small = Math.min(W, H) * .14;
-        const close = ease(clamp(p / .4)), open = ease(clamp((p - .5) / .45));
-        const rCb = full - (full - small) * close;
-        bubCb.style.clipPath = `circle(${rCb}px at 50% 50%)`;
-        bubCb.style.opacity = 1 - clamp((p - .4) / .1);
-        const rHit = p < .4 ? 0 : small + (full - small) * open;
-        bubHit.style.clipPath = `circle(${rHit}px at 50% 50%)`;
-      }
-    }
     if (fin) {
       const { p, vis } = prog(fin);
       if (vis) {
-        if (!started && p > .02) { started = true; const b = document.getElementById("playBtn"); if (b && !document.getElementById("lyric").classList.contains("is-playing")) b.click(); const c = document.querySelector(".ytcard"); if (c) c.classList.remove("is-open"); }
-        const e = ease(clamp((p - .55) / .3));               // aparecen redes y manager
+        const W = innerWidth, H = innerHeight, full = Math.hypot(W, H) / 2 + 2, small = Math.min(W, H) * .14;
+        const close = ease(clamp(p / .14));                      // Childhood Boys se cierra en burbuja
+        const open = ease(clamp((p - .18) / .16));               // por el círculo se abre KELOKERA
+        finCb.style.clipPath = `circle(${full - (full - small) * close}px at 50% 50%)`;
+        finCb.style.opacity = 1 - clamp((p - .14) / .04);
+        const hole = p < .14 ? 0 : small + (full - small) * open;
+        finBlack.style.webkitMaskImage = finBlack.style.maskImage = `radial-gradient(circle at 50% 50%, transparent ${hole}px, #000 ${hole + 1}px)`;
+        if (!started && p > .3) { started = true; const b = document.getElementById("playBtn"); if (b && !document.getElementById("lyric").classList.contains("is-playing")) { b.click(); const c = document.querySelector(".ytcard"); if (c) c.classList.remove("is-open"); } }
+        const e = ease(clamp((p - .72) / .18));                  // aparecen redes y manager
         end.style.opacity = e; end.style.pointerEvents = e > .5 ? "auto" : "none";
         hero.style.setProperty("--fade", e.toFixed(3));
         document.body.classList.toggle("fin-end", e > .3);
