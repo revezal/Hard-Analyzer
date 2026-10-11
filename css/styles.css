@@ -15,8 +15,8 @@
   --mono: "Space Mono", ui-monospace, monospace;
   --chunky: "Rubik Mono One", var(--display);
   --round: "Outfit", "Arial Rounded MT Bold", system-ui, sans-serif;   /* títulos: redonda gruesa y apretada */
-  --marker: "Permanent Marker", "Marker Felt", cursive;                 /* notas a mano en plumón */
-  --blue: #5d78ff;
+  --marker: "Rock Salt", "Marker Felt", cursive;                        /* notas a mano en plumón */
+  --blue: #3b55ff;
   --gutter: clamp(16px, 4vw, 56px);
 }
 
@@ -477,7 +477,7 @@ img { display: block; max-width: 100%; }
 .ytcard__close { position: absolute; top: 8px; right: 8px; width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,.6); color: var(--bone); }
 
 /* ---------- notas a mano en plumón azul ---------- */
-.note { font-family: var(--marker); color: var(--blue); font-size: clamp(18px, 2vw, 28px); line-height: 1; transform: rotate(-6deg); display: inline-block; text-transform: none; letter-spacing: 0; }
+.note { font-family: var(--marker); color: var(--blue); font-size: clamp(17px, 2vw, 30px); line-height: 1.3; transform: rotate(-7deg) skewX(-6deg); display: inline-block; text-transform: none; letter-spacing: 0; }
 .head-row { display: flex; align-items: flex-end; flex-wrap: wrap; gap: 6px 22px; }
 .head-row .note { margin-bottom: .6em; }
 .contact .note { transform: rotate(-4deg); }
