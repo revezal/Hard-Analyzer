@@ -17,44 +17,38 @@ window.FM = {
     links: { spotify: "https://open.spotify.com/artist/78DhM8HSDph7IAi9CZAIfw", youtube: "https://youtu.be/RKv2vyqATI0", apple: "#" },
     // Videoclip oficial: al tocar KELOKERA suena el coro desde YouTube (mini reproductor) y la letra cae en el afiche.
     // chorusStart = segundo del video donde empieza el coro principal → AJUSTAR con el minuto exacto.
-    youtube: { id: "RKv2vyqATI0", chorusStart: 0, chorusLength: 42 },
-    // Coro principal. t = segundo dentro del coro en que entra cada línea (aprox.; ajustar escuchando el tema).
+    youtube: { id: "RKv2vyqATI0", chorusStart: 0, chorusLength: 51 },
+    // Coro principal. Una línea por compás a 94 BPM (aprox.). Con el audio real se ajusta cada tiempo exacto.
     lyrics: [
-      { t:   0.0, text: "Kelokera" },
-      { t:   1.6, text: "Que una nena como tú" },
-      { t:   4.0, text: "Sume con esa actitud" },
-      { t:   6.4, text: "Tan putera" },
-      { t:   8.0, text: "Si nos vieran" },
-      { t:  10.4, text: "Lo que hicimos a poca luz" },
-      { t:  12.8, text: "Cuando estuvimos desnu'" },
-      { t:  15.2, text: "En la arena" },
-      { t:  17.6, text: "Nos perdemos" },
-      { t:  19.2, text: "De la fase" },
-      { t:  21.6, text: "Que tu ta' fuera" },
-      { t:  24.0, text: "De clase" },
-      { t:  25.6, text: "Quiero que bien" },
-      { t:  28.0, text: "Tu la pases" },
-      { t:  30.4, text: "Y que revivamos este calentón" },
-      { t:  32.8, text: "Bailando reggaeton" },
-      { t:  34.4, text: "Perreando eres salvaje" },
-      { t:  36.8, text: "Como Julio Voltio" },
-      { t:  39.2, text: "Tremendo voltaje" },
-      { t:  40.8, text: "" }
+      { t:  0.00, text: "Kelokera" },
+      { t:  2.55, text: "Que una nena como tú" },
+      { t:  5.11, text: "Sume con esa actitud" },
+      { t:  7.66, text: "Tan putera" },
+      { t: 10.21, text: "Si nos vieran" },
+      { t: 12.77, text: "Lo que hicimos a poca luz" },
+      { t: 15.32, text: "Cuando estuvimos desnu'" },
+      { t: 17.87, text: "En la arena" },
+      { t: 20.43, text: "Nos perdemos" },
+      { t: 22.98, text: "De la fase" },
+      { t: 25.53, text: "Que tu ta' fuera" },
+      { t: 28.09, text: "De clase" },
+      { t: 30.64, text: "Quiero que bien" },
+      { t: 33.19, text: "Tu la pases" },
+      { t: 35.74, text: "Y que revivamos este calentón" },
+      { t: 38.30, text: "Bailando reggaeton" },
+      { t: 40.85, text: "Perreando eres salvaje" },
+      { t: 43.40, text: "Como Julio Voltio" },
+      { t: 45.96, text: "Tremendo voltaje" },
+      { t: 48.51, text: "" }
     ]
   },
 
   /* ---------- FOTOS DEL ÚLTIMO CONCIERTO (mix del hero) ---------- */
   // Sube las fotos con estos nombres a assets/fotos/. Si un archivo no existe, aparece un placeholder.
   // Los ítems con "video" se reproducen en el mix (mudos, en loop) y usan "poster" para la transición glitch.
+  // Fondo de la sección KELOKERA: el videoclip oficial (último video enviado)
   livePhotos: [
-    { src: "assets/fotos/kelokera-cover.jpg", label: "KELOKERA" },
-    { src: "assets/fotos/kelokera-4.jpg", label: "KELOKERA" },
-    { src: "assets/fotos/live-01.jpg", label: "LIVE 01" },
-    { video: "assets/video/kiki.mp4", poster: "assets/video/kiki.jpg", label: "KIKI" },
-    { src: "assets/fotos/kelokera-2.jpg", label: "KELOKERA" },
-    { src: "assets/fotos/live-02.jpg", label: "LIVE 02" },
-    { video: "assets/video/kelokera-videoclip.mp4", poster: "assets/video/kelokera-videoclip.jpg", label: "KELOKERA" },
-    { src: "assets/fotos/kelokera-6.jpg", label: "KELOKERA" }
+    { video: "assets/video/kelokera-videoclip.mp4", poster: "assets/video/kelokera-videoclip.jpg", label: "KELOKERA" }
   ],
 
   /* ---------- DISCOS: TEMAS MÁS ESCUCHADOS ---------- */

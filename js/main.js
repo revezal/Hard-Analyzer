@@ -98,7 +98,9 @@
       if (v) { v.currentTime = 0; v.play().catch(() => (base.style.opacity = 1)); }
     };
 
+    showSlide(0);
     stageNext = () => {
+      if (photos.length < 2) { glitchWord(); return; } // un solo video: no hay mezcla, solo el glitch del título
       i = (i + 1) % photos.length;
       const url = photos[i];
       if (reduce) { base.style.backgroundImage = `url(${url})`; return; }
