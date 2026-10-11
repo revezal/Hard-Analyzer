@@ -52,3 +52,11 @@ Si un archivo no existe, el sitio muestra un placeholder automático, así que n
 | Portadas de los temas top | Higgsfield / Midjourney | "grunge risograph album cover, bold red and black, distressed print texture, latin urban, minimal" |
 | Textura de chispas doradas | Higgsfield | "gold chrome sparkles on pure black, macro, glints, seamless loop" |
 | Visualizer de KELOKERA | Higgsfield (motion) | "red ink bleeding on black paper, rhythmic pulses, 94 bpm" |
+
+## Herramienta: comprimir videos
+`tools/comprimir-video.sh` comprime videos (ej. 100 MB) a ~30 MB para mandarlos por chat.
+```bash
+./tools/comprimir-video.sh video.mp4          # crea video_30MB.mp4
+./tools/comprimir-video.sh -s 25 *.mov        # varios videos, objetivo 25 MB
+```
+Requiere `ffmpeg` (`brew install ffmpeg` en Mac).
