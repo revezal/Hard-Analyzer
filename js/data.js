@@ -70,7 +70,11 @@ window.FM = {
     { type: "song", title: "KELOKERA", year: "2026", plays: "Nuevo", color: "#ff1a0e", cover: "assets/covers/kelokera.jpg", video: true, big: true },
     { type: "song", title: "QUE RICO FUE", year: "", plays: "211.715", color: "#2a5bd7", cover: "assets/covers/que-rico-fue.jpg" },
     { type: "song", title: "DIME QUE FUE", year: "", plays: "387.223", color: "#e0b9a8", cover: "assets/covers/na-conmigo-na-contigo.jpg", small: true },
-    { type: "song", title: "E.S.A", feat: "Schuster x Fran Mera", year: "", plays: "", color: "#7fd6f0", cover: "assets/covers/esa.jpg", small: true }
+    { type: "song", title: "E.S.A", feat: "Schuster x Fran Mera", year: "", plays: "", color: "#7fd6f0", cover: "assets/covers/esa.jpg", small: true },
+    { type: "song", title: "AMARRE", feat: "Carla Costa · Fran Mera · javiermoscram", year: "", plays: "", color: "#b8321e", cover: "assets/covers/amarre.jpg", big: true },
+    { type: "song", title: "KIKI", year: "", plays: "", color: "#8a6a2a", cover: "assets/covers/kiki.jpg" },
+    { type: "song", title: "HERIDA", feat: "Bounceback x Joshvatunes x Fran Mera", year: "2024", plays: "", color: "#2b3a52", cover: "assets/covers/herida.jpg", small: true },
+    { type: "song", title: "FUCKING DISTANCIA", feat: "AION x Fran Mera", year: "2024", plays: "", color: "#9fb3c8", cover: "assets/covers/fucking-distancia.jpg", small: true }
   ],
 
   /* ---------- EN VIVO: cascada diagonal de tarjetas que avanza al deslizar ---------- */
