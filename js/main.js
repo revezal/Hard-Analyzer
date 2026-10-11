@@ -268,6 +268,7 @@
   /* =========================================================
      DISCOS: voltear para cambiar de tema
      ========================================================= */
+  if ($("#disc")) {
   const T = D.topTracks;
   const disc = $("#disc"), faceA = $("#faceA"), faceB = $("#faceB"), scene = $("#discScene");
   let idx = 0, angle = 0;
@@ -344,6 +345,8 @@
   faceA.innerHTML = faceHTML(0);
   setAngle(0);
   caption(0);
+
+  }
 
   /* =========================================================
      CHILDHOOD BOYS
