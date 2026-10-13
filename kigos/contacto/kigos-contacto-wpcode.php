@@ -33,7 +33,7 @@ add_action( 'wp_enqueue_scripts', function () {
 
 add_shortcode( 'kigos_contacto', function ( $atts ) {
 	$a = shortcode_atts( array(
-		'form_id'   => '',
+		'form_id'   => '10610', // "Contact form 1" actual de kigos.cl
 		'whatsapp'  => '56900000000',
 		'mensaje'   => 'Hola Kigos 👋 Quiero agendar una visita a la tienda.',
 		'video'     => '',
