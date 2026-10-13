@@ -14,4 +14,7 @@ function do_shortcode($s){ return file_get_contents(__DIR__.'/form.html'); }
 require $argv[1];
 $body = $GLOBALS['sc']['kigos_contacto']([]);
 $shell = file_get_contents(__DIR__.'/shell.html');
+// Imagen del banner incrustada en el HTML: un solo archivo, sin carpeta img/ aparte
+$img = 'data:image/jpeg;base64,' . base64_encode(file_get_contents(__DIR__.'/../img/banner-hornos-ooni.jpg'));
+$shell = str_replace("url('img/banner-hornos-ooni.jpg')", "url('".$img."')", $shell);
 echo str_replace('<!--CONTENIDO-->', $body, $shell);
