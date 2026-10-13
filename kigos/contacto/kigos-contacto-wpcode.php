@@ -10,10 +10,11 @@
  * Cómo usar en la página Contáctanos:
  *   Editar la página → borrar el contenido actual → agregar un bloque/widget "Shortcode" con:
  *
- *   [kigos_contacto form_id="123" whatsapp="56912345678" video="https://youtu.be/XXXX"]
+ *   [kigos_contacto video="https://youtu.be/XXXX"]
  *
  *   form_id   = ID del formulario Contact Form 7 que ya usan (Contacto → Formularios de contacto)
- *   whatsapp  = número con código país, sin "+" ni espacios (ej: 56912345678)
+ *   whatsapp_link = link de WhatsApp Business (ya viene cargado el de Kigos)
+ *   whatsapp  = (opcional) número con código país, ej: 56912345678 — reemplaza al link y prellena el mensaje
  *   video     = link de YouTube/Vimeo, o URL de un .mp4 subido a Medios
  *   poster    = (opcional) imagen de portada del video si es .mp4
  *   formato   = "vertical" (9:16, tipo reel) u "horizontal" (16:9). Por defecto vertical.
@@ -34,7 +35,8 @@ add_action( 'wp_enqueue_scripts', function () {
 add_shortcode( 'kigos_contacto', function ( $atts ) {
 	$a = shortcode_atts( array(
 		'form_id'   => '10610', // "Contact form 1" actual de kigos.cl
-		'whatsapp'  => '56900000000',
+		'whatsapp'  => '', // alternativa: número (569XXXXXXXX) si no se usa el link de abajo
+		'whatsapp_link' => 'https://api.whatsapp.com/message/YO5CAMNAWM4KH1?autoload=1&app_absent=0', // link de mensaje de WhatsApp Business de Kigos
 		'mensaje'   => 'Hola Kigos 👋 Quiero agendar una visita a la tienda.',
 		'video'     => '',
 		'poster'    => '',
@@ -47,7 +49,10 @@ add_shortcode( 'kigos_contacto', function ( $atts ) {
 
 	wp_enqueue_style( 'kigos-bebas' );
 
-	$wa_url  = 'https://wa.me/' . preg_replace( '/\D/', '', $a['whatsapp'] ) . '?text=' . rawurlencode( $a['mensaje'] );
+	// Prioridad: número (con mensaje prellenado) → si no, el link de WhatsApp Business
+	$wa_url  = $a['whatsapp']
+		? 'https://wa.me/' . preg_replace( '/\D/', '', $a['whatsapp'] ) . '?text=' . rawurlencode( $a['mensaje'] )
+		: $a['whatsapp_link'];
 	$ratio   = ( 'horizontal' === $a['formato'] ) ? 'is-horizontal' : 'is-vertical';
 
 	// --- Video: YouTube / Vimeo (embed) o archivo .mp4 (etiqueta video) ---
@@ -102,12 +107,13 @@ add_shortcode( 'kigos_contacto', function ( $atts ) {
 /* ===== 1. Bloque WhatsApp ===== */
 .kc-agenda {
 	background: var(--kc-dark); color: #fff;
-	width: 100vw; margin-left: calc(50% - 50vw); /* banda a todo el ancho */
+	/* banda a todo el ancho sin crear scroll horizontal (100vw incluye la barra de scroll en Windows) */
+	box-shadow: 0 0 0 100vmax var(--kc-dark); clip-path: inset(0 -100vmax);
 	padding: 64px 0;
 }
 .kc-agenda .kc-wrap { display: grid; gap: 32px; align-items: center; }
 .kc-btn-wa {
-	display: inline-flex; align-items: center; gap: 12px;
+	display: inline-flex; align-items: center; justify-content: center; gap: 12px; max-width: 100%; text-align: center;
 	background: var(--kc-yellow); color: var(--kc-dark) !important;
 	font-family: var(--kc-display); font-size: 26px; letter-spacing: .04em; text-transform: uppercase;
 	padding: 18px 32px; border-radius: 999px; text-decoration: none !important;
@@ -125,7 +131,8 @@ add_shortcode( 'kigos_contacto', function ( $atts ) {
 .kc-llegar { padding: 72px 0; }
 .kc-llegar .kc-wrap { display: grid; gap: 40px; align-items: center; }
 .kc-video { position: relative; width: 100%; border-radius: 16px; overflow: hidden; background: var(--kc-dark); box-shadow: 0 20px 50px rgba(0,0,0,.18); }
-.kc-video.is-vertical { aspect-ratio: 9 / 16; max-width: 400px; margin: 0 auto; }
+/* vertical: nunca más alto que el 80% de la pantalla (celular acostado, notebooks bajos) */
+.kc-video.is-vertical { aspect-ratio: 9 / 16; width: min(100%, 400px, calc(80vh * 9 / 16)); margin: 0 auto; }
 .kc-video.is-horizontal { aspect-ratio: 16 / 9; }
 .kc-video iframe, .kc-video video { position: absolute; inset: 0; width: 100% !important; height: 100% !important; border: 0; object-fit: cover; }
 .kc-video__placeholder { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; color: var(--kc-yellow); font-family: var(--kc-display); font-size: 28px; padding: 16px; }
@@ -139,7 +146,7 @@ add_shortcode( 'kigos_contacto', function ( $atts ) {
 /* ===== 3. Formulario (Contact Form 7) ===== */
 .kc-form {
 	background: var(--kc-cream);
-	width: 100vw; margin-left: calc(50% - 50vw);
+	box-shadow: 0 0 0 100vmax var(--kc-cream); clip-path: inset(0 -100vmax);
 	padding: 72px 0 88px;
 }
 .kc-form__card { max-width: 820px; margin: 0 auto; background: #fff; border-radius: 16px; padding: 32px 20px; box-shadow: 0 10px 30px rgba(0,0,0,.06); }
@@ -162,10 +169,24 @@ add_shortcode( 'kigos_contacto', function ( $atts ) {
 .kc-form .wpcf7 input[type="submit"]:hover { transform: translateY(-2px); }
 
 /* ===== Botón flotante móvil ===== */
-.kc-fab { position: fixed; right: 16px; bottom: 16px; z-index: 999; width: 58px; height: 58px; border-radius: 50%; background: var(--kc-yellow); color: var(--kc-dark) !important; display: grid; place-items: center; box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+.kc-fab { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 999; width: 58px; height: 58px; border-radius: 50%; background: var(--kc-yellow); color: var(--kc-dark) !important; display: grid; place-items: center; box-shadow: 0 6px 20px rgba(0,0,0,.25); }
 .kc-fab svg { width: 30px; height: 30px; }
 
 /* ===== Responsive ===== */
+@media (max-width: 767px) {
+	.kc-agenda, .kc-llegar, .kc-form { padding-top: 48px; padding-bottom: 56px; }
+	.kc-btn-wa { width: 100%; font-size: 21px; padding: 16px 20px; }
+	.kc-btn-line { width: 100%; justify-content: center; }
+	.kc-lead { font-size: 16px; }
+	.kc-form__card { padding: 24px 16px; }
+}
+@media (max-width: 359px) {
+	.kc-title { font-size: 34px; }
+	.kc-btn-wa { font-size: 18px; gap: 8px; padding: 16px 12px; }
+}
+@media (hover: none) {
+	.kc-btn-wa:hover, .kc-form .wpcf7 input[type="submit"]:hover { transform: none; }
+}
 @media (min-width: 768px) {
 	.kc-form__card { padding: 48px; }
 	.kc-form .wpcf7 .kc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
