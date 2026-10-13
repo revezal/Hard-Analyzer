@@ -16,5 +16,6 @@ $body = $GLOBALS['sc']['kigos_contacto']([]);
 $shell = file_get_contents(__DIR__.'/shell.html');
 // Imagen del banner incrustada en el HTML: un solo archivo, sin carpeta img/ aparte
 $img = 'data:image/jpeg;base64,' . base64_encode(file_get_contents(__DIR__.'/../img/banner-hornos-ooni.jpg'));
-$shell = str_replace("url('img/banner-hornos-ooni.jpg')", "url('".$img."')", $shell);
+// La imagen va al FINAL del archivo: así el contenido de la página se carga (y se previsualiza) primero
+$shell = str_replace("</body>", "<style>.k-hero{background-image:url('".$img."')}</style>\n</body>", $shell);
 echo str_replace('<!--CONTENIDO-->', $body, $shell);
