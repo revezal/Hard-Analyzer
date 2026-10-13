@@ -103,6 +103,10 @@ add_shortcode( 'kigos_contacto', function ( $atts ) {
 .kc-title { font-family: var(--kc-display); font-weight: 400; font-size: clamp(40px, 7vw, 76px); line-height: .95; letter-spacing: .01em; margin: 0 0 16px; color: inherit; text-transform: uppercase; }
 .kc-title em { font-style: normal; color: var(--kc-yellow); }
 .kc-lead { font-size: 17px; max-width: 520px; margin: 0 0 28px; }
+/* el tema (Woodmart) pisa los márgenes de los <p>: forzamos el espacio antes del botón */
+.kigos-contacto .kc-lead { margin-bottom: 0 !important; }
+.kigos-contacto .kc-cta { margin-top: 36px; }
+@media (min-width: 1024px) { .kigos-contacto .kc-cta { margin-top: 44px; } }
 
 /* ===== 1. Bloque WhatsApp ===== */
 .kc-agenda {
@@ -209,9 +213,9 @@ add_shortcode( 'kigos_contacto', function ( $atts ) {
 				<span class="kc-eyebrow">Showroom Kigos</span>
 				<h2 id="kc-agenda-title" class="kc-title">Ven a conocer los hornos <em>en persona</em></h2>
 				<p class="kc-lead">Te mostramos los hornos Ooni funcionando, resolvemos tus dudas y te ayudamos a elegir el ideal para ti. Agenda tu visita por WhatsApp.</p>
-				<a class="kc-btn-wa" href="<?php echo esc_url( $wa_url ); ?>" target="_blank" rel="noopener">
-					<?php echo $wa_icon; // phpcs:ignore ?> Escríbenos para agendar
-				</a>
+				<div class="kc-cta">
+					<a class="kc-btn-wa" href="<?php echo esc_url( $wa_url ); ?>" target="_blank" rel="noopener"><?php echo $wa_icon; // phpcs:ignore ?> Escríbenos para agendar</a>
+				</div>
 			</div>
 			<ul class="kc-agenda__info">
 				<li><strong>Dirección</strong><?php echo esc_html( $a['direccion'] ); ?></li>

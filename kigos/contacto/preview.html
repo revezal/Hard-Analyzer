@@ -24,6 +24,10 @@
 .kc-title { font-family: var(--kc-display); font-weight: 400; font-size: clamp(40px, 7vw, 76px); line-height: .95; letter-spacing: .01em; margin: 0 0 16px; color: inherit; text-transform: uppercase; }
 .kc-title em { font-style: normal; color: var(--kc-yellow); }
 .kc-lead { font-size: 17px; max-width: 520px; margin: 0 0 28px; }
+/* el tema (Woodmart) pisa los márgenes de los <p>: forzamos el espacio antes del botón */
+.kigos-contacto .kc-lead { margin-bottom: 0 !important; }
+.kigos-contacto .kc-cta { margin-top: 36px; }
+@media (min-width: 1024px) { .kigos-contacto .kc-cta { margin-top: 44px; } }
 
 /* ===== 1. Bloque WhatsApp ===== */
 .kc-agenda {
@@ -130,9 +134,9 @@
 				<span class="kc-eyebrow">Showroom Kigos</span>
 				<h2 id="kc-agenda-title" class="kc-title">Ven a conocer los hornos <em>en persona</em></h2>
 				<p class="kc-lead">Te mostramos los hornos Ooni funcionando, resolvemos tus dudas y te ayudamos a elegir el ideal para ti. Agenda tu visita por WhatsApp.</p>
-				<a class="kc-btn-wa" href="https://api.whatsapp.com/message/YO5CAMNAWM4KH1?autoload=1&amp;app_absent=0" target="_blank" rel="noopener">
-					<svg viewBox="0 0 32 32" aria-hidden="true" width="22" height="22"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 7L3 29l6.4-2c2 1.1 4.3 1.7 6.6 1.7 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.4c-2.1 0-4.1-.6-5.9-1.7l-.4-.3-3.8 1.2 1.2-3.7-.3-.4a10.5 10.5 0 0 1-1.7-5.7C5.1 10 10 5.3 16 5.3S26.9 10 26.9 15.8 22 26.4 16 26.4zm6-7.8c-.3-.2-1.9-1-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.8 8.8 0 0 1-4.4-3.8c-.3-.6.3-.5.9-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4c-.3.3-1.1 1.1-1.1 2.7s1.2 3.2 1.3 3.4c.2.2 2.3 3.5 5.6 4.9 2.1.9 2.9.9 4 .8.6-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4z"/></svg> Escríbenos para agendar
-				</a>
+				<div class="kc-cta">
+					<a class="kc-btn-wa" href="https://api.whatsapp.com/message/YO5CAMNAWM4KH1?autoload=1&amp;app_absent=0" target="_blank" rel="noopener"><svg viewBox="0 0 32 32" aria-hidden="true" width="22" height="22"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 7L3 29l6.4-2c2 1.1 4.3 1.7 6.6 1.7 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.4c-2.1 0-4.1-.6-5.9-1.7l-.4-.3-3.8 1.2 1.2-3.7-.3-.4a10.5 10.5 0 0 1-1.7-5.7C5.1 10 10 5.3 16 5.3S26.9 10 26.9 15.8 22 26.4 16 26.4zm6-7.8c-.3-.2-1.9-1-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.8 8.8 0 0 1-4.4-3.8c-.3-.6.3-.5.9-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4c-.3.3-1.1 1.1-1.1 2.7s1.2 3.2 1.3 3.4c.2.2 2.3 3.5 5.6 4.9 2.1.9 2.9.9 4 .8.6-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4z"/></svg> Escríbenos para agendar</a>
+				</div>
 			</div>
 			<ul class="kc-agenda__info">
 				<li><strong>Dirección</strong>Núcleo Los Trapenses · Cerro Pan de Azúcar 10445, Lo Barnechea</li>
