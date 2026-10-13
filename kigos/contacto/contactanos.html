@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contáctanos | Kigos</title>
+<meta name="description" content="Agenda tu visita al showroom Kigos por WhatsApp, mira cómo llegar a nuestra tienda o escríbenos. Distribuidor oficial de hornos Ooni en Chile.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+<!--
+	KIGOS — Contáctanos (versión HTML independiente, con header y footer)
+	=====================================================================
+	Links a revisar (buscar "CONFIRMAR" en este archivo):
+	  - Mi cuenta  → https://kigos.cl/my-account/
+	  - Carrito    → https://kigos.cl/cart/
+	  - Tienda     → https://kigos.cl/shop/
+	Buscador: busca productos en kigos.cl (https://kigos.cl/?s=...&post_type=product)
+	y, si la página está publicada en kigos.cl, muestra resultados en vivo.
+-->
+<style>
+:root {
+	--k-dark: #262626;
+	--k-yellow: #f8df67;
+	--k-text: #262626;
+	--k-muted: #6b6b6b;
+	--k-line: #ececec;
+	--k-display: 'Bebas Neue', Impact, sans-serif;
+	--k-body: Futura, 'Futura PT', 'Century Gothic', 'Avenir Next', Avenir, 'Helvetica Neue', Arial, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: #fff; color: var(--k-text); font-family: var(--k-body); font-size: 16px; line-height: 1.6; }
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+.k-container { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+.k-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.k-iconbtn { background: none; border: 0; padding: 8px; color: inherit; cursor: pointer; display: inline-grid; place-items: center; border-radius: 8px; }
+.k-iconbtn:focus-visible, .k-header a:focus-visible { outline: 2px solid var(--k-dark); outline-offset: 2px; }
+
+/* ===== Barra superior ===== */
+.k-topbar { background: var(--k-dark); color: #fff; font-size: 13px; }
+.k-topbar .k-container { position: relative; display: flex; align-items: center; justify-content: center; min-height: 40px; }
+.k-topbar__wa { position: absolute; left: 16px; color: #fff; display: grid; place-items: center; }
+.k-topbar p { margin: 0; text-align: center; padding: 0 36px; }
+
+/* ===== Header ===== */
+.k-header { position: sticky; top: 0; z-index: 50; background: #fff; border-bottom: 1px solid var(--k-line); }
+.k-header .k-container { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; min-height: 64px; gap: 8px; }
+.k-header__left { display: flex; align-items: center; gap: 8px; }
+.k-logo { text-decoration: none; font-family: var(--k-display); font-size: 34px; letter-spacing: .14em; line-height: 1; color: var(--k-dark); display: inline-flex; align-items: flex-start; }
+.k-logo__dot { color: var(--k-yellow); }
+.k-logo sup { font-family: var(--k-body); font-size: 9px; letter-spacing: 0; margin-left: 2px; }
+.k-logo img { height: 34px; width: auto; }
+.k-header__right { display: flex; align-items: center; justify-content: flex-end; gap: 4px; }
+.k-account { text-decoration: none; font-size: 15px; padding: 8px; }
+.k-account__text { display: none; }
+.k-cart { position: relative; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; padding: 8px; font-size: 15px; font-weight: 600; }
+.k-cart__count { position: absolute; top: 2px; left: 20px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 8px; background: var(--k-yellow); color: var(--k-dark); font-size: 10px; font-weight: 700; display: none; place-items: center; line-height: 1; }
+.k-cart__count.is-on { display: grid; }
+.k-cart__total { display: none; }
+/* móvil: menú | logo centrado | buscar + carrito */
+.k-header__left .k-logo { display: none; }
+.k-header__center { justify-self: center; }
+@media (min-width: 1024px) {
+	.k-header .k-container { grid-template-columns: auto 1fr auto; min-height: 84px; }
+	.k-header__left { gap: 64px; }
+	.k-header__left .k-logo { display: inline-flex; order: -1; }
+	.k-header__center { display: none; }
+	.k-account__text { display: inline; }
+	.k-account svg { display: none; }
+	.k-cart__total.is-on { display: inline; }
+	.k-header__right { gap: 12px; }
+}
+
+/* ===== Menú lateral ===== */
+.k-drawer { position: fixed; inset: 0; z-index: 100; visibility: hidden; }
+.k-drawer.is-open { visibility: visible; }
+.k-drawer__bg { position: absolute; inset: 0; background: rgba(0,0,0,.45); opacity: 0; transition: opacity .25s; }
+.k-drawer.is-open .k-drawer__bg { opacity: 1; }
+.k-drawer__panel { position: absolute; top: 0; bottom: 0; left: 0; width: min(340px, 86vw); background: #fff; transform: translateX(-100%); transition: transform .3s ease; display: flex; flex-direction: column; }
+.k-drawer.is-open .k-drawer__panel { transform: none; }
+.k-drawer__head { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--k-line); }
+.k-drawer nav ul { list-style: none; margin: 0; padding: 8px 0; }
+.k-drawer nav a { display: block; padding: 14px 24px; text-decoration: none; font-family: var(--k-display); font-size: 26px; letter-spacing: .04em; border-bottom: 1px solid var(--k-line); }
+.k-drawer nav a:hover, .k-drawer nav a[aria-current="page"] { background: var(--k-yellow); }
+
+/* ===== Buscador ===== */
+.k-search { position: fixed; inset: 0; z-index: 110; background: #fff; display: none; overflow-y: auto; }
+.k-search.is-open { display: block; }
+.k-search__inner { max-width: 820px; margin: 0 auto; padding: 24px 16px 48px; }
+.k-search__close { display: flex; justify-content: flex-end; }
+.k-search form { display: flex; align-items: center; gap: 8px; border-bottom: 2px solid var(--k-dark); margin-top: 24px; }
+.k-search input[type="search"] { flex: 1; min-width: 0; border: 0; background: none; font-family: var(--k-display); font-size: clamp(32px, 7vw, 56px); letter-spacing: .02em; padding: 8px 0; color: var(--k-dark); outline: none; }
+.k-search__hint { color: var(--k-muted); font-size: 14px; margin: 12px 0 24px; }
+.k-results { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.k-results a { display: grid; grid-template-columns: 64px 1fr auto; gap: 16px; align-items: center; text-decoration: none; padding: 8px; border-radius: 12px; }
+.k-results a:hover, .k-results a:focus-visible { background: #f6f4ee; outline: none; }
+.k-results img { width: 64px; height: 64px; object-fit: cover; border-radius: 8px; background: #f2f2f2; }
+.k-results__price { font-weight: 600; white-space: nowrap; }
+.k-results a.k-results__all { display: inline-block; margin-top: 12px; font-weight: 600; text-decoration: underline; }
+
+/* ===== Banner título ===== */
+.k-hero {
+	/* Para usar la foto de pizza del sitio: background-image: linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.45)), url('URL_DE_LA_FOTO'); */
+	background: var(--k-dark) linear-gradient(135deg, #1b1b1b, #3a3a3a);
+	background-size: cover; background-position: center;
+	color: #fff; text-align: center; padding: 48px 16px;
+}
+.k-hero h1 { margin: 0; font-weight: 400; font-size: clamp(36px, 6vw, 56px); line-height: 1.1; }
+.k-breadcrumb { margin-top: 8px; font-size: 14px; opacity: .85; }
+.k-breadcrumb a { text-decoration: none; opacity: .75; }
+.k-breadcrumb a:hover { opacity: 1; }
+
+/* ===== Footer ===== */
+.k-footer { background: var(--k-dark); color: #fff; padding: 48px 0 32px; font-size: 14px; }
+.k-footer .k-container { display: grid; gap: 28px; }
+.k-footer .k-logo { color: #fff; }
+.k-footer h3 { font-family: var(--k-display); font-weight: 400; font-size: 22px; letter-spacing: .04em; color: var(--k-yellow); margin: 0 0 8px; }
+.k-footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.k-footer a { text-decoration: none; opacity: .85; }
+.k-footer a:hover { opacity: 1; text-decoration: underline; }
+.k-footer__legal { border-top: 1px solid rgba(255,255,255,.12); padding-top: 20px; opacity: .6; font-size: 12px; }
+@media (min-width: 768px) { .k-footer .k-container { grid-template-columns: 1.4fr 1fr 1fr; } .k-footer__legal { grid-column: 1 / -1; } }
+
+/* ===== Página: contenido a todo el ancho ===== */
+.main-page-wrapper { padding: 0; }
+.main-page-wrapper > .k-container { padding: 0; } /* el contenido ya trae su propio margen lateral */
+.kc-form__status { margin-top: 12px; font-size: 15px; text-align: center; }
+.kc-form__status.is-ok { color: #1f7a3a; }
+.kc-form__status.is-error { color: #b42318; }
+body.k-lock { overflow: hidden; }
+body.k-lock .kc-fab { display: none; }
+</style>
+</head>
+<body>
+
+<!-- ===== BARRA SUPERIOR ===== -->
+<div class="k-topbar">
+	<div class="k-container">
+		<a class="k-topbar__wa" href="https://api.whatsapp.com/message/YO5CAMNAWM4KH1?autoload=1&app_absent=0" target="_blank" rel="noopener" aria-label="WhatsApp Kigos">
+			<svg viewBox="0 0 32 32" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 7L3 29l6.4-2c2 1.1 4.3 1.7 6.6 1.7 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.4c-2.1 0-4.1-.6-5.9-1.7l-.4-.3-3.8 1.2 1.2-3.7-.3-.4a10.5 10.5 0 0 1-1.7-5.7C5.1 10 10 5.3 16 5.3S26.9 10 26.9 15.8 22 26.4 16 26.4zm6-7.8c-.3-.2-1.9-1-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.8 8.8 0 0 1-4.4-3.8c-.3-.6.3-.5.9-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4c-.3.3-1.1 1.1-1.1 2.7s1.2 3.2 1.3 3.4c.2.2 2.3 3.5 5.6 4.9 2.1.9 2.9.9 4 .8.6-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4z"/></svg>
+		</a>
+		<p>Convierte tu casa en la mejor pizzería 🍕</p>
+	</div>
+</div>
+
+<!-- ===== HEADER ===== -->
+<header class="k-header">
+	<div class="k-container">
+		<div class="k-header__left">
+			<a class="k-logo" href="https://kigos.cl/" aria-label="Kigos — ir al inicio">
+				<!-- Para usar el logo oficial: reemplaza este texto por <img src="URL_DEL_LOGO" alt="Kigos"> -->
+				KIGOS<span class="k-logo__dot">.</span><sup>®</sup>
+			</a>
+			<button class="k-iconbtn" type="button" data-open="menu" aria-label="Abrir menú" aria-controls="k-drawer" aria-expanded="false">
+				<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+			</button>
+		</div>
+
+		<div class="k-header__center">
+			<a class="k-logo" href="https://kigos.cl/" aria-label="Kigos — ir al inicio">KIGOS<span class="k-logo__dot">.</span><sup>®</sup></a>
+		</div>
+
+		<div class="k-header__right">
+			<!-- CONFIRMAR: URL de Mi cuenta -->
+			<a class="k-account" href="https://kigos.cl/my-account/" aria-label="Mi cuenta">
+				<span class="k-account__text">My Account</span>
+				<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6" stroke-linecap="round"/></svg>
+			</a>
+			<button class="k-iconbtn" type="button" data-open="search" aria-label="Buscar productos" aria-controls="k-search" aria-expanded="false">
+				<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4" stroke-linecap="round"/></svg>
+			</button>
+			<!-- CONFIRMAR: URL del carrito -->
+			<a class="k-cart" href="https://kigos.cl/cart/" aria-label="Carrito">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.4 11.2a1 1 0 0 0 1 .8h8.9a1 1 0 0 0 1-.8L20 8H6.2"/><circle cx="9" cy="20" r="1.3"/><circle cx="17" cy="20" r="1.3"/></svg>
+				<span class="k-cart__count" data-cart-count></span>
+				<span class="k-cart__total" data-cart-total></span>
+			</a>
+		</div>
+	</div>
+</header>
+
+<!-- ===== MENÚ LATERAL ===== -->
+<div class="k-drawer" id="k-drawer" aria-hidden="true">
+	<div class="k-drawer__bg" data-close="menu"></div>
+	<div class="k-drawer__panel" role="dialog" aria-modal="true" aria-label="Menú">
+		<div class="k-drawer__head">
+			<a class="k-logo" href="https://kigos.cl/">KIGOS<span class="k-logo__dot">.</span></a>
+			<button class="k-iconbtn" type="button" data-close="menu" aria-label="Cerrar menú">
+				<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+			</button>
+		</div>
+		<nav aria-label="Principal">
+			<ul>
+				<li><a href="https://kigos.cl/">Inicio</a></li>
+				<li><a href="https://kigos.cl/shop/">Tienda</a></li><!-- CONFIRMAR -->
+				<li><a href="https://kigos.cl/my-account/">Mi cuenta</a></li><!-- CONFIRMAR -->
+				<li><a href="https://kigos.cl/contactanos/" aria-current="page">Contáctanos</a></li>
+			</ul>
+		</nav>
+	</div>
+</div>
+
+<!-- ===== BUSCADOR ===== -->
+<div class="k-search" id="k-search" role="dialog" aria-modal="true" aria-label="Buscar en Kigos">
+	<div class="k-search__inner">
+		<div class="k-search__close">
+			<button class="k-iconbtn" type="button" data-close="search" aria-label="Cerrar buscador">
+				<svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+			</button>
+		</div>
+		<form action="https://kigos.cl/" method="get" role="search">
+			<label class="k-sr" for="k-search-input">Buscar productos</label>
+			<input id="k-search-input" type="search" name="s" placeholder="Buscar hornos, accesorios…" autocomplete="off" required>
+			<input type="hidden" name="post_type" value="product">
+			<button class="k-iconbtn" type="submit" aria-label="Buscar">
+				<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4" stroke-linecap="round"/></svg>
+			</button>
+		</form>
+		<p class="k-search__hint">Escribe y presiona Enter para buscar en la tienda.</p>
+		<ul class="k-results" id="k-results" aria-live="polite"></ul>
+	</div>
+</div>
+
+<!-- ===== TÍTULO ===== -->
+<section class="k-hero">
+	<h1>Contáctanos</h1>
+	<nav class="k-breadcrumb" aria-label="Ruta"><a href="https://kigos.cl/">Portada</a> » <span>Contáctanos</span></nav>
+</section>
+
+<!-- ===== CONTENIDO (mismo diseño que el snippet de WPCode) ===== -->
+<main class="main-page-wrapper">
+	<div class="k-container">
+<style>
+/* ===== Página completa: ocultar sidebar (CATEGORIES / RECENT POSTS / INSTAGRAM) ===== */
+.main-page-wrapper:has(.kigos-contacto) .sidebar-container { display: none !important; }
+.main-page-wrapper:has(.kigos-contacto) .site-content { flex: 0 0 100% !important; max-width: 100% !important; width: 100% !important; }
+
+.kigos-contacto {
+	--kc-dark: #262626;
+	--kc-yellow: #f8df67;
+	--kc-cream: #f6f4ee;
+	--kc-line: #e4e1d8;
+	--kc-display: 'Bebas Neue', 'Alte Haas Grotesk', Impact, sans-serif;
+	color: var(--kc-dark);
+	font-family: inherit; /* Futura del tema */
+	line-height: 1.6;
+}
+.kigos-contacto *, .kigos-contacto *::before, .kigos-contacto *::after { box-sizing: border-box; }
+.kc-wrap { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+.kc-eyebrow { display: inline-block; font-size: 13px; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 12px; opacity: .75; }
+.kc-title { font-family: var(--kc-display); font-weight: 400; font-size: clamp(40px, 7vw, 76px); line-height: .95; letter-spacing: .01em; margin: 0 0 16px; color: inherit; text-transform: uppercase; }
+.kc-title em { font-style: normal; color: var(--kc-yellow); }
+.kc-lead { font-size: 17px; max-width: 520px; margin: 0 0 28px; }
+/* el tema (Woodmart) pisa los márgenes de los <p>: forzamos el espacio antes del botón */
+.kigos-contacto .kc-lead { margin-bottom: 0 !important; }
+.kigos-contacto .kc-cta { margin-top: 36px; }
+@media (min-width: 1024px) { .kigos-contacto .kc-cta { margin-top: 44px; } }
+
+/* ===== 1. Bloque WhatsApp ===== */
+.kc-agenda {
+	background: var(--kc-dark); color: #fff;
+	/* banda a todo el ancho sin crear scroll horizontal (100vw incluye la barra de scroll en Windows) */
+	box-shadow: 0 0 0 100vmax var(--kc-dark); clip-path: inset(0 -100vmax);
+	padding: 64px 0;
+}
+.kc-agenda .kc-wrap { display: grid; gap: 32px; align-items: center; }
+.kc-btn-wa {
+	display: inline-flex; align-items: center; justify-content: center; gap: 12px; max-width: 100%; text-align: center;
+	background: var(--kc-yellow); color: var(--kc-dark) !important;
+	font-family: var(--kc-display); font-size: 26px; letter-spacing: .04em; text-transform: uppercase;
+	padding: 18px 32px; border-radius: 999px; text-decoration: none !important;
+	box-shadow: 0 8px 24px rgba(248, 223, 103, .25);
+	transition: transform .2s ease, box-shadow .2s ease;
+}
+.kc-btn-wa:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(248, 223, 103, .4); }
+.kc-btn-wa:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.kc-agenda__info { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+.kc-agenda__info li { border-left: 3px solid var(--kc-yellow); padding: 4px 0 4px 16px; }
+.kc-agenda__info strong { display: block; font-family: var(--kc-display); font-weight: 400; font-size: 22px; letter-spacing: .04em; color: var(--kc-yellow); }
+.kc-agenda__info a { color: #fff; }
+
+/* ===== 2. Cómo llegar ===== */
+.kc-llegar { padding: 72px 0; }
+.kc-llegar .kc-wrap { display: grid; gap: 40px; align-items: center; }
+.kc-video { position: relative; width: 100%; border-radius: 16px; overflow: hidden; background: var(--kc-dark); box-shadow: 0 20px 50px rgba(0,0,0,.18); }
+/* vertical: nunca más alto que el 80% de la pantalla (celular acostado, notebooks bajos) */
+.kc-video.is-vertical { aspect-ratio: 9 / 16; width: min(100%, 400px, calc(80vh * 9 / 16)); margin: 0 auto; }
+.kc-video.is-horizontal { aspect-ratio: 16 / 9; }
+.kc-video iframe, .kc-video video { position: absolute; inset: 0; width: 100% !important; height: 100% !important; border: 0; object-fit: cover; }
+.kc-video__placeholder { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; color: var(--kc-yellow); font-family: var(--kc-display); font-size: 28px; padding: 16px; }
+.kc-video__placeholder small { font-family: inherit; font-size: 13px; color: #fff; opacity: .7; }
+.kc-steps { counter-reset: kc; list-style: none; padding: 0; margin: 0 0 28px; display: grid; gap: 14px; }
+.kc-steps li { counter-increment: kc; display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: start; }
+.kc-steps li::before { content: counter(kc); width: 40px; height: 40px; border-radius: 50%; background: var(--kc-yellow); color: var(--kc-dark); font-family: var(--kc-display); font-size: 22px; display: grid; place-items: center; }
+.kc-btn-line { display: inline-flex; align-items: center; gap: 8px; border: 2px solid var(--kc-dark); color: var(--kc-dark) !important; padding: 12px 24px; border-radius: 999px; text-decoration: none !important; font-weight: 600; transition: background .2s, color .2s; }
+.kc-btn-line:hover { background: var(--kc-dark); color: var(--kc-yellow) !important; }
+
+/* ===== 3. Formulario (Contact Form 7) ===== */
+.kc-form {
+	background: var(--kc-cream);
+	box-shadow: 0 0 0 100vmax var(--kc-cream); clip-path: inset(0 -100vmax);
+	padding: 72px 0 88px;
+}
+.kc-form__card { max-width: 820px; margin: 0 auto; background: #fff; border-radius: 16px; padding: 32px 20px; box-shadow: 0 10px 30px rgba(0,0,0,.06); }
+.kc-form .kc-title { text-align: center; }
+.kc-form .kc-lead { text-align: center; margin-left: auto; margin-right: auto; }
+.kc-form .wpcf7 label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+.kc-form .wpcf7 input[type="text"],
+.kc-form .wpcf7 input[type="email"],
+.kc-form .wpcf7 input[type="tel"],
+.kc-form .wpcf7 textarea {
+	width: 100%; border: 1.5px solid var(--kc-line); border-radius: 10px; padding: 14px 16px; font-size: 16px; background: #fff; transition: border-color .2s, box-shadow .2s;
+}
+.kc-form .wpcf7 textarea { min-height: 160px; }
+.kc-form .wpcf7 input:focus, .kc-form .wpcf7 textarea:focus { border-color: var(--kc-dark); box-shadow: 0 0 0 3px rgba(248, 223, 103, .6); outline: none; }
+.kc-form .wpcf7 p { margin: 0 0 18px; }
+.kc-form .wpcf7 input[type="submit"] {
+	width: 100%; background: var(--kc-dark); color: var(--kc-yellow); border: 0; border-radius: 999px; padding: 16px 32px;
+	font-family: var(--kc-display); font-size: 24px; letter-spacing: .06em; cursor: pointer; transition: transform .2s;
+}
+.kc-form .wpcf7 input[type="submit"]:hover { transform: translateY(-2px); }
+
+/* ===== Botón flotante móvil ===== */
+.kc-fab { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 999; width: 58px; height: 58px; border-radius: 50%; background: var(--kc-yellow); color: var(--kc-dark) !important; display: grid; place-items: center; box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+.kc-fab svg { width: 30px; height: 30px; }
+
+/* ===== Responsive ===== */
+@media (max-width: 767px) {
+	.kc-agenda, .kc-llegar, .kc-form { padding-top: 48px; padding-bottom: 56px; }
+	.kc-btn-wa { width: 100%; font-size: 21px; padding: 16px 20px; }
+	.kc-btn-line { width: 100%; justify-content: center; }
+	.kc-lead { font-size: 16px; }
+	.kc-form__card { padding: 24px 16px; }
+}
+@media (max-width: 359px) {
+	.kc-title { font-size: 34px; }
+	.kc-btn-wa { font-size: 18px; gap: 8px; padding: 16px 12px; }
+}
+@media (hover: none) {
+	.kc-btn-wa:hover, .kc-form .wpcf7 input[type="submit"]:hover { transform: none; }
+}
+@media (min-width: 768px) {
+	.kc-form__card { padding: 48px; }
+	.kc-form .wpcf7 .kc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
+}
+@media (min-width: 1024px) {
+	.kc-agenda { padding: 88px 0; }
+	.kc-agenda .kc-wrap { grid-template-columns: 1.3fr 1fr; gap: 64px; }
+	.kc-llegar { padding: 96px 0; }
+	.kc-llegar .kc-wrap { grid-template-columns: 1fr 1fr; gap: 72px; }
+	.kc-fab { display: none; }
+}
+</style>
+
+<div class="kigos-contacto">
+
+	<!-- 1. AGENDA POR WHATSAPP -->
+	<section class="kc-agenda" aria-labelledby="kc-agenda-title">
+		<div class="kc-wrap">
+			<div>
+				<span class="kc-eyebrow">Showroom Kigos</span>
+				<h2 id="kc-agenda-title" class="kc-title">Ven a conocer los hornos <em>en persona</em></h2>
+				<p class="kc-lead">Te mostramos los hornos Ooni funcionando, resolvemos tus dudas y te ayudamos a elegir el ideal para ti. Agenda tu visita por WhatsApp.</p>
+				<div class="kc-cta">
+					<a class="kc-btn-wa" href="https://api.whatsapp.com/message/YO5CAMNAWM4KH1?autoload=1&amp;app_absent=0" target="_blank" rel="noopener"><svg viewBox="0 0 32 32" aria-hidden="true" width="22" height="22"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 7L3 29l6.4-2c2 1.1 4.3 1.7 6.6 1.7 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.4c-2.1 0-4.1-.6-5.9-1.7l-.4-.3-3.8 1.2 1.2-3.7-.3-.4a10.5 10.5 0 0 1-1.7-5.7C5.1 10 10 5.3 16 5.3S26.9 10 26.9 15.8 22 26.4 16 26.4zm6-7.8c-.3-.2-1.9-1-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.8 8.8 0 0 1-4.4-3.8c-.3-.6.3-.5.9-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4c-.3.3-1.1 1.1-1.1 2.7s1.2 3.2 1.3 3.4c.2.2 2.3 3.5 5.6 4.9 2.1.9 2.9.9 4 .8.6-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4z"/></svg> Escríbenos para agendar</a>
+				</div>
+			</div>
+			<ul class="kc-agenda__info">
+				<li><strong>Dirección</strong>Núcleo Los Trapenses · Cerro Pan de Azúcar 10445, Lo Barnechea</li>
+				<li><strong>Horario</strong>Lunes a viernes · previa reserva</li>
+				<li><strong>Email</strong><a href="mailto:contacto@kigos.cl">contacto@kigos.cl</a></li>
+			</ul>
+		</div>
+	</section>
+
+	<!-- 2. CÓMO LLEGAR (VIDEO) -->
+	<section class="kc-llegar" aria-labelledby="kc-llegar-title">
+		<div class="kc-wrap">
+			<div class="kc-video is-vertical">
+				<div class="kc-video__placeholder">Video "Cómo llegar"<br><small>Agrega el link en el atributo video=""</small></div>			</div>
+			<div>
+				<span class="kc-eyebrow">Paso a paso</span>
+				<h2 id="kc-llegar-title" class="kc-title">Cómo llegar a nuestra tienda</h2>
+				<ol class="kc-steps">
+					<li>Agenda tu visita por WhatsApp y te confirmamos el horario.</li>
+					<li>Mira el video: te mostramos el acceso y dónde estacionar.</li>
+					<li>Llega, prende el horno con nosotros y prueba una pizza 🍕</li>
+				</ol>
+				<a class="kc-btn-line" href="https://www.google.com/maps/search/?api=1&amp;query=Cerro+Pan+de+Az%C3%BAcar+10445+Lo+Barnechea" target="_blank" rel="noopener">Abrir en Google Maps →</a>
+			</div>
+		</div>
+	</section>
+
+	<!-- 3. FORMULARIO -->
+	<section class="kc-form" aria-labelledby="kc-form-title">
+		<div class="kc-wrap">
+			<h2 id="kc-form-title" class="kc-title">¿Necesitas otra cosa?</h2>
+			<p class="kc-lead">Servicio técnico, despachos, cotizaciones o cualquier duda: déjanos tu mensaje y te respondemos a la brevedad.</p>
+			<div class="kc-form__card">
+				<div class="wpcf7">
+<form class="kc-cf7" id="kc-cf7" novalidate>
+	<div class="kc-row">
+		<p><label for="kc-name">Tu nombre</label><input id="kc-name" type="text" name="your-name" autocomplete="name" required></p>
+		<p><label for="kc-email">Tu email</label><input id="kc-email" type="email" name="your-email" autocomplete="email" required></p>
+	</div>
+	<p><label for="kc-subject">Asunto</label><input id="kc-subject" type="text" name="your-subject" required></p>
+	<p><label for="kc-msg">Tu mensaje (opcional)</label><textarea id="kc-msg" name="your-message"></textarea></p>
+	<p><input type="submit" value="Enviar"></p>
+	<div class="kc-form__status" role="status" aria-live="polite"></div>
+</form>
+</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Botón flotante WhatsApp (solo móvil/tablet) -->
+	<a class="kc-fab" href="https://api.whatsapp.com/message/YO5CAMNAWM4KH1?autoload=1&amp;app_absent=0" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp para agendar"><svg viewBox="0 0 32 32" aria-hidden="true" width="22" height="22"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 7L3 29l6.4-2c2 1.1 4.3 1.7 6.6 1.7 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.4c-2.1 0-4.1-.6-5.9-1.7l-.4-.3-3.8 1.2 1.2-3.7-.3-.4a10.5 10.5 0 0 1-1.7-5.7C5.1 10 10 5.3 16 5.3S26.9 10 26.9 15.8 22 26.4 16 26.4zm6-7.8c-.3-.2-1.9-1-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.8 8.8 0 0 1-4.4-3.8c-.3-.6.3-.5.9-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4c-.3.3-1.1 1.1-1.1 2.7s1.2 3.2 1.3 3.4c.2.2 2.3 3.5 5.6 4.9 2.1.9 2.9.9 4 .8.6-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4z"/></svg></a>
+</div>
+	
+	</div>
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="k-footer">
+	<div class="k-container">
+		<div>
+			<a class="k-logo" href="https://kigos.cl/">KIGOS<span class="k-logo__dot">.</span><sup>®</sup></a>
+			<p>Distribuidor oficial de hornos Ooni en Chile. Make pizza. Make friends.</p>
+		</div>
+		<div>
+			<h3>Contacto</h3>
+			<ul>
+				<li><a href="https://api.whatsapp.com/message/YO5CAMNAWM4KH1?autoload=1&app_absent=0" target="_blank" rel="noopener">WhatsApp</a></li>
+				<li><a href="mailto:contacto@kigos.cl">contacto@kigos.cl</a></li>
+				<li><a href="https://www.instagram.com/kigoschile/" target="_blank" rel="noopener">Instagram @kigoschile</a></li>
+			</ul>
+		</div>
+		<div>
+			<h3>Tienda</h3>
+			<ul>
+				<li><a href="https://kigos.cl/">Inicio</a></li>
+				<li><a href="https://kigos.cl/shop/">Productos</a></li>
+				<li><a href="https://kigos.cl/contactanos/">Contáctanos</a></li>
+			</ul>
+		</div>
+		<div class="k-footer__legal">© <span data-year>2026</span> Kigos SpA · kigos.cl</div>
+	</div>
+</footer>
+
+<script>
+(function () {
+	var SITE = 'https://kigos.cl';
+	var body = document.body;
+
+	/* ---------- Abrir / cerrar menú y buscador ---------- */
+	var panels = { menu: document.getElementById('k-drawer'), search: document.getElementById('k-search') };
+	var lastFocus = null;
+	function open(name) {
+		lastFocus = document.activeElement;
+		panels[name].classList.add('is-open');
+		panels[name].setAttribute('aria-hidden', 'false');
+		document.querySelectorAll('[data-open="' + name + '"]').forEach(function (b) { b.setAttribute('aria-expanded', 'true'); });
+		body.classList.add('k-lock');
+		var f = name === 'search' ? document.getElementById('k-search-input') : panels[name].querySelector('a, button');
+		setTimeout(function () { f && f.focus(); }, 50);
+	}
+	function close(name) {
+		panels[name].classList.remove('is-open');
+		panels[name].setAttribute('aria-hidden', 'true');
+		document.querySelectorAll('[data-open="' + name + '"]').forEach(function (b) { b.setAttribute('aria-expanded', 'false'); });
+		body.classList.remove('k-lock');
+		lastFocus && lastFocus.focus();
+	}
+	document.addEventListener('click', function (e) {
+		var o = e.target.closest('[data-open]'); if (o) { open(o.dataset.open); return; }
+		var c = e.target.closest('[data-close]'); if (c) { close(c.dataset.close); }
+	});
+	document.addEventListener('keydown', function (e) {
+		if (e.key !== 'Escape') return;
+		Object.keys(panels).forEach(function (k) { if (panels[k].classList.contains('is-open')) close(k); });
+	});
+
+	/* ---------- Buscador: resultados en vivo (WooCommerce Store API) ---------- */
+	var input = document.getElementById('k-search-input');
+	var list = document.getElementById('k-results');
+	var timer, ctrl;
+	function esc(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+	function price(p) {
+		if (!p || !p.price) return '';
+		var n = parseInt(p.price, 10) / Math.pow(10, p.currency_minor_unit || 0);
+		return '$' + n.toLocaleString('es-CL');
+	}
+	input.addEventListener('input', function () {
+		clearTimeout(timer);
+		var q = input.value.trim();
+		if (q.length < 2) { list.innerHTML = ''; return; }
+		timer = setTimeout(function () {
+			if (ctrl) ctrl.abort();
+			ctrl = new AbortController();
+			fetch(SITE + '/wp-json/wc/store/v1/products?per_page=6&search=' + encodeURIComponent(q), { signal: ctrl.signal })
+				.then(function (r) { if (!r.ok) throw 0; return r.json(); })
+				.then(function (items) {
+					if (!items.length) { list.innerHTML = '<li>No encontramos productos para “' + esc(q) + '”.</li>'; return; }
+					list.innerHTML = items.map(function (it) {
+						var img = it.images && it.images[0] ? (it.images[0].thumbnail || it.images[0].src) : '';
+						return '<li><a href="' + esc(it.permalink) + '">' +
+							(img ? '<img src="' + esc(img) + '" alt="" loading="lazy">' : '<span></span>') +
+							'<span>' + it.name + '</span><span class="k-results__price">' + price(it.prices) + '</span></a></li>';
+					}).join('') +
+					'<li><a class="k-results__all" href="' + SITE + '/?post_type=product&s=' + encodeURIComponent(q) + '">Ver todos los resultados →</a></li>';
+				})
+				.catch(function () { /* sin resultados en vivo: Enter sigue buscando en kigos.cl */ });
+		}, 250);
+	});
+
+	/* ---------- Carrito: cantidad y total (solo funciona publicado en kigos.cl) ---------- */
+	fetch(SITE + '/wp-json/wc/store/v1/cart', { credentials: 'include' })
+		.then(function (r) { if (!r.ok) throw 0; return r.json(); })
+		.then(function (c) {
+			if (!c.items_count) return;
+			var cnt = document.querySelector('[data-cart-count]');
+			var tot = document.querySelector('[data-cart-total]');
+			cnt.textContent = c.items_count; cnt.classList.add('is-on');
+			tot.textContent = price({ price: c.totals.total_price, currency_minor_unit: c.totals.currency_minor_unit });
+			tot.classList.add('is-on');
+		})
+		.catch(function () {});
+
+	/* ---------- Formulario → Contact Form 7 (ID 10610) ---------- */
+	var form = document.getElementById('kc-cf7');
+	if (form) {
+		var status = form.querySelector('.kc-form__status');
+		form.addEventListener('submit', function (e) {
+			e.preventDefault();
+			if (!form.checkValidity()) { form.reportValidity(); return; }
+			var btn = form.querySelector('[type="submit"]');
+			var data = new FormData(form);
+			data.append('_wpcf7_unit_tag', 'wpcf7-f10610-o1');
+			btn.disabled = true; btn.value = 'Enviando…';
+			status.className = 'kc-form__status'; status.textContent = '';
+			fetch(SITE + '/wp-json/contact-form-7/v1/contact-forms/10610/feedback', { method: 'POST', body: data })
+				.then(function (r) { return r.json(); })
+				.then(function (res) {
+					if (res.status === 'mail_sent') {
+						status.classList.add('is-ok'); status.textContent = '¡Gracias! Recibimos tu mensaje y te responderemos pronto.';
+						form.reset();
+					} else {
+						status.classList.add('is-error'); status.textContent = res.message || 'Revisa los campos e inténtalo de nuevo.';
+					}
+				})
+				.catch(function () {
+					// Respaldo: si la página no está en kigos.cl, abre el correo con el mensaje armado
+					var f = Object.fromEntries(data);
+					location.href = 'mailto:contacto@kigos.cl?subject=' + encodeURIComponent(f['your-subject'] || 'Contacto web') +
+						'&body=' + encodeURIComponent((f['your-message'] || '') + '\n\n' + (f['your-name'] || '') + ' — ' + (f['your-email'] || ''));
+				})
+				.finally(function () { btn.disabled = false; btn.value = 'Enviar'; });
+		});
+	}
+
+	document.querySelectorAll('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
+})();
+</script>
+</body>
+</html>
