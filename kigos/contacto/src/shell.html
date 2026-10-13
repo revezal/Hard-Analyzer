@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 <!--
-	KIGOS — Contáctanos (versión HTML independiente, con header y footer)
+	KIGOS — Contáctanos (versión HTML independiente, con header; el footer lo pone el sitio)
 	=====================================================================
 	Links a revisar (buscar "CONFIRMAR" en este archivo):
 	  - Mi cuenta  → https://kigos.cl/my-account/
@@ -102,31 +102,21 @@ a { color: inherit; }
 
 /* ===== Banner título ===== */
 .k-hero {
-	/* Foto: línea de hornos Ooni. El fondo #161616 empalma con los bordes oscuros de la foto */
-	background: #161616 no-repeat center bottom; /* la foto se agrega al final del archivo (build.php) */
-	background-size: 170% auto; /* móvil: se ve el centro de la línea de hornos */
-	min-height: max(230px, 47vw);
-	color: #fff; text-align: center; padding: 36px 16px 0;
+	/* Banner fino estilo título de página Woodmart: foto de la línea de hornos de fondo (se agrega al final del archivo, build.php) */
+	background: #161616 no-repeat center 78%;
+	background-size: cover;
+	color: #fff; text-align: center;
+	min-height: 120px; padding: 0 16px;
+	display: grid; place-items: center;
+	position: relative;
 	text-shadow: 0 2px 12px rgba(0,0,0,.6);
 }
-@media (min-width: 768px) {
-	.k-hero { background-size: cover; min-height: min(27.8vw, 460px); padding-top: clamp(32px, 3.2vw, 56px); }
-}
-.k-hero h1 { margin: 0; font-weight: 400; font-size: clamp(36px, 6vw, 56px); line-height: 1.1; }
-.k-breadcrumb { margin-top: 8px; font-size: 14px; opacity: .85; }
-.k-breadcrumb a { text-decoration: none; opacity: .75; }
-.k-breadcrumb a:hover { opacity: 1; }
+.k-hero::before { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,.35); } /* oscurece para que el título se lea */
+.k-hero h1 { position: relative; }
+@media (min-width: 768px) { .k-hero { min-height: 150px; } }
+@media (min-width: 1280px) { .k-hero { min-height: 170px; } }
+.k-hero h1 { margin: 0; font-weight: 400; font-size: clamp(32px, 5vw, 52px); line-height: 1.1; }
 
-/* ===== Footer ===== */
-.k-footer { background: var(--k-dark); color: #fff; padding: 48px 0 32px; font-size: 14px; }
-.k-footer .k-container { display: grid; gap: 28px; }
-.k-footer .k-logo { color: #fff; }
-.k-footer h3 { font-family: var(--k-display); font-weight: 400; font-size: 22px; letter-spacing: .04em; color: var(--k-yellow); margin: 0 0 8px; }
-.k-footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
-.k-footer a { text-decoration: none; opacity: .85; }
-.k-footer a:hover { opacity: 1; text-decoration: underline; }
-.k-footer__legal { border-top: 1px solid rgba(255,255,255,.12); padding-top: 20px; opacity: .6; font-size: 12px; }
-@media (min-width: 768px) { .k-footer .k-container { grid-template-columns: 1.4fr 1fr 1fr; } .k-footer__legal { grid-column: 1 / -1; } }
 
 /* ===== Página: contenido a todo el ancho ===== */
 .main-page-wrapper { padding: 0; }
@@ -232,7 +222,6 @@ body.k-lock .kc-fab { display: none; }
 <!-- ===== TÍTULO ===== -->
 <section class="k-hero">
 	<h1>Contáctanos</h1>
-	<nav class="k-breadcrumb" aria-label="Ruta"><a href="https://kigos.cl/">Portada</a> » <span>Contáctanos</span></nav>
 </section>
 
 <!-- ===== CONTENIDO (mismo diseño que el snippet de WPCode) ===== -->
@@ -242,32 +231,6 @@ body.k-lock .kc-fab { display: none; }
 	</div>
 </main>
 
-<!-- ===== FOOTER ===== -->
-<footer class="k-footer">
-	<div class="k-container">
-		<div>
-			<a class="k-logo" href="https://kigos.cl/">KIGOS<span class="k-logo__dot">.</span><sup>®</sup></a>
-			<p>Distribuidor oficial de hornos Ooni en Chile. Make pizza. Make friends.</p>
-		</div>
-		<div>
-			<h3>Contacto</h3>
-			<ul>
-				<li><a href="https://api.whatsapp.com/message/YO5CAMNAWM4KH1?autoload=1&app_absent=0" target="_blank" rel="noopener">WhatsApp</a></li>
-				<li><a href="mailto:contacto@kigos.cl">contacto@kigos.cl</a></li>
-				<li><a href="https://www.instagram.com/kigoschile/" target="_blank" rel="noopener">Instagram @kigoschile</a></li>
-			</ul>
-		</div>
-		<div>
-			<h3>Tienda</h3>
-			<ul>
-				<li><a href="https://kigos.cl/">Inicio</a></li>
-				<li><a href="https://kigos.cl/shop/">Productos</a></li>
-				<li><a href="https://kigos.cl/contactanos/">Contáctanos</a></li>
-			</ul>
-		</div>
-		<div class="k-footer__legal">© <span data-year>2026</span> Kigos SpA · kigos.cl</div>
-	</div>
-</footer>
 
 <script>
 (function () {
@@ -380,7 +343,6 @@ body.k-lock .kc-fab { display: none; }
 		});
 	}
 
-	document.querySelectorAll('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
 })();
 </script>
 </body>
