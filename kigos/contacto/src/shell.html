@@ -102,10 +102,15 @@ a { color: inherit; }
 
 /* ===== Banner título ===== */
 .k-hero {
-	/* Para usar la foto de pizza del sitio: background-image: linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.45)), url('URL_DE_LA_FOTO'); */
-	background: var(--k-dark) linear-gradient(135deg, #1b1b1b, #3a3a3a);
-	background-size: cover; background-position: center;
-	color: #fff; text-align: center; padding: 48px 16px;
+	/* Foto: línea de hornos Ooni. El fondo #161616 empalma con los bordes oscuros de la foto */
+	background: #161616 url('img/banner-hornos-ooni.jpg') no-repeat center bottom;
+	background-size: 170% auto; /* móvil: se ve el centro de la línea de hornos */
+	min-height: max(230px, 47vw);
+	color: #fff; text-align: center; padding: 36px 16px 0;
+	text-shadow: 0 2px 12px rgba(0,0,0,.6);
+}
+@media (min-width: 768px) {
+	.k-hero { background-size: cover; min-height: min(27.8vw, 460px); padding-top: clamp(32px, 3.2vw, 56px); }
 }
 .k-hero h1 { margin: 0; font-weight: 400; font-size: clamp(36px, 6vw, 56px); line-height: 1.1; }
 .k-breadcrumb { margin-top: 8px; font-size: 14px; opacity: .85; }
