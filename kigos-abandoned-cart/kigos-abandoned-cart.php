@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Kigos Carritos Abandonados
  * Description:       Captura carritos abandonados de WooCommerce, envía una secuencia de correos de recuperación (con cupón opcional) y mide los ingresos recuperados.
- * Version:           1.3.3
+ * Version:           1.4.0
  * Author:            Kigos Chile
  * Requires PHP:      7.4
  * Requires Plugins:  woocommerce
@@ -12,7 +12,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'KAC_VERSION', '1.3.3' );
+define( 'KAC_VERSION', '1.4.0' );
 define( 'KAC_FILE', __FILE__ );
 define( 'KAC_PATH', plugin_dir_path( __FILE__ ) );
 define( 'KAC_URL', plugin_dir_url( __FILE__ ) );

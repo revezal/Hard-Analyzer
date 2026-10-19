@@ -65,6 +65,7 @@ class KAC_Cron {
 			'mail_sent'   => 0,
 			'mail_failed' => 0,
 			'waiting'     => 0,
+			'no_coupon'   => 0,
 		);
 
 		self::$stats['abandoned'] = (int) self::mark_abandoned();
@@ -183,6 +184,13 @@ class KAC_Cron {
 
 			if ( $now < $due_at || ( $now - $last_email ) < HOUR_IN_SECONDS ) {
 				self::$stats['waiting']++;
+				continue;
+			}
+
+			// Correo con cupón y carrito con pocos productos: no se envía y la secuencia termina ahí.
+			if ( $steps[ $next ]['coupon'] && ! KAC_Settings::coupon_eligible( $row ) ) {
+				KAC_DB::update( $row->id, array( 'emails_sent' => $next ), false );
+				self::$stats['no_coupon']++;
 				continue;
 			}
 

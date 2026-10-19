@@ -280,7 +280,7 @@ class KAC_Admin {
 				( $st['team_failed'] || $st['mail_failed'] ) ? 'bad' : 'ok',
 				'Última ejecución',
 				sprintf(
-					'%s (%s): %d marcados como abandonados · %d avisos al equipo enviados%s · %d correos a clientes enviados%s · %d esperando su hora.',
+					'%s (%s): %d marcados como abandonados · %d avisos al equipo enviados%s · %d correos a clientes enviados%s · %d esperando su hora · %d sin cupón por tener pocos productos.',
 					$ago( $last['time'] ),
 					'manual' === $last['trigger'] ? 'manual' : 'automática',
 					$st['abandoned'],
@@ -288,7 +288,8 @@ class KAC_Admin {
 					$st['team_failed'] ? sprintf( ' (%d fallaron)', $st['team_failed'] ) : '',
 					$st['mail_sent'],
 					$st['mail_failed'] ? sprintf( ' (%d fallaron)', $st['mail_failed'] ) : '',
-					$st['waiting']
+					$st['waiting'],
+					isset( $st['no_coupon'] ) ? $st['no_coupon'] : 0
 				),
 			);
 		} else {
@@ -341,6 +342,11 @@ class KAC_Admin {
 				echo '<input type="checkbox" id="kac_' . esc_attr( $key ) . '" name="' . $name . '" value="1" ' . checked( ! empty( $s[ $key ] ), true, false ) . ' />'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			} elseif ( 'textarea' === $type ) {
 				echo '<textarea id="kac_' . esc_attr( $key ) . '" name="' . $name . '" rows="5" class="large-text">' . esc_textarea( $s[ $key ] ) . '</textarea>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			} elseif ( 'count_mode' === $type ) {
+				echo '<select id="kac_' . esc_attr( $key ) . '" name="' . $name . '">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo '<option value="units" ' . selected( $s[ $key ], 'units', false ) . '>Unidades (suma de cantidades)</option>';
+				echo '<option value="lines" ' . selected( $s[ $key ], 'lines', false ) . '>Productos distintos</option>';
+				echo '</select>';
 			} elseif ( 'coupon_type' === $type ) {
 				echo '<select id="kac_' . esc_attr( $key ) . '" name="' . $name . '">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo '<option value="percent" ' . selected( $s[ $key ], 'percent', false ) . '>Porcentaje (%)</option>';
@@ -406,6 +412,8 @@ class KAC_Admin {
 				$field( 'coupon_amount', 'Monto / porcentaje', 'number' );
 				$field( 'coupon_days', 'Días de validez', 'number' );
 				$field( 'coupon_min_total', 'Compra mínima para usar el cupón', 'number', '0 = sin mínimo.' );
+				$field( 'coupon_min_items', 'Mínimo de productos para enviar cupón', 'number', 'Carritos con menos productos no reciben el correo con cupón (la secuencia termina en el correo anterior). 0 o 1 = todos reciben cupón.' );
+				$field( 'coupon_count_mode', 'Cómo contar los productos', 'count_mode', 'Unidades: 3 harinas iguales cuentan como 3. Productos distintos: 3 harinas iguales cuentan como 1.' );
 				?>
 			</table>
 
@@ -449,6 +457,8 @@ class KAC_Admin {
 				$clean[ $key ] = implode( ',', array_filter( array_map( 'sanitize_email', explode( ',', $value ) ), 'is_email' ) );
 			} elseif ( 'from_email' === $key ) {
 				$clean[ $key ] = sanitize_email( $value );
+			} elseif ( 'coupon_count_mode' === $key ) {
+				$clean[ $key ] = in_array( $value, array( 'units', 'lines' ), true ) ? $value : 'units';
 			} elseif ( 'coupon_type' === $key ) {
 				$clean[ $key ] = in_array( $value, array( 'percent', 'fixed_cart' ), true ) ? $value : 'percent';
 			} else {

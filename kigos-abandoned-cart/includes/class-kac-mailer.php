@@ -218,6 +218,10 @@ class KAC_Mailer {
 			$coupon->set_minimum_amount( $min );
 		}
 		$coupon->set_description( sprintf( 'Generado automáticamente - carrito abandonado #%d', $row->id ) );
+		$min_items = (int) KAC_Settings::get( 'coupon_min_items' );
+		if ( $min_items > 1 ) {
+			$coupon->update_meta_data( '_kac_min_items', $min_items );
+		}
 		$coupon->save();
 
 		KAC_DB::update( $row->id, array( 'coupon_code' => $code ), false );

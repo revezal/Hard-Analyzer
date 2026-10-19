@@ -40,6 +40,9 @@ class KAC_Settings {
 			'coupon_amount'    => 5,
 			'coupon_days'      => 3,
 			'coupon_min_total' => 0,
+			// Solo carritos con al menos N productos reciben el correo con cupón.
+			'coupon_min_items' => 3,
+			'coupon_count_mode'=> 'units', // units = unidades totales | lines = productos distintos.
 			// Aviso interno al equipo para contactar por WhatsApp.
 			'notify_enabled'   => 1,
 			'notify_email'     => '',
@@ -88,6 +91,30 @@ class KAC_Settings {
 			return true;
 		}
 		return false !== strpos( $text, "\u{FFFD}" ) || (bool) preg_match( '/[a-z0-9,.!] \?(\s|$)/iu', $text );
+	}
+
+	/**
+	 * Cantidad de productos de un carrito guardado, según el modo configurado.
+	 *
+	 * @param array $items Contenido del carrito (cart_contents decodificado).
+	 */
+	public static function count_items( $items ) {
+		if ( 'lines' === self::get( 'coupon_count_mode' ) ) {
+			return count( (array) $items );
+		}
+		$units = 0;
+		foreach ( (array) $items as $item ) {
+			$units += (float) ( isset( $item['quantity'] ) ? $item['quantity'] : 0 );
+		}
+		return (int) $units;
+	}
+
+	/**
+	 * ¿Este carrito puede recibir cupón de descuento?
+	 */
+	public static function coupon_eligible( $row ) {
+		$min = (int) self::get( 'coupon_min_items' );
+		return $min <= 1 || self::count_items( json_decode( (string) $row->cart_contents, true ) ) >= $min;
 	}
 
 	public static function get( $key ) {

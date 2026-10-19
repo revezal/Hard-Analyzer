@@ -35,6 +35,24 @@ class KAC_Tracker {
 			add_action( 'woocommerce_order_status_' . $status, array( __CLASS__, 'mark_paid' ) );
 		}
 		add_action( 'woocommerce_payment_complete', array( __CLASS__, 'mark_paid' ) );
+
+		// El cupón de recuperación exige el mínimo de productos también al pagar.
+		add_filter( 'woocommerce_coupon_is_valid', array( __CLASS__, 'validate_coupon_items' ), 10, 2 );
+	}
+
+	/**
+	 * @param bool      $valid
+	 * @param WC_Coupon $coupon
+	 */
+	public static function validate_coupon_items( $valid, $coupon ) {
+		$min = (int) $coupon->get_meta( '_kac_min_items' );
+		if ( ! $valid || $min <= 1 || ! WC()->cart ) {
+			return $valid;
+		}
+		if ( KAC_Settings::count_items( self::serialize_cart() ) < $min ) {
+			throw new Exception( sprintf( 'Este cupón es válido para compras de al menos %d productos.', $min ) );
+		}
+		return $valid;
 	}
 
 	public static function enqueue() {
